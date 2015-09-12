@@ -49,6 +49,9 @@ var TSOS;
             // prompt <string>
             sc = new TSOS.ShellCommand(this.shellPrompt, "prompt", "<string> - Sets the prompt.");
             this.commandList[this.commandList.length] = sc;
+            //date
+            sc = new TSOS.ShellCommand(this.shellDate, "date", "-Displays the current date and time");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -195,13 +198,19 @@ var TSOS;
                     case "help":
                         _StdOut.putText("Help displays a list of (hopefully) valid commands.");
                         break;
+                    case "ver":
+                        _StdOut.putText("Shows the current version.");
+                        break;
+                    case "man":
+                        _StdOut.putText("Name: man - displays the manual pages");
+                        break;
                     // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }
             }
             else {
-                _StdOut.putText("Usage: man <topic>  Please supply a topic.");
+                _StdOut.putText("Usage: man <topic>  Please supply a topic. ");
             }
         };
         Shell.prototype.shellTrace = function (args) {
@@ -245,6 +254,12 @@ var TSOS;
             else {
                 _StdOut.putText("Usage: prompt <string>  Please supply a string.");
             }
+        };
+        Shell.prototype.shellDate = function () {
+            var date = new Date().toLocaleDateString();
+            var current_time = new Date();
+            _StdOut.putText(date + ",");
+            _StdOut.putText(JSON.stringify(current_time.getHours()) + ":" + JSON.stringify(current_time.getMinutes()) + ":" + JSON.stringify(current_time.getUTCSeconds()));
         };
         return Shell;
     })();

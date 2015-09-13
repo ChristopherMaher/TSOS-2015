@@ -52,6 +52,9 @@ var TSOS;
             //date
             sc = new TSOS.ShellCommand(this.shellDate, "date", "-Displays the current date and time");
             this.commandList[this.commandList.length] = sc;
+            //bsod
+            sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "-Causes a Blue Screen of death");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -260,6 +263,9 @@ var TSOS;
             var current_time = new Date();
             _StdOut.putText(date + ",");
             _StdOut.putText(JSON.stringify(current_time.getHours()) + ":" + JSON.stringify(current_time.getMinutes()) + ":" + JSON.stringify(current_time.getUTCSeconds()));
+        };
+        Shell.prototype.shellBsod = function () {
+            _Kernel.krnTrapError("Testing the BSOD");
         };
         return Shell;
     })();

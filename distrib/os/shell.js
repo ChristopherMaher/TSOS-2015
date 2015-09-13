@@ -55,6 +55,11 @@ var TSOS;
             //bsod
             sc = new TSOS.ShellCommand(this.shellBsod, "bsod", "-Causes a Blue Screen of death");
             this.commandList[this.commandList.length] = sc;
+            //Whereami
+            sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "-Displays the user's current location");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellFontColor, "fontcolor", "<color>-Changes the font color<color>");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -266,6 +271,13 @@ var TSOS;
         };
         Shell.prototype.shellBsod = function () {
             _Kernel.krnTrapError("Testing the BSOD");
+        };
+        Shell.prototype.shellWhereami = function () {
+            _StdOut.putText("On your chair");
+        };
+        Shell.prototype.shellFontColor = function (color) {
+            _FontColor = color;
+            //_StdOut.putText("This is the font color");
         };
         return Shell;
     })();

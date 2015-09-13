@@ -89,6 +89,16 @@ module TSOS {
                                   "bsod",
                                    "-Causes a Blue Screen of death");
             this.commandList[this.commandList.length] = sc;
+            //Whereami
+            sc = new ShellCommand(this.shellWhereami,
+                "whereami",
+                "-Displays the user's current location");
+            this.commandList[this.commandList.length] = sc;
+
+            sc = new ShellCommand(this.shellFontColor,
+                "fontcolor",
+                "<color>-Changes the font color<color>");
+            this.commandList[this.commandList.length] = sc;
 
 
             // ps  - list the running processes and their IDs
@@ -317,5 +327,16 @@ module TSOS {
             _Kernel.krnTrapError("Testing the BSOD");
 
         }
+        public  shellWhereami(){
+            _StdOut.putText("On your chair");
+
+        }
+        public  shellFontColor(color){
+            _FontColor = color;
+
+            //_StdOut.putText("This is the font color");
+
+        }
+
     }
 }

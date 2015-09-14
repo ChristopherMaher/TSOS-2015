@@ -58,7 +58,10 @@ var TSOS;
             //Whereami
             sc = new TSOS.ShellCommand(this.shellWhereami, "whereami", "-Displays the user's current location");
             this.commandList[this.commandList.length] = sc;
+            //Fontcolor
             sc = new TSOS.ShellCommand(this.shellFontColor, "fontcolor", "<color>-Changes the font color<color>");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "-Validates the user code");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -277,7 +280,17 @@ var TSOS;
         };
         Shell.prototype.shellFontColor = function (color) {
             _FontColor = color;
-            //_StdOut.putText("This is the font color");
+        };
+        Shell.prototype.shellLoad = function () {
+            var userInput = document.getElementById("taProgramInput").value;
+            var regexp = new RegExp('^[0-9A-Fa-f\\s]+$');
+            if (regexp.test(userInput) == true) {
+                _StdOut.putText("Valid Code");
+            }
+            else {
+                _StdOut.putText("Error:User code can only use Hex digits.");
+            }
+            ;
         };
         return Shell;
     })();

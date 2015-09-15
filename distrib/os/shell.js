@@ -61,6 +61,7 @@ var TSOS;
             //Fontcolor
             sc = new TSOS.ShellCommand(this.shellFontColor, "fontcolor", "<color>-Changes the font color<color>");
             this.commandList[this.commandList.length] = sc;
+            //load
             sc = new TSOS.ShellCommand(this.shellLoad, "load", "-Validates the user code");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
@@ -212,10 +213,54 @@ var TSOS;
                     case "ver":
                         _StdOut.putText("Shows the current version.");
                         break;
-                    case "man":
-                        _StdOut.putText("Name: man - displays the manual pages");
+                    case "load":
+                        _StdOut.putText("Name:load - Loads in the user input and checks to see if it");
+                        _StdOut.advanceLine();
+                        _StdOut.putText(" is valid haxi digits.");
                         break;
-                    // TODO: Make descriptive MANual page entries for the the rest of the shell commands here.
+                    case "fontcolor":
+                        _StdOut.putText("Name:fontcolor - changes the font to a specified color.");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("Ex:fontcolor blue.");
+                        break;
+                    case "man":
+                        _StdOut.putText("Name: man - Displays the manual pages");
+                        break;
+                    case "cls":
+                        _StdOut.putText("Name: cls - clears the shell and resets the cursor");
+                        break;
+                    case "whereami":
+                        _StdOut.putText("Name: whereami - Displays the user's current location");
+                        break;
+                    case "trace":
+                        _StdOut.putText("Name: trace - Turns the trace either on or off");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("Ex: trace on");
+                        break;
+                    case "rot13":
+                        _StdOut.putText("Name: rot13 - Does rot13 obfuscation on inputted string");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("Ex: rot13 on ");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("A letter substitution ciper which replaces a letter with ");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("13 letters after it");
+                        break;
+                    case "bsod":
+                        _StdOut.putText("Name: bsod - enables a kernal panick which causes");
+                        _StdOut.advanceLine();
+                        _StdOut.putText(" a blue screen of death");
+                        break;
+                    case "prompt":
+                        _StdOut.putText("Name: prompt - prompts the shell with a specified string");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("prompt dog");
+                        break;
+                    case "date":
+                        _StdOut.putText("Name: date - Displays the current date in month day year");
+                        _StdOut.advanceLine();
+                        _StdOut.putText("Along with the current time");
+                        break;
                     default:
                         _StdOut.putText("No manual entry for " + args[0] + ".");
                 }

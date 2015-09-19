@@ -108,6 +108,13 @@ module TSOS {
                                   "-Validates the user code");
             this.commandList[this.commandList.length] = sc;
 
+            //status
+            sc = new ShellCommand(this.shellStatus,
+                "status",
+                "-echos the command to the graphic task bar");
+            this.commandList[this.commandList.length] = sc;
+
+
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
@@ -409,7 +416,12 @@ module TSOS {
                 _StdOut.putText("Error:User code can only use Hex digits.");
             };
 
-
+        }
+        public shellStatus(args){
+            var date = new Date().toLocaleDateString();
+            var current_time = new Date();
+            var displayText = args + "   "+date+" "+JSON.stringify(current_time.getHours())+":"+JSON.stringify(current_time.getMinutes())+":"+JSON.stringify(current_time.getUTCSeconds());
+            (<HTMLInputElement>document.getElementById("taGraphicTaskBar")).value = displayText;
         }
 
     }

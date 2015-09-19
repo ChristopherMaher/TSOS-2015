@@ -81,11 +81,32 @@ module TSOS {
              * Font descent measures from the baseline to the lowest point in the font.
              * Font height margin is extra spacing between the lines.
              */
-            this.currentYPosition += _DefaultFontSize + 
+            if(this.currentYPosition >= _Canvas.height-_DefaultFontSize){
+                var scrollDistance = 2*(_DefaultFontSize +
+                    _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                    _FontHeightMargin);
+
+                var shellImageData=_DrawingContext.getImageData(0,scrollDistance, _Canvas.width, _Canvas.height-_DefaultFontSize);
+                _DrawingContext.fillStyle = "rgb(223, 219, 195)";
+                _DrawingContext.fillRect(0,0,_Canvas.width, _Canvas.height);
+                _DrawingContext.fillStyle = 'black';
+                _DrawingContext.putImageData(shellImageData,0,0);
+                this.currentYPosition = this.currentYPosition-2*(_DefaultFontSize +
+                    _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                    _FontHeightMargin);
+            }
+
+
+            this.currentYPosition += _DefaultFontSize +
                                      _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                      _FontHeightMargin;
+            var test = JSON.stringify(this.currentYPosition);
+            (<HTMLInputElement>document.getElementById("taGraphicTaskBar")).value =test ;
 
             // TODO: Handle scrolling. (iProject 1)
+
+
+
         }
     }
  }

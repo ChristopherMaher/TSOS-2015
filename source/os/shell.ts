@@ -3,6 +3,8 @@
 ///<reference path="shellCommand.ts" />
 ///<reference path="userCommand.ts" />
 
+///<reference path="console.ts" />
+
 
 /* ------------
    Shell.ts
@@ -28,6 +30,7 @@ module TSOS {
 
         public init() {
             var sc;
+            var newCommand;
             //
             // Load the command list.
 
@@ -41,6 +44,7 @@ module TSOS {
             sc = new ShellCommand(this.shellHelp,
                                   "help",
                                   "- This is the help command. Seek help.");
+
             this.commandList[this.commandList.length] = sc;
 
             // shutdown
@@ -110,17 +114,23 @@ module TSOS {
 
             //status
             sc = new ShellCommand(this.shellStatus,
-                "status",
-                "-echos the command to the graphic task bar");
+                                   "status",
+                                   "-echos the command to the graphic task bar");
             this.commandList[this.commandList.length] = sc;
 
+            //testing the tab
+           // newCommand = new CommandNode.addCommand("help");
 
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
 
+
+
             //
             // Display the initial prompt.
+
             this.putPrompt();
+
         }
 
         public putPrompt() {

@@ -7,6 +7,7 @@
    This code references page numbers in the text book:
    Operating System Concepts 8th edition by Silberschatz, Galvin, and Gagne.  ISBN 978-0-470-12872-5
    ------------ */
+///<reference path="os/commandNode.ts" />
 
 //
 // Global CONSTANTS (TypeScript 1.5 introduced const. Very cool.)
@@ -25,6 +26,9 @@ const KEYBOARD_IRQ: number = 1;
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
 //
+//Global Object
+var rootNode : TSOS.CommandNode = null; //The global object for tab complete
+
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 
 var _OSclock: number = 0;  // Page 23.

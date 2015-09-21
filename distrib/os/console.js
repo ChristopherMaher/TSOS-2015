@@ -10,6 +10,7 @@
 var TSOS;
 (function (TSOS) {
     var Console = (function () {
+        //   public nodeCommand = new CommandNode();
         function Console(currentFont, currentFontSize, currentXPosition, currentYPosition, buffer) {
             if (currentFont === void 0) { currentFont = _DefaultFontFamily; }
             if (currentFontSize === void 0) { currentFontSize = _DefaultFontSize; }
@@ -37,10 +38,16 @@ var TSOS;
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
-                // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
-                if (chr === String.fromCharCode(13)) {
+                if (chr == String.fromCharCode(9)) {
+                    var typedCharacters = this.buffer;
+                    //  rootNode.addCommand("help");
+                    // rootNode.addCommand("ver");
+                    rootNode.findCommand(typedCharacters);
+                }
+                else if (chr === String.fromCharCode(13)) {
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
+                    // _StdOut.putText(this.buffer);
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
@@ -94,8 +101,8 @@ var TSOS;
             this.currentYPosition += _DefaultFontSize +
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
-            var test = JSON.stringify(this.currentYPosition);
-            document.getElementById("taGraphicTaskBar").value = test;
+            // var test = JSON.stringify(this.currentYPosition);
+            //(<HTMLInputElement>document.getElementById("taGraphicTaskBar")).value =test ;
             // TODO: Handle scrolling. (iProject 1)
         };
         return Console;

@@ -12,7 +12,7 @@
 module TSOS {
 
     export class Console {
-
+    //   public nodeCommand = new CommandNode();
         constructor(public currentFont = _DefaultFontFamily,
                     public currentFontSize = _DefaultFontSize,
                     public currentXPosition = 0,
@@ -23,6 +23,7 @@ module TSOS {
         public init(): void {
             this.clearScreen();
             this.resetXY();
+
         }
 
         private clearScreen(): void {
@@ -38,10 +39,22 @@ module TSOS {
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
+                if (chr == String.fromCharCode(9)) { //     Tab Key
+                    var typedCharacters = this.buffer;
+                  //  rootNode.addCommand("help");
+                   // rootNode.addCommand("ver");
+
+                    rootNode.findCommand(typedCharacters);
+
+
+                   }else if
+
                 // Check to see if it's "special" (enter or ctrl-c) or "normal" (anything else that the keyboard device driver gave us).
-                if (chr === String.fromCharCode(13)) { //     Enter key
+                (chr === String.fromCharCode(13)) { //     Enter key
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
+                   // _StdOut.putText(this.buffer);
+
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
@@ -100,8 +113,8 @@ module TSOS {
             this.currentYPosition += _DefaultFontSize +
                                      _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                                      _FontHeightMargin;
-            var test = JSON.stringify(this.currentYPosition);
-            (<HTMLInputElement>document.getElementById("taGraphicTaskBar")).value =test ;
+           // var test = JSON.stringify(this.currentYPosition);
+            //(<HTMLInputElement>document.getElementById("taGraphicTaskBar")).value =test ;
 
             // TODO: Handle scrolling. (iProject 1)
 

@@ -2,6 +2,7 @@
 ///<reference path="../utils.ts" />
 ///<reference path="shellCommand.ts" />
 ///<reference path="userCommand.ts" />
+///<reference path="console.ts" />
 /* ------------
    Shell.ts
 
@@ -23,6 +24,7 @@ var TSOS;
         }
         Shell.prototype.init = function () {
             var sc;
+            var newCommand;
             //
             // Load the command list.
             // ver
@@ -67,6 +69,8 @@ var TSOS;
             //status
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "-echos the command to the graphic task bar");
             this.commandList[this.commandList.length] = sc;
+            //testing the tab
+            // newCommand = new CommandNode.addCommand("help");
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //

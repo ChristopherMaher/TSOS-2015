@@ -54,6 +54,25 @@ module TSOS {
             _OsShell = new Shell();
             _OsShell.init();
 
+            //Add all shell commands to the tab
+            rootNode = new CommandNode();
+            rootNode.addCommand("help");
+            rootNode.addCommand("ver");
+            rootNode.addCommand("shutdown");
+            rootNode.addCommand("cls");
+            rootNode.addCommand("man");
+            rootNode.addCommand("trace");
+            rootNode.addCommand("rot13");
+            rootNode.addCommand("prompt");
+            rootNode.addCommand("date");
+            rootNode.addCommand("bsod");
+            rootNode.addCommand("whereami");
+            rootNode.addCommand("fontcolor");
+            rootNode.addCommand("load");
+            rootNode.addCommand("status");
+
+
+
             // Finally, initiate student testing protocol.
             if (_GLaDOS) {
                 _GLaDOS.afterStartup();

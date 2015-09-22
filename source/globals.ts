@@ -29,6 +29,10 @@ const KEYBOARD_IRQ: number = 1;
 //Global Object
 var rootNode : TSOS.CommandNode = null; //The global object for tab complete
 
+var _TypedArray : Array<String> = []; //stores all entered commands
+
+var _TypedCounter : number = 0; //keeps track of the index in the _typedArray
+
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
 
 var _OSclock: number = 0;  // Page 23.

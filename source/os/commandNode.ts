@@ -13,7 +13,7 @@ module  TSOS {
 
         public  addCommand(command:string){
             var currentNode = this.root;
-            var counter = 0;
+            var counter = 0; //keeps track of characters in the command string
 
             while(command.length > counter ){
                 var nextNode= new Node();
@@ -34,14 +34,13 @@ module  TSOS {
             var currentNode = this.root;
             var counter = 0;
 
-
+            //travels through already typed letters in command
             while(counter<command.length){
                 currentNode=currentNode.children[command.charAt(counter)];
                 counter++;
             }
-           // var counter2 = 0;
 
-
+            //finds the remaining letters in command
            while(Object.keys(currentNode.children).length == 1){
                 var keys = [];
                 keys=Object.keys(currentNode.children);

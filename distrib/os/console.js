@@ -35,22 +35,53 @@ var TSOS;
             this.currentYPosition = this.currentFontSize;
         };
         Console.prototype.handleInput = function () {
+            // var enterCounter = 0;
             while (_KernelInputQueue.getSize() > 0) {
                 // Get the next character from the kernel input queue.
                 var chr = _KernelInputQueue.dequeue();
                 if (chr == String.fromCharCode(9)) {
                     var typedCharacters = this.buffer;
-                    //  rootNode.addCommand("help");
-                    // rootNode.addCommand("ver");
                     rootNode.findCommand(typedCharacters);
                 }
                 else if (chr === String.fromCharCode(13)) {
                     // The enter key marks the end of a console command, so ...
                     // ... tell the shell ...
-                    // _StdOut.putText(this.buffer);
+                    _TypedArray.push(this.buffer);
+                    _TypedCounter = _TypedArray.length;
                     _OsShell.handleInput(this.buffer);
                     // ... and reset our buffer.
                     this.buffer = "";
+                }
+                else if (chr == String.fromCharCode(38)) {
+                    this.buffer = "";
+                    _TypedCounter--;
+                    _KernelInputQueue.enqueue(_TypedArray[_TypedCounter]);
+                    //resets the line display
+                    _DrawingContext.fillStyle = "rgb(223, 219, 195)";
+                    this.currentXPosition = 0;
+                    var yPosition = this.currentYPosition - (_DefaultFontSize +
+                        _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                        _FontHeightMargin);
+                    _DrawingContext.fillRect(0, yPosition + 5, _Canvas.width, _Canvas.height);
+                    _StdOut.putText(">");
+                }
+                else if (chr == String.fromCharCode(40)) {
+                    this.buffer = ""; //reset the buffer
+                    _TypedCounter++;
+                    _KernelInputQueue.enqueue(_TypedArray[_TypedCounter]);
+                    //resets the line display
+                    _DrawingContext.fillStyle = "rgb(223, 219, 195)";
+                    this.currentXPosition = 0;
+                    var yPosition = this.currentYPosition - (_DefaultFontSize +
+                        _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                        _FontHeightMargin);
+                    _DrawingContext.fillRect(0, yPosition + 5, _Canvas.width, _Canvas.height);
+                    _StdOut.putText(">");
+                }
+                else if (chr == String.fromCharCode(8)) {
+                    var last_character = this.buffer.charAt(this.buffer.length - 1);
+                    this.backSpace(last_character);
+                    this.buffer = this.buffer.substring(0, this.buffer.length - 1);
                 }
                 else {
                     // This is a "normal" character, so ...
@@ -89,10 +120,11 @@ var TSOS;
                 var scrollDistance = 2 * (_DefaultFontSize +
                     _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                     _FontHeightMargin);
+                //duplicates the screen image starting from 1 space down.
                 var shellImageData = _DrawingContext.getImageData(0, scrollDistance, _Canvas.width, _Canvas.height - _DefaultFontSize);
                 _DrawingContext.fillStyle = "rgb(223, 219, 195)";
                 _DrawingContext.fillRect(0, 0, _Canvas.width, _Canvas.height);
-                _DrawingContext.fillStyle = 'black';
+                _DrawingContext.fillStyle = 'black'; //set fillstyle back to black for text
                 _DrawingContext.putImageData(shellImageData, 0, 0);
                 this.currentYPosition = this.currentYPosition - 2 * (_DefaultFontSize +
                     _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
@@ -101,9 +133,17 @@ var TSOS;
             this.currentYPosition += _DefaultFontSize +
                 _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                 _FontHeightMargin;
-            // var test = JSON.stringify(this.currentYPosition);
-            //(<HTMLInputElement>document.getElementById("taGraphicTaskBar")).value =test ;
-            // TODO: Handle scrolling. (iProject 1)
+        };
+        Console.prototype.backSpace = function (text) {
+            if (text !== "") {
+                _DrawingContext.fillStyle = "rgb(223, 219, 195)";
+                var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
+                this.currentXPosition = this.currentXPosition - offset; //Set currentXPosition back a letter
+                var yPosition = this.currentYPosition - (_DefaultFontSize +
+                    _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
+                    _FontHeightMargin); //find the approximate size of the text to set y position
+                _DrawingContext.fillRect(this.currentXPosition, yPosition + 5, _Canvas.width, _Canvas.height);
+            }
         };
         return Console;
     })();

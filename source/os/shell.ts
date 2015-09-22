@@ -30,7 +30,7 @@ module TSOS {
 
         public init() {
             var sc;
-            var newCommand;
+           // var newCommand;
             //
             // Load the command list.
 
@@ -115,11 +115,9 @@ module TSOS {
             //status
             sc = new ShellCommand(this.shellStatus,
                                    "status",
-                                   "-echos the command to the graphic task bar");
+                                   "<string>-echos the command to the graphic task bar<string>");
             this.commandList[this.commandList.length] = sc;
 
-            //testing the tab
-           // newCommand = new CommandNode.addCommand("help");
 
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -419,7 +417,7 @@ module TSOS {
         }
         public  shellLoad(){
             var userInput = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
-            var regexp = new RegExp('^[0-9A-Fa-f\\s]+$');
+            var regexp = new RegExp('^[0-9A-Fa-f\\s]+$'); //matches only for hex digits
             if(regexp.test(userInput)==true){
                 _StdOut.putText("Valid Code");
             }else{
@@ -428,9 +426,11 @@ module TSOS {
 
         }
         public shellStatus(args){
+            var arrayToString = args.toString();
+            var text = arrayToString.replace(/,/g, " ");
             var date = new Date().toLocaleDateString();
             var current_time = new Date();
-            var displayText = args + "   "+date+" "+JSON.stringify(current_time.getHours())+":"+JSON.stringify(current_time.getMinutes())+":"+JSON.stringify(current_time.getUTCSeconds());
+            var displayText = text + "   "+date+" "+JSON.stringify(current_time.getHours())+":"+JSON.stringify(current_time.getMinutes())+":"+JSON.stringify(current_time.getUTCSeconds());
             (<HTMLInputElement>document.getElementById("taGraphicTaskBar")).value = displayText;
         }
 

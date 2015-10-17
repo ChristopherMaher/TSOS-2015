@@ -69,6 +69,8 @@ var TSOS;
             //status
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string>-echos the command to the graphic task bar<string>");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellRun, "run", "<number>-echos the command to the graphic task bar<number>");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -335,7 +337,20 @@ var TSOS;
             var userInput = document.getElementById("taProgramInput").value;
             var regexp = new RegExp('^[0-9A-Fa-f\\s]+$'); //matches only for hex digits
             if (regexp.test(userInput) == true) {
-                _StdOut.putText("Valid Code");
+                var memorymanagementunit = new TSOS.MMU();
+                memorymanagementunit.loadInCommand(userInput);
+                _PIDArray.push(_Memory);
+                _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
+                // _CPU.cycle();
+                //  var test = new Memory();
+                //var test2= test.createMemoryArray(userInput);
+                //(<HTMLInputElement>document.getElementById("taMemory")).value=JSON.stringify(test.memoryArray[0][2]);
+                // var testing : String [];
+                // testing.push("df");
+                // testing.push("DF");
+                // testing.push("ASDF");
+                // var list:number[] = [1, 2, 3];
+                document.getElementById("taMemory").value = JSON.stringify(_Memory.memoryArray[0][0]);
             }
             else {
                 _StdOut.putText("Error:User code can only use Hex digits.");
@@ -347,8 +362,20 @@ var TSOS;
             var text = arrayToString.replace(/,/g, " ");
             var date = new Date().toLocaleDateString();
             var current_time = new Date();
-            var displayText = text + "   " + date + " " + JSON.stringify(current_time.getHours()) + ":" + JSON.stringify(current_time.getMinutes()) + ":" + JSON.stringify(current_time.getUTCSeconds());
+            var displayText = text + "   " + date + " " + JSON.stringify(current_time.getHours()) +
+                ":" + JSON.stringify(current_time.getMinutes()) + ":" + JSON.stringify(current_time.getUTCSeconds());
             document.getElementById("taGraphicTaskBar").value = displayText;
+        };
+        Shell.prototype.shellRun = function (args) {
+            if (_PIDArray.length - 1 < args) {
+                _StdOut("PID number is not valid");
+            }
+            else if (_PIDArray[args] == null) {
+                _StdOut("PID number is not valid");
+            }
+            else {
+                _CPU.isExecuting = true;
+            }
         };
         return Shell;
     })();

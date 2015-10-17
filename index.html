@@ -15,8 +15,10 @@
    <script type="text/javascript" src="distrib/host/control.js"></script>
    <script type="text/javascript" src="distrib/host/devices.js"></script>
    <script type="text/javascript" src="distrib/host/cpu.js"></script>
+    <script type="text/javascript" src="distrib/host/memory.js"></script>
 
-   <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
+
+    <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
     <script type="text/javascript" src="distrib/os/commandNode.js"></script>
     <script type="text/javascript" src="distrib/os/interrupt.js"></script>
    <script type="text/javascript" src="distrib/os/canvastext.js"></script>
@@ -110,6 +112,18 @@
                       rows = "2"
                       cols = "100"
             ></textarea>
+        </label>
+    </div>
+    <div id = "divMemory" style = "border-bottom-width:520px;">
+        <label>
+            <br>
+            Memory
+            <br>
+            <textarea name = "taMemory"
+                      id = "taMemory"
+                      rows = "3"
+                      cols = "100"
+                    ></textarea>
         </label>
     </div>
 </div>

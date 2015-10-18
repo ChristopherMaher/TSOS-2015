@@ -2,6 +2,7 @@
 ///<reference path="../utils.ts" />
 ///<reference path="shellCommand.ts" />
 ///<reference path="userCommand.ts" />
+///<reference path="processControlBlock.ts" />
 
 ///<reference path="console.ts" />
 
@@ -426,8 +427,10 @@ module TSOS {
             if(regexp.test(userInput)==true){
                 var memorymanagementunit= new MMU();
                 memorymanagementunit.loadInCommand(userInput);
-                _PIDArray.push(_Memory);
-                _StdOut.putText("Valid Code, PID=="+JSON.stringify(_PIDArray.length-1));
+                var pcb = new PCB(_PIDArray.length+1,0,"New",0,0,0,0,0,255,"Memory");
+                _PIDArray.push(pcb);
+               _StdOut.putText("Valid Code, PID=="+JSON.stringify(_PIDArray.length-1));
+
                // _CPU.cycle();
 
               //  var test = new Memory();
@@ -438,7 +441,7 @@ module TSOS {
                // testing.push("DF");
                // testing.push("ASDF");
                // var list:number[] = [1, 2, 3];
-                (<HTMLInputElement>document.getElementById("taMemory")).value=JSON.stringify(_Memory.memoryArray[0][0]);
+               // (<HTMLInputElement>document.getElementById("taMemory")).value=JSON.stringify(_Memory.memoryArray[0][0]);
 
             }else{
                 _StdOut.putText("Error:User code can only use Hex digits.");

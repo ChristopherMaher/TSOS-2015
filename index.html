@@ -4,11 +4,19 @@
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
    <meta name="author"             content="Alan G. Labouseur" />
    <link rel="stylesheet" href="tsos.css" type="text/css" media="screen" />
-   <title>
+   <!-- <link rel="stylesheet" href="bootstrap.min.css">
+    <!--<link rel="stylesheet" href="bootstrap-table.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+
+
+    <title>
       TSOS - a browser-based virtual Operating System in TypeScript
    </title>
 
-   <!-- Globals CONSTANTS and _Variables. Must included be first. -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- Globals CONSTANTS and _Variables. Must included be first. -->
    <script type="text/javascript" src="distrib/globals.js"></script>
 
    <!-- Host (Virtual Machine / Hardware Simulation) Routines -->
@@ -20,6 +28,9 @@
 
     <!-- Virtual OS Routines: Make sure Kernel code is last, since it needs those above it. -->
     <script type="text/javascript" src="distrib/os/commandNode.js"></script>
+    <script type="text/javascript" src="distrib/os/mmu.js"></script>
+    <script type="text/javascript" src="distrib/os/processControlBlock.js"></script>
+
     <script type="text/javascript" src="distrib/os/interrupt.js"></script>
    <script type="text/javascript" src="distrib/os/canvastext.js"></script>
    <script type="text/javascript" src="distrib/os/console.js"></script>
@@ -36,7 +47,12 @@
     <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
    <!-- Uncomment this line below to enable GLaDOS testing -->
-   <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+ <!--  <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+    <!-- Bootstrap scripts -->
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <script src="bootstrap-table.js"></script>
+
 </head>
 
 <body onload="onDocumentLoad()">
@@ -54,7 +70,7 @@
 
       <input type="button"
              id = "btnHaltOS"
-             name="brnHaltOS"
+             name="brnHaltOS"00
              class="normal_button"
              disabled="disabled"
              value="Halt"
@@ -102,6 +118,7 @@
          ></textarea>
       </label>
    </div>
+
     <div id = "divGraphicTaskBar" style = "border-bottom-width:520px;">
         <label>
             <br>
@@ -114,18 +131,42 @@
             ></textarea>
         </label>
     </div>
-    <div id = "divMemory" style = "border-bottom-width:520px;">
-        <label>
-            <br>
-            Memory
-            <br>
-            <textarea name = "taMemory"
-                      id = "taMemory"
-                      rows = "3"
-                      cols = "100"
-                    ></textarea>
-        </label>
+    <div id="divMemory" class = "col-md-3">
+        <div id="memoryWrapper">
+            <div id="memory" class="tab-pane active" >
+
+            <table id =  "memDisplayBox" class="table table-bordered">
+            <tbody id ="memDisplay">
+            <tr>
+
+            </tr>
+
+            </tbody>
+            </small>
+        </table>
+                </div>
+        </div>
     </div>
+    <!--
+   <div id="divMemory" class = "col-md-3" >
+       <table id = "memDisplayBox" class="table table-bordered">
+           <small>
+               <tbody id ="memDisplay">
+               <tr><td>yupp </td></tr>
+               </tbody>
+           </small>
+       </table>
+   </div>
+
+   <!--
+    </div>
+   <!-- <div class="table-responsive" style = "border-right-width: 520px;">
+        <table data-toggle="table" data-url="data2.json">
+
+        </table>
+
+    </div>
+-->
 </div>
 
 <p class="footerText" style="clear:both;">

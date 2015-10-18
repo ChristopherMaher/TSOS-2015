@@ -33,7 +33,7 @@ var rootNode : TSOS.CommandNode = null; //The global object for tab complete
 
 var _Memory : TSOS.Memory;
 
-var _PIDArray : Array<TSOS.Memory> = []; //An array to keep track of the pid for each memory
+var _PIDArray : Array<TSOS.PCB> = []; //An array to keep track of the pid for each memory
 
 
 

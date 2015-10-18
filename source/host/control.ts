@@ -91,6 +91,8 @@ module TSOS {
 
             //create Memory
             _Memory = new Memory();
+            _Memory.init();
+
 
 
             // ... Create and initialize the CPU (because it's part of the hardware)  ...

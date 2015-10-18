@@ -45,7 +45,7 @@ var TSOS;
             if (currentCommand == "A9") {
                 this.PC++;
                 currentCommand = _Memory.memoryArray[this.PC];
-                this.Acc = currentCommand;
+                this.Acc = parseInt(currentCommand);
                 this.PC++;
             }
             else if (currentCommand == "8D") {
@@ -58,12 +58,100 @@ var TSOS;
                 var fulllocation = firstHalfLocation.concat(secondHalfLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                _Memory.memoryArray[number] = this.Acc;
+                _Memory.memoryArray[number] = JSON.stringify("0" + this.Acc);
                 this.PC++;
             }
-            else if (currentCommand == "00") {
+            else if (currentCommand === "00") {
                 this.isExecuting = false;
             }
+            else if (currentCommand == "AD") {
+                this.PC++;
+                var firstHalfOfLocation = _Memory.memoryArray[this.PC];
+                this.PC++;
+                var secondHalfofLocation = _Memory.memoryArray[this.PC];
+                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                //turns the hex value into a decimal value
+                var number = parseInt(fulllocation, 16);
+                this.Acc = parseInt(_Memory.memoryArray[number]);
+                this.PC++;
+            }
+            else if (currentCommand == "AC") {
+                this.PC++;
+                var firstHalfOfLocation = _Memory.memoryArray[this.PC];
+                this.PC++;
+                var secondHalfofLocation = _Memory.memoryArray[this.PC];
+                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                //turns the hex value into a decimal value
+                var number = parseInt(fulllocation, 16);
+                this.Yreg = parseInt(_Memory.memoryArray[number]);
+                this.PC++;
+            }
+            else if (currentCommand == "AE") {
+                this.PC++;
+                var firstHalfOfLocation = _Memory.memoryArray[this.PC];
+                this.PC++;
+                var secondHalfofLocation = _Memory.memoryArray[this.PC];
+                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                //turns the hex value into a decimal value
+                var number = parseInt(fulllocation, 16);
+                this.Xreg = parseInt(_Memory.memoryArray[number]);
+                this.PC++;
+            }
+            else if (currentCommand == "6D") {
+                this.PC++;
+                var firstHalfOfLocation = _Memory.memoryArray[this.PC];
+                this.PC++;
+                var secondHalfofLocation = _Memory.memoryArray[this.PC];
+                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                //turns the hex value into a decimal value
+                var number = parseInt(fulllocation, 16);
+                this.Acc = parseInt(_Memory.memoryArray[number]) + this.Acc;
+                this.PC++;
+            }
+            else if (currentCommand == "A2") {
+                this.PC++;
+                this.Xreg = parseInt(_Memory.memoryArray[this.PC]);
+                this.PC++;
+            }
+            else if (currentCommand == "A0") {
+                this.PC++;
+                this.Yreg = parseInt(_Memory.memoryArray[this.PC]);
+                this.PC++;
+            }
+            else if (currentCommand == "EC") {
+                this.PC++;
+                var firstHalfOfLocation = _Memory.memoryArray[this.PC];
+                this.PC++;
+                var secondHalfofLocation = _Memory.memoryArray[this.PC];
+                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                //turns the hex value into a decimal value
+                var number = parseInt(fulllocation, 16);
+                if (this.Xreg === parseInt(_Memory.memoryArray[number])) {
+                    this.Xreg = 1;
+                }
+                this.PC++;
+            }
+            else if (currentCommand == "EE") {
+                this.PC++;
+                var firstHalfOfLocation = _Memory.memoryArray[this.PC];
+                this.PC++;
+                var secondHalfofLocation = _Memory.memoryArray[this.PC];
+                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                //turns the hex value into a decimal value
+                var number = parseInt(fulllocation, 16);
+                _Memory.memoryArray[number] = JSON.stringify(parseInt(_Memory.memoryArray[number]) + 1);
+                this.PC++;
+            }
+            else if (currentCommand == "FF") {
+                //turns the hex value into a decimal value
+                //(do this through an interrupt)
+                //also may need to look at Register X
+                if (this.Xreg === 1) {
+                    _StdOut.putText(JSON.stringify(this.Yreg));
+                }
+                this.PC++;
+            }
+            //EA
             // Do the real work here. Be sure to set this.isExecuting appropriately.
             // (_Memory.memoryArray)
             // this.isExecuting = true;

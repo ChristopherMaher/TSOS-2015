@@ -41,37 +41,54 @@ module TSOS {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
             var currentCommand = _Memory.memoryArray[this.PC];
-            if(currentCommand == "A9") { //LDA Command
-                this.PC++;
-                currentCommand = _Memory.memoryArray[this.PC];
-                this.Acc = parseInt(currentCommand);
-                this.PC++;
 
+            if(currentCommand === "A9") { //LDA Command
+              //  _StdOut.putText(currentCommand);
 
-            }else if(currentCommand == "8D") { //STA command
+                this.PC++;
+                currentCommand = parseInt(_Memory.memoryArray[this.PC],16);
+                this.Acc = currentCommand;
+                this.PC++;
+             //   _StdOut.putText(JSON.stringify(this.Acc));
+             //   _StdOut.putText(currentCommand);
+
+            }else if(currentCommand === "8D") { //STA command
+               // _StdOut.putText(currentCommand);
+
                 this.PC++;
                 //captures the first half of the location to store the ACC
-                var firstHalfLocation = _Memory.memoryArray[this.PC];
+                var firstHalfOfLocation = _Memory.memoryArray[this.PC];
                 this.PC++;
                 //captures the second half of the location to store the ACC
-                var secondHalfLocation = _Memory.memoryArray[this.PC];
-                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                var secondHalfofLocation = _Memory.memoryArray[this.PC];
+                var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                _Memory.memoryArray[number] = JSON.stringify("0"+this.Acc);
+                if(JSON.stringify(this.Acc).length === 1) {
+                    _Memory.memoryArray[number] = "0".concat(JSON.stringify(this.Acc));
+                }else{
+                    _Memory.memoryArray[number] =JSON.stringify(this.Acc);
+                }
+            //    _StdOut.putText("SADF");
 
 
                 this.PC++;
 
             }else if(currentCommand === "00"){ //BRK command
-                this.isExecuting = false;
+               // _StdOut.putText(currentCommand);
 
-            }else if(currentCommand == "AD"){ //load accumulator
+                this.isExecuting = false;
+                // _Memory.loadTable();
+
+
+            }else if(currentCommand === "AD"){ //load accumulator
+                //_StdOut.putText(currentCommand);
+
                 this.PC++;
                 var firstHalfOfLocation = _Memory.memoryArray[this.PC];
                 this.PC++;
                 var secondHalfofLocation = _Memory.memoryArray[this.PC];
-                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
                 this.Acc = parseInt(_Memory.memoryArray[number]);
@@ -79,143 +96,130 @@ module TSOS {
 
 
 
-            }else if(currentCommand == "AC"){ //load Y register from memory
+            }else if(currentCommand === "AC"){ //load Y register from memory
+               // _StdOut.putText(currentCommand);
+
                 this.PC++;
                 var firstHalfOfLocation = _Memory.memoryArray[this.PC];
                 this.PC++;
                 var secondHalfofLocation = _Memory.memoryArray[this.PC];
-                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+
+                var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
+
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
                 this.Yreg = parseInt(_Memory.memoryArray[number]);
                 this.PC++;
+               // _StdOut.putText(JSON.stringify(this.Yreg));
+                //_StdOut.putText("SADF");
 
 
-            }else if(currentCommand == "AE"){ //load x register from memory
+
+
+            }else if(currentCommand === "AE"){ //load x register from memory
+               // _StdOut.putText(currentCommand);
                 this.PC++;
                 var firstHalfOfLocation = _Memory.memoryArray[this.PC];
                 this.PC++;
                 var secondHalfofLocation = _Memory.memoryArray[this.PC];
-                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
                 this.Xreg = parseInt(_Memory.memoryArray[number]);
                 this.PC++;
 
 
-            }else if(currentCommand == "6D"){ //add with Carry
+            }else if(currentCommand === "6D"){ //add with Carry
+               // _StdOut.putText(currentCommand);
+
                 this.PC++;
                 var firstHalfOfLocation = _Memory.memoryArray[this.PC];
                 this.PC++;
                 var secondHalfofLocation = _Memory.memoryArray[this.PC];
-                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
                 this.Acc = parseInt(_Memory.memoryArray[number])+this.Acc;
                 this.PC++;
 
 
-            }else if(currentCommand == "A2"){ //load Register x with constant
+            }else if(currentCommand === "A2"){ //load Register x with constant
+               // _StdOut.putText(currentCommand);
+
                 this.PC++;
-                this.Xreg = parseInt(_Memory.memoryArray[this.PC]);
+                this.Xreg = parseInt(_Memory.memoryArray[this.PC],10);
+
                 this.PC++;
-            }else if(currentCommand == "A0"){ //load Register y with constant
+            }else if(currentCommand === "A0"){ //load Register y with constant
+                //_StdOut.putText(currentCommand);
+
                 this.PC++;
-                this.Yreg = parseInt(_Memory.memoryArray[this.PC]);
+                this.Yreg = parseInt(_Memory.memoryArray[this.PC],10);
                 this.PC++;
-            }else if(currentCommand == "EC"){ //Compare byte in memory to X Register
+            }else if(currentCommand === "EC"){ //Compare byte in memory to X Register
+               // _StdOut.putText(currentCommand);
                 this.PC++;
                 var firstHalfOfLocation = _Memory.memoryArray[this.PC];
                 this.PC++;
                 var secondHalfofLocation = _Memory.memoryArray[this.PC];
-                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                if(this.Xreg === parseInt(_Memory.memoryArray[number])){
-                    this.Xreg = 1;
+                var value = parseInt(_Memory.memoryArray[number],10);
+                if(this.Xreg === value){
+                    this.Zflag = 1;
                 }
 
+
                 this.PC++;
 
-            }else if(currentCommand == "EE"){ //increment by 1
+            }else if(currentCommand === "EE"){ //increment by 1
+
                 this.PC++;
                 var firstHalfOfLocation = _Memory.memoryArray[this.PC];
                 this.PC++;
                 var secondHalfofLocation = _Memory.memoryArray[this.PC];
-                var fulllocation = firstHalfLocation.concat(secondHalfLocation);
+                var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                _Memory.memoryArray[number]=JSON.stringify(parseInt(_Memory.memoryArray[number])+1);
+                var temp = +_Memory.memoryArray[number];
+                var temp2 = temp +1;
+                _Memory.memoryArray[number]="0".concat(JSON.stringify(temp2));
 
                 this.PC++;
-            }else if(currentCommand == "FF"){ //increment by 1
+            }else if(currentCommand === "FF"){ //SystemCall
                 //turns the hex value into a decimal value
                 //(do this through an interrupt)
-                //also may need to look at Register X
                 if(this.Xreg === 1) {
                     _StdOut.putText(JSON.stringify(this.Yreg));
                 }
+
+
                 this.PC++;
+            }else if(currentCommand === "D0"){ //branching
+                //also may need to look at Register X
+            //    _StdOut.putText(currentCommand);
+                this.PC++;
+                if(this.Zflag === 0){
+                    var branchCheck =this.PC +
+                            parseInt(_Memory.memoryArray[this.PC],16);
+
+                    if (branchCheck > 255) {
+                        this.PC = branchCheck - 256;
+                        this.PC++;
+                        //_StdOut.putText(JSON.stringify(this.PC));
+
+                    } else {
+                        this.PC = branchCheck;
+                    }
+                }else{
+                    this.PC++;
+                }
+
+
+
             }
 
-            //EA
-
-
-            // Do the real work here. Be sure to set this.isExecuting appropriately.
-           // (_Memory.memoryArray)
-           // this.isExecuting = true;
-            /*
-            var whichArray = Math.floor(this.PC/8);
-            var locationinArray = this.PC % 8;
-            _StdOut.putText("PC"+JSON.stringify(this.PC));
-            var currentCommand = _Memory.memoryArray[whichArray][locationinArray];
-
-            if(currentCommand == "A9") {
-                this.PC++;
-                whichArray = Math.floor(this.PC/8);
-                locationinArray = this.PC % 8;
-                currentCommand = _Memory.memoryArray[whichArray][locationinArray];
-                this.Acc == currentCommand;
-                _CPU.PC++;
-                //_StdOut.putText("currentCommand"+JSON.stringify(this.Acc));
-
-
-            }else if(currentCommand == "8D"){
-                this.PC++
-
-                whichArray = Math.floor(this.PC/8);
-                locationinArray = this.PC % 8;
-                var firstHalfOfCommand =_Memory.memoryArray[whichArray][locationinArray];
-                this.PC++;
-                whichArray = Math.floor(this.PC/8);
-                locationinArray = this.PC % 8;
-                var secondHalfOfLocation = _Memory.memoryArray[whichArray][locationinArray];
-                var locationForMemory = firstHalfOfCommand + secondHalfOfLocation;
-                     whichArray = Math.floor(locationForMemory/8);
-                     locationinArray = this.PC % 8;
-                _Memory.memoryArray[whichArray][locationinArray] = this.Acc;
-
-                //need to refractor and clean up
-                this.PC++;
-
-
-            }else{
-                this.isExecuting = false;
-
-            }
-          //  this.isExecuting = false;
-
-            //  this.isExecuting = false;
-            /*
-            if(_Memory.memoryArray[0][2]== "8D"){
-                var position = _Memory.memoryArray[0][3]+_Memory.memoryArray[0][4];
-                var positionx = Math.floor(position/8);
-                var positiony = position % 8;
-                _Memory.memoryArray[positionx][positiony]=this.Acc;
-
-            }
-            */
-            //this.isExecuting = false;
 
         }
     }

@@ -8,7 +8,15 @@ var TSOS;
         function MMU() {
         }
         MMU.prototype.loadInCommand = function (userCommand) {
-            _Memory.createMemoryArray(userCommand);
+            //   _Memory.createMemoryArray(userCommand);
+            var userProgramArray = userCommand.split(" ");
+            _StdOut.putText(JSON.stringify(userProgramArray));
+            var counter = 0;
+            while (counter < userProgramArray.length) {
+                _Memory.memoryArray[counter] = userProgramArray[counter];
+                counter++;
+            }
+            //  this.loadTable();
         };
         return MMU;
     })();

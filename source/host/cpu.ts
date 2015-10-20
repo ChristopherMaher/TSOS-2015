@@ -51,6 +51,7 @@ module TSOS {
                 this.PC++;
              //   _StdOut.putText(JSON.stringify(this.Acc));
              //   _StdOut.putText(currentCommand);
+                _StdOut.putText("A9".concat(JSON.stringify(this.PC)));
 
             }else if(currentCommand === "8D") { //STA command
                // _StdOut.putText(currentCommand);
@@ -64,18 +65,44 @@ module TSOS {
                 var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                if(JSON.stringify(this.Acc).length === 1) {
-                    _Memory.memoryArray[number] = "0".concat(JSON.stringify(this.Acc));
-                }else{
-                    _Memory.memoryArray[number] =JSON.stringify(this.Acc);
-                }
-            //    _StdOut.putText("SADF");
+                if(firstHalfOfLocation !== "00") {
+                    number = parseInt(firstHalfOfLocation,16);
 
+                    if (JSON.stringify(this.Acc).length === 1) {
+                        _Memory.memoryArray[number] = "0".concat(JSON.stringify(this.Acc));
+                    } else {
+                        _Memory.memoryArray[number] = JSON.stringify(this.Acc);
+                    }
+                    //    _StdOut.putText("SADF");
+
+                }else{
+                    if (JSON.stringify(this.Acc).length === 1) {
+                        _Memory.memoryArray[number] = "0".concat(JSON.stringify(this.Acc));
+                    } else {
+                        _Memory.memoryArray[number] = JSON.stringify(this.Acc);
+                    }
+                    //    _StdOut.putText("SADF");
+
+                }
+                _StdOut.putText("8D".concat(JSON.stringify(this.PC)));
+                _StdOut.advanceLine();
 
                 this.PC++;
 
             }else if(currentCommand === "00"){ //BRK command
-               // _StdOut.putText(currentCommand);
+                _StdOut.advanceLine();
+
+                _StdOut.putText("END");
+                _StdOut.putText(JSON.stringify(this.PC));
+                _StdOut.putText(_Memory.memoryArray[this.PC-1]);
+                _StdOut.putText(_Memory.memoryArray[this.PC-2]);
+                _StdOut.putText(_Memory.memoryArray[this.PC]);
+                _StdOut.advanceLine();
+                _StdOut.putText(JSON.stringify(this.Zflag));
+
+
+                _StdOut.advanceLine();
+                _StdOut.putText(JSON.stringify(this.Xreg));
 
                 this.isExecuting = false;
                 // _Memory.loadTable();
@@ -91,7 +118,17 @@ module TSOS {
                 var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                this.Acc = parseInt(_Memory.memoryArray[number]);
+                if(firstHalfOfLocation !== "00") {
+                    number = parseInt(firstHalfOfLocation, 16);
+
+
+                    this.Acc = parseInt(_Memory.memoryArray[number]);
+                }else{
+                    this.Acc = parseInt(_Memory.memoryArray[number]);
+
+                }
+                _StdOut.putText("AD".concat(JSON.stringify(this.PC)));
+
                 this.PC++;
 
 
@@ -108,9 +145,19 @@ module TSOS {
 
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                this.Yreg = parseInt(_Memory.memoryArray[number]);
+                if(firstHalfOfLocation !== "00") {
+                    number = parseInt(firstHalfOfLocation,16);
+                    this.Yreg = parseInt(_Memory.memoryArray[number]);
+                }else{
+                    this.Yreg = parseInt(_Memory.memoryArray[number]);
+                }
+                _StdOut.putText("AC".concat(JSON.stringify(this.PC)));
+
+
                 this.PC++;
-               // _StdOut.putText(JSON.stringify(this.Yreg));
+                _StdOut.putText("RAWR");
+                _StdOut.putText(JSON.stringify(this.Yreg));
+                // _StdOut.putText(JSON.stringify(this.Yreg));
                 //_StdOut.putText("SADF");
 
 
@@ -125,7 +172,15 @@ module TSOS {
                 var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                this.Xreg = parseInt(_Memory.memoryArray[number]);
+                if(firstHalfOfLocation !== "00") {
+                    number = parseInt(firstHalfOfLocation, 16);
+                    this.Xreg = parseInt(_Memory.memoryArray[number]);
+                }else{
+                    this.Xreg = parseInt(_Memory.memoryArray[number]);
+
+                }
+                _StdOut.putText("AE".concat(JSON.stringify(this.PC)));
+
                 this.PC++;
 
 
@@ -139,7 +194,15 @@ module TSOS {
                 var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                this.Acc = parseInt(_Memory.memoryArray[number])+this.Acc;
+                if(firstHalfOfLocation !== "00") {
+                    number = parseInt(firstHalfOfLocation, 16);
+                    this.Acc = parseInt(_Memory.memoryArray[number], 16) + this.Acc;
+                }else{
+                    this.Acc = parseInt(_Memory.memoryArray[number], 16) + this.Acc;
+
+                }
+                _StdOut.putText("6D".concat(JSON.stringify(this.PC)));
+
                 this.PC++;
 
 
@@ -147,14 +210,17 @@ module TSOS {
                // _StdOut.putText(currentCommand);
 
                 this.PC++;
-                this.Xreg = parseInt(_Memory.memoryArray[this.PC],10);
+                this.Xreg = parseInt(_Memory.memoryArray[this.PC],16);
+                _StdOut.putText("A2".concat(JSON.stringify(this.PC)));
 
                 this.PC++;
             }else if(currentCommand === "A0"){ //load Register y with constant
                 //_StdOut.putText(currentCommand);
 
                 this.PC++;
-                this.Yreg = parseInt(_Memory.memoryArray[this.PC],10);
+                this.Yreg = parseInt(_Memory.memoryArray[this.PC],16);
+                _StdOut.putText("A0".concat(JSON.stringify(this.PC)));
+
                 this.PC++;
             }else if(currentCommand === "EC"){ //Compare byte in memory to X Register
                // _StdOut.putText(currentCommand);
@@ -162,13 +228,29 @@ module TSOS {
                 var firstHalfOfLocation = _Memory.memoryArray[this.PC];
                 this.PC++;
                 var secondHalfofLocation = _Memory.memoryArray[this.PC];
+
                 var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                var value = parseInt(_Memory.memoryArray[number],10);
-                if(this.Xreg === value){
-                    this.Zflag = 1;
+                if(firstHalfOfLocation !== "00") {
+                    number = parseInt(firstHalfOfLocation, 16);
+
+                    //_StdOut.putText(JSON.stringify(number).concat("DSAF"));
+                    var value = parseInt(_Memory.memoryArray[number], 16);
+                    if (this.Xreg === value) {
+                        this.Zflag = 1;
+                    }else{
+                        this.Zflag =0;
+                    }
+                }else{
+                    var value = parseInt(_Memory.memoryArray[number], 16);
+                    if (this.Xreg === value) {
+                        this.Zflag = 1;
+                    }else{
+                        this.Zflag =0;
+                    }
                 }
+                _StdOut.putText("EC".concat(JSON.stringify(this.PC)));
 
 
                 this.PC++;
@@ -182,19 +264,35 @@ module TSOS {
                 var fulllocation = firstHalfOfLocation.concat(secondHalfofLocation);
                 //turns the hex value into a decimal value
                 var number = parseInt(fulllocation, 16);
-                var temp = +_Memory.memoryArray[number];
-                var temp2 = temp +1;
-                _Memory.memoryArray[number]="0".concat(JSON.stringify(temp2));
+                if(firstHalfOfLocation !== "00") {
+                    number = parseInt(firstHalfOfLocation, 16);
+                    var temp = +_Memory.memoryArray[number];
+                    var temp2 = temp + 1;
+                    _Memory.memoryArray[number] = "0".concat(JSON.stringify(temp2));
+                }else{
+                    var temp = +_Memory.memoryArray[number];
+                    var temp2 = temp + 1;
+                    _Memory.memoryArray[number] = "0".concat(JSON.stringify(temp2));
+
+                }
+                _StdOut.putText("EE".concat(JSON.stringify(this.PC)));
 
                 this.PC++;
             }else if(currentCommand === "FF"){ //SystemCall
                 //turns the hex value into a decimal value
                 //(do this through an interrupt)
+               // _StdOut.putText("IAS this called");
+
                 if(this.Xreg === 1) {
+                    _StdOut.advanceLine();
+                    _StdOut.putText("SYSTEMCAlL");
                     _StdOut.putText(JSON.stringify(this.Yreg));
+                    _StdOut.advanceLine();
+
+
                 }
 
-
+                //_StdOut.putText("FF".concat(JSON.stringify(this.PC)));
                 this.PC++;
             }else if(currentCommand === "D0"){ //branching
                 //also may need to look at Register X
@@ -211,12 +309,14 @@ module TSOS {
 
                     } else {
                         this.PC = branchCheck;
+                        this.PC++;
                     }
                 }else{
                     this.PC++;
                 }
 
 
+                _StdOut.putText("D0".concat(JSON.stringify(this.PC)));
 
             }
 

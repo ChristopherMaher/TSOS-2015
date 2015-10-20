@@ -76,9 +76,14 @@ var TSOS;
             //create Memory
             _Memory = new TSOS.Memory();
             _Memory.init();
+            _MemoryTable = document.getElementById("memDisplayBox");
+            //create table display
+            this.createMemoryTable();
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new TSOS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
+            //create MemoryManagementUnit
+            _MemoryManagement = new TSOS.MemoryManagementUnit();
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
@@ -100,6 +105,43 @@ var TSOS;
             // That boolean parameter is the 'forceget' flag. When it is true it causes the page to always
             // be reloaded from the server. If it is false or not specified the browser may reload the
             // page from its cache, which is not what we want.
+        };
+        Control.createMemoryTable = function () {
+            var counter = 0;
+            var tr, td, tn;
+            var body = document.getElementsByTagName('body')[0];
+            for (var row = 0; row < 32; row++) {
+                tr = document.createElement('tr');
+                for (var col = 0; col < 8; col++) {
+                    td = document.createElement('td');
+                    tn = document.createTextNode(_Memory.memoryArray[counter]);
+                    td.appendChild(tn);
+                    tr.appendChild(td);
+                    counter++;
+                }
+                _MemoryTable.appendChild(tr);
+            }
+            body.appendChild(_MemoryTable);
+        };
+        Control.loadTable = function (memoryArray) {
+            for (var x = 0; x <= 32; x++) {
+                _MemoryTable.deleteRow(0);
+            }
+            var counter = 0;
+            var tr, td, tn;
+            var body = document.getElementsByTagName('body')[0];
+            for (var row = 0; row < 32; row++) {
+                tr = document.createElement('tr');
+                for (var col = 0; col < 8; col++) {
+                    td = document.createElement('td');
+                    tn = document.createTextNode(memoryArray[counter]);
+                    td.appendChild(tn);
+                    tr.appendChild(td);
+                    counter++;
+                }
+                _MemoryTable.appendChild(tr);
+            }
+            body.appendChild(_MemoryTable);
         };
         return Control;
     })();

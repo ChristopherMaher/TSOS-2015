@@ -30,11 +30,13 @@ const KEYBOARD_IRQ: number = 1;
 var rootNode : TSOS.CommandNode = null; //The global object for tab complete
 
 //var _PID : number = 0; //keeps track of PID's
+var _MemoryTable : HTMLTableElement;
 
 var _Memory : TSOS.Memory;
 
 var _PIDArray : Array<TSOS.PCB> = []; //An array to keep track of the pid for each memory
 
+var _MemoryManagement : TSOS.MemoryManagementUnit; //Memory management
 
 
 var _TypedArray : Array<String> = []; //stores all entered commands

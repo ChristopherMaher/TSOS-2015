@@ -8,7 +8,6 @@ var TSOS;
         function MMU() {
         }
         MMU.prototype.loadInCommand = function (userCommand) {
-            //   _Memory.createMemoryArray(userCommand);
             var userProgramArray = userCommand.split(" ");
             _StdOut.putText(JSON.stringify(userProgramArray));
             var counter = 0;
@@ -16,6 +15,8 @@ var TSOS;
                 _Memory.memoryArray[counter] = userProgramArray[counter];
                 counter++;
             }
+            // public loadMemoryTable(){
+            //  }
             //  this.loadTable();
         };
         return MMU;

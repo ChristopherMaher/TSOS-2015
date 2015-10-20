@@ -338,8 +338,8 @@ var TSOS;
             var userInput = document.getElementById("taProgramInput").value;
             var regexp = new RegExp('^[0-9A-Fa-f\\s]+$'); //matches only for hex digits
             if (regexp.test(userInput) == true) {
-                var memorymanagementunit = new TSOS.MMU();
-                memorymanagementunit.loadInCommand(userInput);
+                //   var memorymanagementunit= new MemoryManagementUnit();
+                _MemoryManagement.loadInCommand(userInput);
                 var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 0, 255, "Memory");
                 _PIDArray.push(pcb);
                 _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));

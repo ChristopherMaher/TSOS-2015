@@ -10,4 +10,4 @@ var TSOS;
     })();
     TSOS.MMU = MMU;
 })(TSOS || (TSOS = {}));
-//# sourceMappingURL=mmu.js.map
+//# sourceMappingURL=memoryManagementUnit.jsManagementUnit.js.map

@@ -24,8 +24,10 @@ var KEYBOARD_IRQ = 1;
 //Global Object
 var rootNode = null; //The global object for tab complete
 //var _PID : number = 0; //keeps track of PID's
+var _MemoryTable;
 var _Memory;
 var _PIDArray = []; //An array to keep track of the pid for each memory
+var _MemoryManagement; //Memory management
 var _TypedArray = []; //stores all entered commands
 var _TypedCounter = 0; //keeps track of the index in the _typedArray
 var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.

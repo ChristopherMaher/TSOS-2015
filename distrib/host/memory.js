@@ -20,7 +20,7 @@ var TSOS;
             for (var i = 0; i < 256; i++) {
                 this.memoryArray[i] = "00";
             }
-            //_Memory.makeTableHTML(this.memoryArray);
+            //    _Memory.makeTableHTML(this.memoryArray);
         };
         return Memory;
     })();

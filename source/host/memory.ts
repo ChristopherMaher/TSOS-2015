@@ -24,7 +24,7 @@ module TSOS {
 
 
              }
-             //_Memory.makeTableHTML(this.memoryArray);
+         //    _Memory.makeTableHTML(this.memoryArray);
          }
 
        /* public  createMemoryArray(userProgram): void{
@@ -44,8 +44,8 @@ module TSOS {
 
         }
 
-*/
-/*
+*//*
+
         public makeTableHTML(memoryarray) {
             //divMemory
             //_StdOut.putText("HELLO");
@@ -96,7 +96,6 @@ module TSOS {
 
 
             for (var row = 0; row < 32; row++){
-                _StdOut.putText("ASDF");
                 tr = document.createElement('tr');
                 for (var col = 0; col < 8; col++){
                     td = document.createElement('td');
@@ -113,5 +112,6 @@ module TSOS {
 
         }
         */
+
      }
 }

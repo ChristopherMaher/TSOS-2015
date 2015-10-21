@@ -342,6 +342,7 @@ var TSOS;
                 _MemoryManagement.loadInCommand(userInput);
                 var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 0, 255, "Memory");
                 _PIDArray.push(pcb);
+                _PCB = pcb;
                 _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
             }
             else {
@@ -366,6 +367,7 @@ var TSOS;
                 _StdOut("PID number is not valid");
             }
             else {
+                _PCB.state = "running";
                 _CPU.isExecuting = true;
             }
         };

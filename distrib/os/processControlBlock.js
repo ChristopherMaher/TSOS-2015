@@ -16,6 +16,16 @@ var TSOS;
             this.base = base;
             this.limit = limit;
             this.location = location;
+            pid = this.pid;
+            pc = this.pc;
+            state = this.state;
+            acc = this.acc;
+            x = this.x;
+            y = this.y;
+            z = this.z;
+            base = this.base;
+            limit = this.limit;
+            location = this.location;
         }
         PCB.prototype.init = function () {
             this.pc = 0;

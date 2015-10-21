@@ -40,15 +40,20 @@ var TSOS;
         };
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
+            // Control.updatePCDDisplay();
             // TODO: Accumulate CPU usage and profiling statistics here.
             var currentCommand = _MemoryManagement.getCommamd(this.PC);
             if (currentCommand === "A9") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 this.PC++;
                 currentCommand = _MemoryManagement.getMemory(this.PC);
                 this.Acc = currentCommand;
                 this.PC++;
             }
             else if (currentCommand === "8D") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 this.PC++;
                 var address = _MemoryManagement.getAddress(this.PC);
                 this.PC++; //account for two spaces
@@ -56,10 +61,14 @@ var TSOS;
                 this.PC++;
             }
             else if (currentCommand === "00") {
+                // _PCB.state = "Done";
                 _MemoryManagement.resetMemory();
+                // Control.updatePCDDisplay();
                 this.init();
             }
             else if (currentCommand === "AD") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 this.PC++;
                 var address = _MemoryManagement.getAddress(this.PC);
                 this.PC++;
@@ -70,6 +79,8 @@ var TSOS;
                 this.PC++;
             }
             else if (currentCommand === "AC") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 this.PC++;
                 var address = _MemoryManagement.getAddress(this.PC);
                 this.PC++;
@@ -77,6 +88,8 @@ var TSOS;
                 this.PC++;
             }
             else if (currentCommand === "AE") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 // _StdOut.putText(currentCommand);
                 this.PC++;
                 var address = _MemoryManagement.getAddress(this.PC);
@@ -85,6 +98,8 @@ var TSOS;
                 this.PC++;
             }
             else if (currentCommand === "6D") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 // _StdOut.putText(currentCommand);
                 this.PC++;
                 var address = _MemoryManagement.getAddress(this.PC);
@@ -93,18 +108,24 @@ var TSOS;
                 this.PC++;
             }
             else if (currentCommand === "A2") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 this.PC++;
                 var memory = _MemoryManagement.getMemory(this.PC);
                 this.Xreg = memory;
                 this.PC++;
             }
             else if (currentCommand === "A0") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 this.PC++;
                 var memory = _MemoryManagement.getMemory(this.PC);
                 this.Yreg = memory;
                 this.PC++;
             }
             else if (currentCommand === "EC") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 // _StdOut.putText(currentCommand);
                 this.PC++;
                 var address = _MemoryManagement.getAddress(this.PC);
@@ -119,6 +140,8 @@ var TSOS;
                 this.PC++;
             }
             else if (currentCommand === "EE") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 this.PC++;
                 var address = _MemoryManagement.getAddress(this.PC);
                 this.PC++;
@@ -147,6 +170,8 @@ var TSOS;
                 this.PC++;
             }
             else if (currentCommand === "D0") {
+                TSOS.Control.updateCPUDisplay();
+                TSOS.Control.updatePCDDisplay();
                 this.PC++;
                 if (this.Zflag === 0) {
                     var branchCheck = this.PC + _MemoryManagement.getMemory(this.PC);

@@ -98,6 +98,8 @@ module TSOS {
 
             _MemoryTable =<HTMLTableElement> document.getElementById("memDisplayBox");
             //create table display
+            _CPUDisplayTable =<HTMLTableElement> document.getElementById("CPUDisplayTable");
+
 
             this.createMemoryTable();
 
@@ -240,6 +242,28 @@ module TSOS {
             }
 
         }
+        public static updateCPUDisplay(){
+            document.getElementById("PCDisplay").innerHTML = JSON.stringify(_CPU.PC);
+            document.getElementById("ACCDisplay").innerHTML = JSON.stringify(_CPU.Acc);
+            document.getElementById("XDisplay").innerHTML = JSON.stringify(_CPU.Xreg);
+            document.getElementById("YDisplay").innerHTML = JSON.stringify(_CPU.Yreg);
+            document.getElementById("ZDisplay").innerHTML = JSON.stringify(_CPU.Zflag);
+
+        }
+        public static updatePCDDisplay(){
+            document.getElementById("PIDPCBDisplay").innerHTML = JSON.stringify(_PCB.pid);
+            document.getElementById("PCPCBDisplay").innerHTML = JSON.stringify(_CPU.PC);
+            document.getElementById("ACCPCBDisplay").innerHTML = JSON.stringify(_CPU.Acc);
+            document.getElementById("XPCBDisplay").innerHTML = JSON.stringify(_CPU.Xreg);
+            document.getElementById("YPCBDisplay").innerHTML = JSON.stringify(_CPU.Yreg);
+            document.getElementById("ZPCBDisplay").innerHTML = JSON.stringify(_CPU.Zflag);
+            document.getElementById("Location").innerHTML = _PCB.location;
+            document.getElementById("Base").innerHTML = JSON.stringify(0);
+            document.getElementById("Limit").innerHTML = JSON.stringify(255);
+            document.getElementById("Running").innerHTML = _PCB.state;
+
+        }
+
 
     }
 }

@@ -16,6 +16,17 @@ module  TSOS {
                    public base:number,
                    public limit:number,
                    public location:string){
+           pid=this.pid;
+           pc=this.pc;
+           state = this.state;
+           acc = this.acc;
+           x = this.x;
+           y = this.y;
+           z = this.z;
+           base = this.base;
+           limit = this.limit;
+           location = this.location;
+
 
        }
         public init(): void {

@@ -79,6 +79,7 @@ var TSOS;
             _MemoryManagement = new TSOS.MemoryManagementUnit();
             _MemoryTable = document.getElementById("memDisplayBox");
             //create table display
+            _CPUDisplayTable = document.getElementById("CPUDisplayTable");
             this.createMemoryTable();
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new TSOS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
@@ -199,6 +200,25 @@ var TSOS;
                 tableOutput += "</tr>";
                 _MemoryTable.innerHTML = tableOutput;
             }
+        };
+        Control.updateCPUDisplay = function () {
+            document.getElementById("PCDisplay").innerHTML = JSON.stringify(_CPU.PC);
+            document.getElementById("ACCDisplay").innerHTML = JSON.stringify(_CPU.Acc);
+            document.getElementById("XDisplay").innerHTML = JSON.stringify(_CPU.Xreg);
+            document.getElementById("YDisplay").innerHTML = JSON.stringify(_CPU.Yreg);
+            document.getElementById("ZDisplay").innerHTML = JSON.stringify(_CPU.Zflag);
+        };
+        Control.updatePCDDisplay = function () {
+            document.getElementById("PIDPCBDisplay").innerHTML = JSON.stringify(_PCB.pid);
+            document.getElementById("PCPCBDisplay").innerHTML = JSON.stringify(_CPU.PC);
+            document.getElementById("ACCPCBDisplay").innerHTML = JSON.stringify(_CPU.Acc);
+            document.getElementById("XPCBDisplay").innerHTML = JSON.stringify(_CPU.Xreg);
+            document.getElementById("YPCBDisplay").innerHTML = JSON.stringify(_CPU.Yreg);
+            document.getElementById("ZPCBDisplay").innerHTML = JSON.stringify(_CPU.Zflag);
+            document.getElementById("Location").innerHTML = _PCB.location;
+            document.getElementById("Base").innerHTML = JSON.stringify(0);
+            document.getElementById("Limit").innerHTML = JSON.stringify(255);
+            document.getElementById("Running").innerHTML = _PCB.state;
         };
         return Control;
     })();

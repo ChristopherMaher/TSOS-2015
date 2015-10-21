@@ -39,10 +39,14 @@ module TSOS {
 
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
+           // Control.updatePCDDisplay();
             // TODO: Accumulate CPU usage and profiling statistics here.
             var currentCommand = _MemoryManagement.getCommamd(this.PC);
 
             if(currentCommand === "A9") { //LDA Command
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
 
                 this.PC++;
                 currentCommand = _MemoryManagement.getMemory(this.PC);
@@ -50,6 +54,9 @@ module TSOS {
                 this.PC++;
 
             }else if(currentCommand === "8D") { //STA command
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
 
                 this.PC++;
 
@@ -62,12 +69,18 @@ module TSOS {
                 this.PC++;
 
             }else if(currentCommand === "00"){ //BRK command
-
+               // _PCB.state = "Done";
                 _MemoryManagement.resetMemory();
+               // Control.updatePCDDisplay();
+
                 this.init();
 
 
             }else if(currentCommand === "AD"){ //load accumulator
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
+
 
                 this.PC++;
 
@@ -84,6 +97,10 @@ module TSOS {
 
 
             }else if(currentCommand === "AC"){ //load Y register from memory
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
+
                 this.PC++;
 
                 var address=_MemoryManagement.getAddress(this.PC);
@@ -100,7 +117,11 @@ module TSOS {
 
 
             }else if(currentCommand === "AE"){ //load x register from memory
-               // _StdOut.putText(currentCommand);
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
+
+                // _StdOut.putText(currentCommand);
                 this.PC++;
 
                 var address=_MemoryManagement.getAddress(this.PC);
@@ -114,7 +135,11 @@ module TSOS {
 
 
             }else if(currentCommand === "6D"){ //add with Carry
-               // _StdOut.putText(currentCommand);
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
+
+                // _StdOut.putText(currentCommand);
                 this.PC++;
 
                 var address=_MemoryManagement.getAddress(this.PC);
@@ -127,6 +152,10 @@ module TSOS {
 
 
             }else if(currentCommand === "A2"){ //load Register x with constant
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
+
 
                 this.PC++;
                 var memory = _MemoryManagement.getMemory(this.PC);
@@ -135,6 +164,10 @@ module TSOS {
 
                 this.PC++;
             }else if(currentCommand === "A0"){ //load Register y with constant
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
+
 
                 this.PC++;
 
@@ -144,7 +177,11 @@ module TSOS {
 
                 this.PC++;
             }else if(currentCommand === "EC"){ //Compare byte in memory to X Register
-               // _StdOut.putText(currentCommand);
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
+
+                // _StdOut.putText(currentCommand);
                 this.PC++;
 
                 var address=_MemoryManagement.getAddress(this.PC);
@@ -160,6 +197,10 @@ module TSOS {
                 this.PC++;
 
             }else if(currentCommand === "EE"){ //increment by 1
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
+
                 this.PC++;
 
                 var address=_MemoryManagement.getAddress(this.PC);
@@ -199,6 +240,10 @@ module TSOS {
 
                 this.PC++;
             }else if(currentCommand === "D0"){ //branching
+                Control.updateCPUDisplay();
+                Control.updatePCDDisplay();
+
+
                 this.PC++;
                 if(this.Zflag === 0){
                     var branchCheck =this.PC + _MemoryManagement.getMemory(this.PC);

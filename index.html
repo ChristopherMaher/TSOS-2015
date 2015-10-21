@@ -118,6 +118,97 @@
          ></textarea>
       </label>
    </div>
+    <div id="divMemory" style="margin-left:20px; width:200px; height:200px; float:left; top: 0px;">
+        <div id="memoryWrapper">
+            <div id="memory"  >
+                <label>
+                    Memory
+                    <br>
+
+                    <table id =  "memDisplayBox"  class="table table-bordered">
+                    <tbody id ="memDisplay" >
+
+
+                    </tbody>
+
+                </table>
+                    </label>
+            </div>
+        </div>
+    </div>
+    <div id="divCPU" style="margin-left:50%; top: 0px;">
+        <div id="CPUwrapper">
+            <div id="cpu"  >
+                <label>
+                    CPU
+                    <br>
+                <table id =  "CPUDisplayTable" class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th>PC</th>
+                        <th>ACC</th>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>Z</th>
+                    </tr>
+                    <tr>
+                        <td id="PCDisplay">0</td>
+                        <td id="ACCDisplay">0</td>
+                        <td id="XDisplay">0</td>
+                        <td id="YDisplay">0</td>
+                        <td id="ZDisplay">0</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </label>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="divPCB" >
+        <div id="PCBWrapper">
+            <div id="PCB"  >
+                <label>
+                    PCB
+                    <br>
+                <table id =  "PCBDisplayTable"  class="table table-bordered">
+                    <tbody style=" width:300px; height:100px;">
+                    <tr>
+                        <th>PID</th>
+                        <th>PC</th>
+                        <th>ACC</th>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>Z</th>
+                        <th>Location</th>
+                        <th>Base</th>
+                        <th>Limit</th>
+                        <th>Running</th>
+
+
+                    </tr>
+                    <tr>
+                        <td id="PIDPCBDisplay">0</td>
+                        <td id="PCPCBDisplay">0</td>
+                        <td id="ACCPCBDisplay">0</td>
+                        <td id="XPCBDisplay">0</td>
+                        <td id="YPCBDisplay">0</td>
+                        <td id="ZPCBDisplay">0</td>
+                        <td id="Location">0</td>
+                        <td id="Base">0</td>
+                        <td id="Limit">0</td>
+                        <td id="Running">0</td>
+
+
+                    </tr>
+                    </tbody>
+                </table>
+                    </label>
+
+            </div>
+        </div>
+    </div>
 
     <div id = "divGraphicTaskBar" style = "border-bottom-width:520px;">
         <label>
@@ -131,19 +222,8 @@
             ></textarea>
         </label>
     </div>
-    <div id="divMemory" >
-        <div id="memoryWrapper">
-            <div id="memory"  >
-
-            <table id =  "memDisplayBox"  class="table table-bordered">
-            <tbody id ="memDisplay" >
 
 
-            </tbody>
-        </table>
-                </div>
-        </div>
-    </div>
     <!--
    <div id="divMemory" class = "col-md-3" >
        <table id = "memDisplayBox" class="table table-bordered">

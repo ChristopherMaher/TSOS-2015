@@ -38,12 +38,16 @@ var _PIDArray : Array<TSOS.PCB> = []; //An array to keep track of the pid for ea
 
 var _MemoryManagement : TSOS.MemoryManagementUnit; //Memory management
 
+var _CPUDisplayTable : HTMLTableElement;
+
 
 var _TypedArray : Array<String> = []; //stores all entered commands
 
 var _TypedCounter : number = 0; //keeps track of the index in the _typedArray
 
 var _CPU: TSOS.Cpu;  // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.
+
+var _PCB: TSOS.PCB;
 
 var _OSclock: number = 0;  // Page 23.
 

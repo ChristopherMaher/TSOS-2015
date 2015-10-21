@@ -41,10 +41,10 @@ var TSOS;
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
             // TODO: Accumulate CPU usage and profiling statistics here.
-            var currentCommand = _Memory.memoryArray[this.PC];
+            var currentCommand = _MemoryManagement.getCommamd(this.PC);
             if (currentCommand === "A9") {
                 this.PC++;
-                currentCommand = parseInt(_Memory.memoryArray[this.PC], 16);
+                currentCommand = _MemoryManagement.getMemory(this.PC);
                 this.Acc = currentCommand;
                 this.PC++;
             }
@@ -56,10 +56,8 @@ var TSOS;
                 this.PC++;
             }
             else if (currentCommand === "00") {
-                TSOS.Control.loadTable(_Memory.memoryArray);
-                _Memory.init();
+                _MemoryManagement.resetMemory();
                 this.init();
-                this.isExecuting = false;
             }
             else if (currentCommand === "AD") {
                 this.PC++;
@@ -134,10 +132,17 @@ var TSOS;
                 //(do this through an interrupt)
                 // _StdOut.putText("IAS this called");
                 if (this.Xreg === 1) {
-                    _StdOut.advanceLine();
-                    _StdOut.putText("SYSTEMCAlL");
-                    _StdOut.putText(JSON.stringify(this.Yreg));
-                    _StdOut.advanceLine();
+                    // _StdOut.advanceLine();
+                    // _StdOut.putText("SYSTEMCAlL");
+                    //  _KernelInputQueue.enqueue(chr)
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SYSTEMCALL_IRQ, JSON.stringify(this.Yreg)));
+                }
+                if (this.Xreg === 2) {
+                    var stringToBeConverted = "";
+                    // var tempString = "";
+                    stringToBeConverted = this.systemCall(this.Yreg);
+                    //this.Yreg
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SYSTEMCALL_IRQ, stringToBeConverted));
                 }
                 this.PC++;
             }
@@ -158,6 +163,17 @@ var TSOS;
                     this.PC++;
                 }
             }
+        };
+        Cpu.prototype.systemCall = function (address) {
+            var stringBeingConverted = "";
+            var tempProgramCounter = address;
+            _MemoryManagement.getCommamd(address);
+            while (_MemoryManagement.getCommamd(tempProgramCounter) !== "00") {
+                var temp = _MemoryManagement.getMemory(tempProgramCounter);
+                stringBeingConverted += String.fromCharCode(temp);
+                tempProgramCounter++;
+            }
+            return stringBeingConverted;
         };
         return Cpu;
     })();

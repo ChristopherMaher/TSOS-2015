@@ -127,6 +127,11 @@ var TSOS;
                     _krnKeyboardDriver.isr(params); // Kernel mode device driver
                     _StdIn.handleInput();
                     break;
+                case SYSTEMCALL_IRQ:
+                    _StdOut.advanceLine();
+                    _StdOut.putText(">");
+                    _StdOut.putText(params);
+                    break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }

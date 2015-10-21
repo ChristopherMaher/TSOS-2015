@@ -76,6 +76,7 @@ var TSOS;
             //create Memory
             _Memory = new TSOS.Memory();
             _Memory.init();
+            _MemoryManagement = new TSOS.MemoryManagementUnit();
             _MemoryTable = document.getElementById("memDisplayBox");
             //create table display
             this.createMemoryTable();
@@ -83,7 +84,6 @@ var TSOS;
             _CPU = new TSOS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
             //create MemoryManagementUnit
-            _MemoryManagement = new TSOS.MemoryManagementUnit();
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(TSOS.Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
             // .. and call the OS Kernel Bootstrap routine.
@@ -107,32 +107,63 @@ var TSOS;
             // page from its cache, which is not what we want.
         };
         Control.createMemoryTable = function () {
+            var tableOutput = "<tr>";
             var counter = 0;
-            var tr, td, tn;
-            var body = document.getElementsByTagName('body')[0];
-            for (var row = 0; row < 32; row++) {
-                tr = document.createElement('tr');
-                for (var col = 0; col < 8; col++) {
-                    td = document.createElement('td');
-                    tn = document.createTextNode(_Memory.memoryArray[counter]);
-                    td.appendChild(tn);
-                    tr.appendChild(td);
+            var rowID = "";
+            for (var z = 0; z < 32; z++) {
+                rowID = "rowID" + z;
+                if (z !== 0) {
+                    tableOutput += "</tr>";
+                }
+                tableOutput += "<tr id=" + rowID + ">";
+                for (var i = 0; i < 8; i++) {
+                    tableOutput += "<td id=dataID" + counter + ">" + _MemoryManagement.getCommamd(counter) + "</td>";
+                    // if(i % 8 === 0){
                     counter++;
                 }
-                _MemoryTable.appendChild(tr);
+                tableOutput += "</tr>";
+                _MemoryTable.innerHTML = tableOutput;
             }
-            body.appendChild(_MemoryTable);
         };
-        Control.loadTable = function (memoryArray) {
+        /*
+
+        var counter = 0;
+        var tr,td,tn;
+
+        var body = document.getElementsByTagName('body')[0];
+
+
+        for (var row = 0; row < 32; row++){
+            tr = document.createElement('tr');
+            for (var col = 0; col < 8; col++){
+                td = document.createElement('td');
+                tn = document.createTextNode(_Memory.memoryArray[counter]);
+                td.appendChild(tn);
+                tr.appendChild(td);
+                counter++;
+            }
+            _MemoryTable.appendChild(tr);
+        }
+        body.appendChild(_MemoryTable);
+
+*/
+        /*
+        public static loadTable(memoryArray) {
+
+
+
             for (var x = 0; x <= 32; x++) {
                 _MemoryTable.deleteRow(0);
             }
             var counter = 0;
-            var tr, td, tn;
+            var tr,td,tn;
+
             var body = document.getElementsByTagName('body')[0];
-            for (var row = 0; row < 32; row++) {
+
+
+            for (var row = 0; row < 32; row++){
                 tr = document.createElement('tr');
-                for (var col = 0; col < 8; col++) {
+                for (var col = 0; col < 8; col++){
                     td = document.createElement('td');
                     tn = document.createTextNode(memoryArray[counter]);
                     td.appendChild(tn);
@@ -142,6 +173,32 @@ var TSOS;
                 _MemoryTable.appendChild(tr);
             }
             body.appendChild(_MemoryTable);
+
+
+
+        }
+        */
+        Control.loadTable = function () {
+            var tableOutput = "<tr>";
+            var counter = 0;
+            var rowID = "";
+            for (var x = 0; x <= 32; x++) {
+                _MemoryTable.deleteRow(0);
+            }
+            for (var z = 0; z < 32; z++) {
+                rowID = "rowID" + z;
+                if (z !== 0) {
+                    tableOutput += "</tr>";
+                }
+                tableOutput += "<tr id=" + rowID + ">";
+                for (var i = 0; i < 8; i++) {
+                    tableOutput += "<td id=dataID" + counter + ">" + _MemoryManagement.getCommamd(counter) + "</td>";
+                    // if(i % 8 === 0){
+                    counter++;
+                }
+                tableOutput += "</tr>";
+                _MemoryTable.innerHTML = tableOutput;
+            }
         };
         return Control;
     })();

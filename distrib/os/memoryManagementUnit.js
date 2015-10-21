@@ -9,7 +9,6 @@ var TSOS;
         }
         MemoryManagementUnit.prototype.loadInCommand = function (userCommand) {
             var userProgramArray = userCommand.split(" ");
-            _StdOut.putText(JSON.stringify(userProgramArray));
             var counter = 0;
             while (counter < userProgramArray.length) {
                 _Memory.memoryArray[counter] = userProgramArray[counter];
@@ -19,6 +18,9 @@ var TSOS;
         MemoryManagementUnit.prototype.getMemory = function (programCounter) {
             return parseInt(_Memory.memoryArray[programCounter], 16);
         };
+        MemoryManagementUnit.prototype.getCommamd = function (programCounter) {
+            return _Memory.memoryArray[programCounter];
+        };
         MemoryManagementUnit.prototype.storeMemory = function (address, value) {
             value = JSON.stringify(value);
             if (value.length === 1) {
@@ -27,6 +29,7 @@ var TSOS;
             else {
                 _Memory.memoryArray[address] = value;
             }
+            TSOS.Control.loadTable();
         };
         MemoryManagementUnit.prototype.getAddress = function (programCounter) {
             var firstHalfOfLocation = _Memory.memoryArray[programCounter];
@@ -39,6 +42,11 @@ var TSOS;
             }
             else {
                 return parseInt(fulllocation, 16);
+            }
+        };
+        MemoryManagementUnit.prototype.resetMemory = function () {
+            for (var i = 0; i < 256; i++) {
+                _Memory.memoryArray[i] = "00";
             }
         };
         return MemoryManagementUnit;

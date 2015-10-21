@@ -7,6 +7,8 @@ var TSOS;
         function Interrupt(irq, params) {
             this.irq = irq;
             this.params = params;
+            this.irq = irq;
+            this.params = params;
         }
         return Interrupt;
     })();

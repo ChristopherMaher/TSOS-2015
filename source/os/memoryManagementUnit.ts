@@ -9,7 +9,6 @@ module  TSOS {
         public loadInCommand(userCommand){
 
                 var userProgramArray=userCommand.split(" ");
-                _StdOut.putText(JSON.stringify(userProgramArray));
                 var counter = 0;
 
                 while(counter<userProgramArray.length) {
@@ -28,6 +27,12 @@ module  TSOS {
 
         }
 
+        public  getCommamd(programCounter){
+
+            return _Memory.memoryArray[programCounter];
+
+        }
+
         public storeMemory(address,value){
             value = JSON.stringify(value);
             if(value.length === 1) {
@@ -35,6 +40,8 @@ module  TSOS {
             }else{
                  _Memory.memoryArray[address] = value;
             }
+
+            Control.loadTable();
 
         }
 
@@ -54,8 +61,14 @@ module  TSOS {
 
 
         }
+        public resetMemory(){
+            for (var i = 0; i < 256; i++) {
+
+                _Memory.memoryArray[i] = "00";
 
 
+            }
+        }
 
 
     }

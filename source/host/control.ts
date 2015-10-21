@@ -93,9 +93,12 @@ module TSOS {
             //create Memory
             _Memory = new Memory();
             _Memory.init();
+            _MemoryManagement = new MemoryManagementUnit();
+
 
             _MemoryTable =<HTMLTableElement> document.getElementById("memDisplayBox");
             //create table display
+
             this.createMemoryTable();
 
 
@@ -104,7 +107,6 @@ module TSOS {
             _CPU.init();       //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
 
             //create MemoryManagementUnit
-            _MemoryManagement = new MemoryManagementUnit();
 
             // ... then set the host clock pulse ...
             _hardwareClockID = setInterval(Devices.hostClockPulse, CPU_CLOCK_INTERVAL);
@@ -132,6 +134,29 @@ module TSOS {
         }
 
         public static createMemoryTable() {
+            var tableOutput = "<tr>";
+            var counter =0;
+            var rowID = "";
+            for(var z =0; z <32; z++){
+                rowID = "rowID"+z;
+                if(z !== 0) {
+                    tableOutput += "</tr>";
+                }
+                tableOutput += "<tr id="+ rowID + ">";
+
+                for(var i = 0; i<8; i++){
+                    tableOutput += "<td id=dataID" + counter +">"+_MemoryManagement.getCommamd(counter) + "</td>";
+                    // if(i % 8 === 0){
+                    counter++;
+
+                }
+                tableOutput += "</tr>";
+                _MemoryTable.innerHTML = tableOutput;
+
+            }
+
+        }
+            /*
 
             var counter = 0;
             var tr,td,tn;
@@ -152,9 +177,13 @@ module TSOS {
             }
             body.appendChild(_MemoryTable);
 
+*/
 
 
-        }
+
+
+
+        /*
         public static loadTable(memoryArray) {
 
 
@@ -184,5 +213,33 @@ module TSOS {
 
 
         }
+        */
+        public static loadTable() {
+            var tableOutput = "<tr>";
+            var counter =0;
+            var rowID = "";
+            for (var x = 0; x <= 32; x++) {
+                _MemoryTable.deleteRow(0);
+            }
+            for(var z =0; z <32; z++){
+                rowID = "rowID"+z;
+                if(z !== 0) {
+                    tableOutput += "</tr>";
+                }
+                tableOutput += "<tr id="+ rowID + ">";
+
+                for(var i = 0; i<8; i++){
+                    tableOutput += "<td id=dataID" + counter +">"+_MemoryManagement.getCommamd(counter) + "</td>";
+               // if(i % 8 === 0){
+                    counter++;
+
+                }
+                tableOutput += "</tr>";
+                _MemoryTable.innerHTML = tableOutput;
+
+            }
+
+        }
+
     }
 }

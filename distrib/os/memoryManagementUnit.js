@@ -8,6 +8,7 @@ var TSOS;
         function MemoryManagementUnit() {
         }
         MemoryManagementUnit.prototype.loadInCommand = function (userCommand) {
+            userCommand = userCommand.replace(/\r?\n|\r/g, "");
             var userProgramArray = userCommand.split(" ");
             var counter = 0;
             while (counter < userProgramArray.length) {
@@ -22,13 +23,15 @@ var TSOS;
             return _Memory.memoryArray[programCounter];
         };
         MemoryManagementUnit.prototype.storeMemory = function (address, value) {
-            value = JSON.stringify(value);
-            if (value.length === 1) {
-                _Memory.memoryArray[address] = "0".concat(value);
-            }
-            else {
-                _Memory.memoryArray[address] = value;
-            }
+            //value = JSON.stringify(value);
+            // if(value.length === 1) {
+            //   value = "0".concat(value);
+            // _Memory.memoryArray[address] = value.toString(16);
+            //  }else{
+            _Memory.memoryArray[address] = value.toString(16);
+            //  _StdOut.putText(value.toString(16));
+            //_StdOut.putText(value);
+            //}
             TSOS.Control.loadTable();
         };
         MemoryManagementUnit.prototype.getAddress = function (programCounter) {

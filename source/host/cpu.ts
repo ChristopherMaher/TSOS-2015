@@ -43,6 +43,7 @@ module TSOS {
             // TODO: Accumulate CPU usage and profiling statistics here.
             var currentCommand = _MemoryManagement.getCommamd(this.PC);
 
+
             if(currentCommand === "A9") { //LDA Command
                 Control.updateCPUDisplay();
                 Control.updatePCDDisplay();
@@ -132,6 +133,10 @@ module TSOS {
 
 
                 this.PC++;
+           //     _StdOut.putText(JSON.stringify(this.Xreg));
+               // _StdOut.putText("PC:");
+             //   _StdOut.putText(JSON.stringify(this.PC));
+                //_StdOut.advanceLine();
 
 
             }else if(currentCommand === "6D"){ //add with Carry
@@ -249,13 +254,20 @@ module TSOS {
                     var branchCheck =this.PC + _MemoryManagement.getMemory(this.PC);
 
                     if (branchCheck > 255) {
+                   //     _StdOut.putText(_MemoryManagement.getCommamd(this.PC));
+                     //   _StdOut.putText("HEY");
+
+
                         this.PC = branchCheck - 256;
                         this.PC++;
                         //_StdOut.putText(JSON.stringify(this.PC));
 
                     } else {
+//                        _StdOut.putText(_MemoryManagement.getCommamd(this.PC));
+
                         this.PC = branchCheck;
                         this.PC++;
+
                     }
                 }else{
                     this.PC++;
@@ -270,11 +282,11 @@ module TSOS {
         public systemCall(address){
             var stringBeingConverted = "";
             var tempProgramCounter = address;
-            _MemoryManagement.getCommamd(address);
+           // _MemoryManagement.getCommamd(address);
             while(_MemoryManagement.getCommamd(tempProgramCounter) !== "00") {
                 var temp = _MemoryManagement.getMemory(tempProgramCounter);
                 stringBeingConverted += String.fromCharCode(temp);
-               tempProgramCounter++;
+                tempProgramCounter++;
 
             }
             return stringBeingConverted;

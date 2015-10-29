@@ -176,10 +176,13 @@ var TSOS;
                 if (this.Zflag === 0) {
                     var branchCheck = this.PC + _MemoryManagement.getMemory(this.PC);
                     if (branchCheck > 255) {
+                        //     _StdOut.putText(_MemoryManagement.getCommamd(this.PC));
+                        //   _StdOut.putText("HEY");
                         this.PC = branchCheck - 256;
                         this.PC++;
                     }
                     else {
+                        //                        _StdOut.putText(_MemoryManagement.getCommamd(this.PC));
                         this.PC = branchCheck;
                         this.PC++;
                     }
@@ -192,7 +195,7 @@ var TSOS;
         Cpu.prototype.systemCall = function (address) {
             var stringBeingConverted = "";
             var tempProgramCounter = address;
-            _MemoryManagement.getCommamd(address);
+            // _MemoryManagement.getCommamd(address);
             while (_MemoryManagement.getCommamd(tempProgramCounter) !== "00") {
                 var temp = _MemoryManagement.getMemory(tempProgramCounter);
                 stringBeingConverted += String.fromCharCode(temp);

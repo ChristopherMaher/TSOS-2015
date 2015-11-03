@@ -70,6 +70,11 @@ module TSOS {
             rootNode.addCommand("fontcolor");
             rootNode.addCommand("load");
             rootNode.addCommand("status");
+            rootNode.addCommand("run");
+            rootNode.addCommand("clearmem");
+            rootNode.addCommand("quantum");
+            rootNode.addCommand("runall");
+
 
 
 
@@ -160,6 +165,7 @@ module TSOS {
         public krnTimerISR() {
             // The built-in TIMER (not clock) Interrupt Service Routine (as opposed to an ISR coming from a device driver). {
             // Check multiprogramming parameters and enforce quanta here. Call the scheduler / context switch here if necessary.
+
         }
 
         //

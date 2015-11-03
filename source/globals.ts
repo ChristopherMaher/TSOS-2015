@@ -40,6 +40,8 @@ var _MemoryManagement : TSOS.MemoryManagementUnit; //Memory management
 
 var _CPUDisplayTable : HTMLTableElement;
 
+var _QuantumNumber : number = 6;
+
 
 var _TypedArray : Array<String> = []; //stores all entered commands
 

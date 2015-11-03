@@ -30,6 +30,7 @@ var _Memory;
 var _PIDArray = []; //An array to keep track of the pid for each memory
 var _MemoryManagement; //Memory management
 var _CPUDisplayTable;
+var _QuantumNumber = 6;
 var _TypedArray = []; //stores all entered commands
 var _TypedCounter = 0; //keeps track of the index in the _typedArray
 var _CPU; // Utilize TypeScript's type annotation system to ensure that _CPU is an instance of the Cpu class.

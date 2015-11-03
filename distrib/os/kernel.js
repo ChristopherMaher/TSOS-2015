@@ -62,6 +62,10 @@ var TSOS;
             rootNode.addCommand("fontcolor");
             rootNode.addCommand("load");
             rootNode.addCommand("status");
+            rootNode.addCommand("run");
+            rootNode.addCommand("clearmem");
+            rootNode.addCommand("quantum");
+            rootNode.addCommand("runall");
             // Finally, initiate student testing protocol.
             if (_GLaDOS) {
                 _GLaDOS.afterStartup();

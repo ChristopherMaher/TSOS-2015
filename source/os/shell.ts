@@ -120,10 +120,23 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
 
 
+            sc = new ShellCommand(this.shellClearMem,
+                "clearmem",
+                "Clears the memory of all the memory partitions");
+            this.commandList[this.commandList.length] = sc;
+
             sc = new ShellCommand(this.shellRun,
                 "run",
                 "<number>-echos the command to the graphic task bar<number>");
             this.commandList[this.commandList.length] = sc;
+
+
+            sc = new ShellCommand(this.shellQuantum,
+                "quantum",
+                "<number>-changes the quantum number<number>");
+            this.commandList[this.commandList.length] = sc;
+
+
 
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -473,6 +486,14 @@ module TSOS {
             }
 
         }
+        public shellClearMem(){
+            _MemoryManagement.resetMemory();
+            _StdOut.putText("Cleared Memory");
+        }
+        public shellQuantum(quantumNumber){
+            _QuantumNumber = quantumNumber;
+        }
+
 
     }
 }

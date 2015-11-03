@@ -70,7 +70,11 @@ var TSOS;
             //status
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string>-echos the command to the graphic task bar<string>");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellClearMem, "clearmem", "Clears the memory of all the memory partitions");
+            this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellRun, "run", "<number>-echos the command to the graphic task bar<number>");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<number>-changes the quantum number<number>");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -370,6 +374,13 @@ var TSOS;
                 _PCB.state = "running";
                 _CPU.isExecuting = true;
             }
+        };
+        Shell.prototype.shellClearMem = function () {
+            _MemoryManagement.resetMemory();
+            _StdOut.putText("Cleared Memory");
+        };
+        Shell.prototype.shellQuantum = function (quantumNumber) {
+            _QuantumNumber = quantumNumber;
         };
         return Shell;
     })();

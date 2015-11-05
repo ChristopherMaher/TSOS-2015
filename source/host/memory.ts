@@ -3,8 +3,8 @@
 module TSOS {
 
     export class Memory {
-
-         public memoryArray = new Array(256);
+//768
+         public memoryArray = new Array(768);
         // public displayArray = new Array[32];
          //public innerDisplayArray = new Array[8];
          //public counter2 = 0;
@@ -17,8 +17,16 @@ module TSOS {
                     }
              }
              */
+             var baseNumber = 0;
+             var counter = 0;
 
-             for (var i = 0; i < 256; i++) {
+            while(counter < 3) {
+                _AvailableBaseTracker[counter] = true;
+                // baseNumber + 256;
+                 counter++;
+             }
+
+             for (var i = 0; i < 768; i++) {
 
                      this.memoryArray[i] = "00";
 

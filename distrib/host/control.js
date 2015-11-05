@@ -74,6 +74,7 @@ var TSOS;
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
             //create Memory
+            _Scheduler = new TSOS.Scheduler(6, 0);
             _Memory = new TSOS.Memory();
             _Memory.init();
             _MemoryManagement = new TSOS.MemoryManagementUnit();
@@ -111,7 +112,7 @@ var TSOS;
             var tableOutput = "<tr>";
             var counter = 0;
             var rowID = "";
-            for (var z = 0; z < 32; z++) {
+            for (var z = 0; z < 96; z++) {
                 rowID = "rowID" + z;
                 if (z !== 0) {
                     tableOutput += "</tr>";
@@ -183,10 +184,10 @@ var TSOS;
             var tableOutput = "<tr>";
             var counter = 0;
             var rowID = "";
-            for (var x = 0; x <= 32; x++) {
+            for (var x = 0; x <= 96; x++) {
                 _MemoryTable.deleteRow(0);
             }
-            for (var z = 0; z < 32; z++) {
+            for (var z = 0; z < 96; z++) {
                 rowID = "rowID" + z;
                 if (z !== 0) {
                     tableOutput += "</tr>";

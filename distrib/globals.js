@@ -18,6 +18,7 @@ var TIMER_IRQ = 0; // Pages 23 (timer), 9 (interrupts), and 561 (interrupt prior
 // NOTE: The timer is different from hardware/host clock pulses. Don't confuse these.
 var KEYBOARD_IRQ = 1;
 var SYSTEMCALL_IRQ = 2;
+var PROGRAMSWITCH = 3;
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
@@ -27,7 +28,10 @@ var rootNode = null; //The global object for tab complete
 //var _PID : number = 0; //keeps track of PID's
 var _MemoryTable;
 var _Memory;
-var _PIDArray = []; //An array to keep track of the pid for each memory
+var _PIDArray = []; //An array to keep track of the pid for each program
+var _RuningPIDs = [];
+var _Scheduler;
+var _AvailableBaseTracker = [];
 var _MemoryManagement; //Memory management
 var _CPUDisplayTable;
 var _QuantumNumber = 6;

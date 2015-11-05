@@ -9,6 +9,22 @@
 
 module  TSOS {
     export class Scheduler {
+        constructor(public quantumNumber: number = 0,
+                    public cpuCycle: number = 0) {
+            this.quantumNumber = quantumNumber;
+            this.cpuCycle = cpuCycle;
+
+        }
+        public performSwitch(){
+           if(this.cpuCycle === this.quantumNumber +1){
+               this.cpuCycle = 0;
+               _CPU.currentPCB(_RuningPIDs[0]);
+               _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH,0));
+
+           }
+        }
+
+
 
     }
 

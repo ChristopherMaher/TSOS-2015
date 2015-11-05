@@ -3,7 +3,8 @@ var TSOS;
 (function (TSOS) {
     var Memory = (function () {
         function Memory() {
-            this.memoryArray = new Array(256);
+            //768
+            this.memoryArray = new Array(768);
         }
         // public displayArray = new Array[32];
         //public innerDisplayArray = new Array[8];
@@ -17,7 +18,14 @@ var TSOS;
                     }
              }
              */
-            for (var i = 0; i < 256; i++) {
+            var baseNumber = 0;
+            var counter = 0;
+            while (counter < 3) {
+                _AvailableBaseTracker[counter] = true;
+                // baseNumber + 256;
+                counter++;
+            }
+            for (var i = 0; i < 768; i++) {
                 this.memoryArray[i] = "00";
             }
             //    _Memory.makeTableHTML(this.memoryArray);

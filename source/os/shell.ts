@@ -438,28 +438,27 @@ module TSOS {
             var userInput = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
             var regexp = new RegExp('^[0-9A-Fa-f\\s]+$'); //matches only for hex digits
             if(regexp.test(userInput)==true){
-             //   var memorymanagementunit= new MemoryManagementUnit();
-                _MemoryManagement.loadInCommand(userInput);
-                var pcb = new PCB(_PIDArray.length+1,0,"New",0,0,0,0,0,255,"Memory");
-                _PIDArray.push(pcb);
-                _PCB = pcb;
-               _StdOut.putText("Valid Code, PID=="+JSON.stringify(_PIDArray.length-1));
 
-               // _CPU.cycle();
+                var base = _MemoryManagement.findAvailableBase();
 
-              //  var test = new Memory();
-                //var test2= test.createMemoryArray(userInput);
-                //(<HTMLInputElement>document.getElementById("taMemory")).value=JSON.stringify(test.memoryArray[0][2]);
-               // var testing : String [];
-               // testing.push("df");
-               // testing.push("DF");
-               // testing.push("ASDF");
-               // var list:number[] = [1, 2, 3];
-               // (<HTMLInputElement>document.getElementById("taMemory")).value=JSON.stringify(_Memory.memoryArray[0][0]);
+                if(base === 2){  //temporary fix
+                    _StdOut.putText("no more space");
+
+                }else {
+                    _MemoryManagement.loadInCommand(userInput, base);
+
+                    var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 256, "Memory");
+
+                    _PIDArray.push(pcb);
+
+                    _PCB = pcb;
+
+                    _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
+                }
 
             }else{
                 _StdOut.putText("Error:User code can only use Hex digits.");
-            };
+            }
 
         }
         public shellStatus(args){
@@ -477,8 +476,14 @@ module TSOS {
             }else if(_PIDArray[args] == null){
                 _StdOut("PID number is not valid");
             }else{
-                _PCB.state = "running";
+                _PIDArray[args].state = "running";
+
+                //_PCB.state = "running";
+               // _StdOut.putText(args.toString());
+              //  var temp = <number>args;
+                _RuningPIDs.push(args);
                 _CPU.isExecuting = true;
+
 
                 //_CPU.cycle();
                // (<HTMLInputElement>document.getElementById("taMemory")).value=JSON.stringify(_Memory.memoryArray[0][0]);
@@ -487,8 +492,8 @@ module TSOS {
 
         }
         public shellClearMem(){
-            _MemoryManagement.resetMemory();
-            _StdOut.putText("Cleared Memory");
+           // _MemoryManagement.resetMemory();
+            //_StdOut.putText("Cleared Memory");
         }
         public shellQuantum(quantumNumber){
             _QuantumNumber = quantumNumber;

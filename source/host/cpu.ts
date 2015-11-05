@@ -36,13 +36,33 @@ module TSOS {
             this.Zflag = 0;
             this.isExecuting = false;
         }
+       public currentPCB(currentProgram){
+           _PIDArray[currentProgram].pc = this.PC;
+           _PIDArray[currentProgram].acc = this.Acc;
+           _PIDArray[currentProgram].x = this.Xreg;
+           _PIDArray[currentProgram].y = this.Yreg;
+           _PIDArray[currentProgram].z = this.Zflag;
+
+       }
+       public setPCB(newProgram){
+           this.PC = _PIDArray[newProgram].pc;
+           this.Acc = _PIDArray[newProgram].acc;
+           this.Xreg =  _PIDArray[newProgram].x;
+           this.Yreg = _PIDArray[newProgram].y;
+           this.Zflag =_PIDArray[newProgram].z;
+
+       }
+
 
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
            // Control.updatePCDDisplay();
+            if(_RuningPIDs.length === 0) {
+                this.isExecuting = false;
+            }
+
             // TODO: Accumulate CPU usage and profiling statistics here.
             var currentCommand = _MemoryManagement.getCommamd(this.PC);
-
 
             if(currentCommand === "A9") { //LDA Command
                 Control.updateCPUDisplay();
@@ -71,10 +91,26 @@ module TSOS {
 
             }else if(currentCommand === "00"){ //BRK command
                // _PCB.state = "Done";
-                _MemoryManagement.resetMemory();
-               // Control.updatePCDDisplay();
+               // _StdOut.putText((_RuningPIDs.length).toString());
+                _MemoryManagement.resetBaseAvailablity(_PIDArray[_RuningPIDs[0]].base);
+                _MemoryManagement.resetMemory(_PIDArray[_RuningPIDs[0]].base,_PIDArray[_RuningPIDs[0]].limit);
 
-                this.init();
+               // if(_RuningPIDs.length > 0)
+                _RuningPIDs.shift();
+
+                Control.loadTable();
+               // Control.updatePCDDisplay();
+               // if(_RuningPIDs)
+                this.PC = 0;
+                this.Acc = 0;
+                this.Xreg = 0;
+                this.Yreg = 0;
+                this.Zflag = 0;
+                //if(_RuningPIDs.length === 0) {
+
+                  //  this.init();
+
+                //}
 
 
             }else if(currentCommand === "AD"){ //load accumulator

@@ -342,17 +342,21 @@ var TSOS;
             var userInput = document.getElementById("taProgramInput").value;
             var regexp = new RegExp('^[0-9A-Fa-f\\s]+$'); //matches only for hex digits
             if (regexp.test(userInput) == true) {
-                //   var memorymanagementunit= new MemoryManagementUnit();
-                _MemoryManagement.loadInCommand(userInput);
-                var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 0, 255, "Memory");
-                _PIDArray.push(pcb);
-                _PCB = pcb;
-                _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
+                var base = _MemoryManagement.findAvailableBase();
+                if (base === 2) {
+                    _StdOut.putText("no more space");
+                }
+                else {
+                    _MemoryManagement.loadInCommand(userInput, base);
+                    var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 256, "Memory");
+                    _PIDArray.push(pcb);
+                    _PCB = pcb;
+                    _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
+                }
             }
             else {
                 _StdOut.putText("Error:User code can only use Hex digits.");
             }
-            ;
         };
         Shell.prototype.shellStatus = function (args) {
             var arrayToString = args.toString();
@@ -371,13 +375,17 @@ var TSOS;
                 _StdOut("PID number is not valid");
             }
             else {
-                _PCB.state = "running";
+                _PIDArray[args].state = "running";
+                //_PCB.state = "running";
+                // _StdOut.putText(args.toString());
+                //  var temp = <number>args;
+                _RuningPIDs.push(args);
                 _CPU.isExecuting = true;
             }
         };
         Shell.prototype.shellClearMem = function () {
-            _MemoryManagement.resetMemory();
-            _StdOut.putText("Cleared Memory");
+            // _MemoryManagement.resetMemory();
+            //_StdOut.putText("Cleared Memory");
         };
         Shell.prototype.shellQuantum = function (quantumNumber) {
             _QuantumNumber = quantumNumber;

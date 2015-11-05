@@ -22,6 +22,8 @@ const TIMER_IRQ: number = 0;  // Pages 23 (timer), 9 (interrupts), and 561 (inte
 const KEYBOARD_IRQ: number = 1;
 
 const SYSTEMCALL_IRQ: number = 2;
+
+const PROGRAMSWITCH: number = 3;
 //
 // Global Variables
 // TODO: Make a global object and use that instead of the "_" naming convention in the global namespace.
@@ -34,7 +36,13 @@ var _MemoryTable : HTMLTableElement;
 
 var _Memory : TSOS.Memory;
 
-var _PIDArray : Array<TSOS.PCB> = []; //An array to keep track of the pid for each memory
+var _PIDArray : Array<TSOS.PCB> = []; //An array to keep track of the pid for each program
+
+var _RuningPIDs : Array<number> = [];
+
+var _Scheduler : TSOS.Scheduler;
+
+var _AvailableBaseTracker : Array<Boolean> = [];
 
 var _MemoryManagement : TSOS.MemoryManagementUnit; //Memory management
 

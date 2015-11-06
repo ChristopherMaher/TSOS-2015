@@ -17,7 +17,7 @@ var TSOS;
             this.cpuCycle = cpuCycle;
         }
         Scheduler.prototype.performSwitch = function () {
-            if (this.cpuCycle === this.quantumNumber + 1) {
+            if (this.cpuCycle === this.quantumNumber) {
                 this.cpuCycle = 0;
                 _CPU.currentPCB(_RuningPIDs[0]);
                 _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, 0));

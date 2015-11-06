@@ -57,9 +57,6 @@ module TSOS {
         public cycle(): void {
             _Kernel.krnTrace('CPU cycle');
            // Control.updatePCDDisplay();
-            if(_RuningPIDs.length === 0) {
-                this.isExecuting = false;
-            }
 
             // TODO: Accumulate CPU usage and profiling statistics here.
             var currentCommand = _MemoryManagement.getCommamd(this.PC);
@@ -97,6 +94,10 @@ module TSOS {
 
                // if(_RuningPIDs.length > 0)
                 _RuningPIDs.shift();
+                if(_RuningPIDs.length === 0) {
+                    this.isExecuting = false;
+                }
+
 
                 Control.loadTable();
                // Control.updatePCDDisplay();

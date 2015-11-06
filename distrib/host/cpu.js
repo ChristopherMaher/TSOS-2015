@@ -55,9 +55,6 @@ var TSOS;
         Cpu.prototype.cycle = function () {
             _Kernel.krnTrace('CPU cycle');
             // Control.updatePCDDisplay();
-            if (_RuningPIDs.length === 0) {
-                this.isExecuting = false;
-            }
             // TODO: Accumulate CPU usage and profiling statistics here.
             var currentCommand = _MemoryManagement.getCommamd(this.PC);
             if (currentCommand === "A9") {
@@ -84,6 +81,9 @@ var TSOS;
                 _MemoryManagement.resetMemory(_PIDArray[_RuningPIDs[0]].base, _PIDArray[_RuningPIDs[0]].limit);
                 // if(_RuningPIDs.length > 0)
                 _RuningPIDs.shift();
+                if (_RuningPIDs.length === 0) {
+                    this.isExecuting = false;
+                }
                 TSOS.Control.loadTable();
                 // Control.updatePCDDisplay();
                 // if(_RuningPIDs)

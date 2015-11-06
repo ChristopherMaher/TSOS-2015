@@ -16,7 +16,7 @@ module  TSOS {
 
         }
         public performSwitch(){
-           if(this.cpuCycle === this.quantumNumber +1){
+           if(this.cpuCycle === this.quantumNumber){
                this.cpuCycle = 0;
                _CPU.currentPCB(_RuningPIDs[0]);
                _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH,0));

@@ -30,7 +30,14 @@ var TSOS;
             //   value = "0".concat(value);
             // _Memory.memoryArray[address] = value.toString(16);
             //  }else{
-            _Memory.memoryArray[address] = value.toString(16);
+            if (address > _PIDArray[_RuningPIDs[0]].limit) {
+                //change to only end this program
+                _CPU.isExecuting = false;
+                _StdOut.putText("Memory Overflow");
+            }
+            else {
+                _Memory.memoryArray[address] = value.toString(16);
+            }
             //  _StdOut.putText(value.toString(16));
             //_StdOut.putText(value);
             //}
@@ -47,7 +54,7 @@ var TSOS;
                 return parseInt(firstHalfOfLocation, 16) + _PIDArray[_RuningPIDs[0]].base;
             }
             else {
-                return parseInt(fulllocation, 16);
+                return parseInt(fulllocation, 16) + _PIDArray[_RuningPIDs[0]].base;
             }
         };
         // add base and limit for memory reset to find its bounds in memory

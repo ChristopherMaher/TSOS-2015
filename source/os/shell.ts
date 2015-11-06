@@ -137,6 +137,12 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
 
 
+            sc = new ShellCommand(this.shellRunAll,
+                "runall",
+                "Runs all of the stored programs");
+            this.commandList[this.commandList.length] = sc;
+
+
 
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -490,6 +496,19 @@ module TSOS {
                 //add a _PIDArray[args].memoryArray
             }
 
+        }
+        public shellRunAll(){
+            var counter = 0;
+            while(_PIDArray.length > counter){
+             //   _StdOut.putText("RUNNING");
+                if(_PIDArray[counter].state !== "Executed") {
+                    _PIDArray[counter].state = "Running";
+                    _RuningPIDs.push(counter);
+                    _CPU.isExecuting = true;
+                }
+                counter++;
+
+            }
         }
         public shellClearMem(){
            // _MemoryManagement.resetMemory();

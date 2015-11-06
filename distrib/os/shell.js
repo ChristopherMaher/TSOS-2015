@@ -76,6 +76,8 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellQuantum, "quantum", "<number>-changes the quantum number<number>");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellRunAll, "runall", "Runs all of the stored programs");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -381,6 +383,18 @@ var TSOS;
                 //  var temp = <number>args;
                 _RuningPIDs.push(args);
                 _CPU.isExecuting = true;
+            }
+        };
+        Shell.prototype.shellRunAll = function () {
+            var counter = 0;
+            while (_PIDArray.length > counter) {
+                //   _StdOut.putText("RUNNING");
+                if (_PIDArray[counter].state !== "Executed") {
+                    _PIDArray[counter].state = "Running";
+                    _RuningPIDs.push(counter);
+                    _CPU.isExecuting = true;
+                }
+                counter++;
             }
         };
         Shell.prototype.shellClearMem = function () {

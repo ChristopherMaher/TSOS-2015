@@ -93,9 +93,11 @@ module TSOS {
                 _MemoryManagement.resetMemory(_PIDArray[_RuningPIDs[0]].base,_PIDArray[_RuningPIDs[0]].limit);
 
                // if(_RuningPIDs.length > 0)
-                _RuningPIDs.shift();
+               var programRan = _RuningPIDs.shift();
                 if(_RuningPIDs.length === 0) {
+                    _PIDArray[programRan].state = "Executed";
                     this.isExecuting = false;
+
                 }
 
 

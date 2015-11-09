@@ -453,7 +453,7 @@ module TSOS {
                 }else {
                     _MemoryManagement.loadInCommand(userInput, base);
 
-                    var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 256, "Memory");
+                    var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory");
 
                     _PIDArray.push(pcb);
 
@@ -482,7 +482,7 @@ module TSOS {
             }else if(_PIDArray[args] == null){
                 _StdOut("PID number is not valid");
             }else{
-                _PIDArray[args].state = "running";
+                _PIDArray[args].state = "Running";
 
                 //_PCB.state = "running";
                // _StdOut.putText(args.toString());

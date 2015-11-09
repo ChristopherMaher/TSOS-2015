@@ -56,13 +56,18 @@ var TSOS;
             _Kernel.krnTrace('CPU cycle');
             // Control.updatePCDDisplay();
             // TODO: Accumulate CPU usage and profiling statistics here.
+            /// =_PIDArray[_RuningPIDs[0]].base +this.PC;
+            //   var address = _PIDArray[_RuningPIDs[0]].base +this.PC;
+            //_StdOut.putText(JSON.stringify(address));
             var currentCommand = _MemoryManagement.getCommamd(this.PC);
             if (currentCommand === "A9") {
                 TSOS.Control.updateCPUDisplay();
                 TSOS.Control.updatePCDDisplay();
                 this.PC++;
-                currentCommand = _MemoryManagement.getMemory(this.PC);
+                var address = this.PC + _PIDArray[_RuningPIDs[0]].base;
+                currentCommand = _MemoryManagement.getMemory(address);
                 this.Acc = currentCommand;
+                // _StdOut.putText(JSON.stringify(currentCommand));
                 this.PC++;
             }
             else if (currentCommand === "8D") {
@@ -75,24 +80,22 @@ var TSOS;
                 this.PC++;
             }
             else if (currentCommand === "00") {
-                // _PCB.state = "Done";
-                // _StdOut.putText((_RuningPIDs.length).toString());
-                _MemoryManagement.resetBaseAvailablity(_PIDArray[_RuningPIDs[0]].base);
+                //_StdOut.putText(JSON.stringify(_PIDArray[_RuningPIDs[0]].limit));
+                //_StdOut.putText(JSON.stringify(_PIDArray[_RuningPIDs[0]].base));
                 _MemoryManagement.resetMemory(_PIDArray[_RuningPIDs[0]].base, _PIDArray[_RuningPIDs[0]].limit);
-                // if(_RuningPIDs.length > 0)
-                var programRan = _RuningPIDs.shift();
-                if (_RuningPIDs.length === 0) {
-                    _PIDArray[programRan].state = "Executed";
-                    this.isExecuting = false;
-                }
-                TSOS.Control.loadTable();
-                // Control.updatePCDDisplay();
-                // if(_RuningPIDs)
+                _MemoryManagement.resetBaseAvailablity(_PIDArray[_RuningPIDs[0]].base);
                 this.PC = 0;
                 this.Acc = 0;
                 this.Xreg = 0;
                 this.Yreg = 0;
                 this.Zflag = 0;
+                _Scheduler.cpuCycle = _Scheduler.quantumNumber - 1;
+                _PIDArray[_RuningPIDs[0]].state = "Executed";
+                TSOS.Control.loadTable();
+                if (_RuningPIDs.length === 1) {
+                    this.isExecuting = false;
+                }
+                TSOS.Control.loadTable();
             }
             else if (currentCommand === "AD") {
                 TSOS.Control.updateCPUDisplay();
@@ -139,7 +142,8 @@ var TSOS;
                 TSOS.Control.updateCPUDisplay();
                 TSOS.Control.updatePCDDisplay();
                 this.PC++;
-                var memory = _MemoryManagement.getMemory(this.PC);
+                var address = _PIDArray[_RuningPIDs[0]].base + this.PC;
+                var memory = _MemoryManagement.getMemory(address);
                 this.Xreg = memory;
                 this.PC++;
             }
@@ -147,7 +151,8 @@ var TSOS;
                 TSOS.Control.updateCPUDisplay();
                 TSOS.Control.updatePCDDisplay();
                 this.PC++;
-                var memory = _MemoryManagement.getMemory(this.PC);
+                var address = this.PC + _PIDArray[_RuningPIDs[0]].base;
+                var memory = _MemoryManagement.getMemory(address);
                 this.Yreg = memory;
                 this.PC++;
             }
@@ -182,7 +187,9 @@ var TSOS;
                 //turns the hex value into a decimal value
                 //(do this through an interrupt)
                 // _StdOut.putText("IAS this called");
+                //                _StdOut.putText("HITSTHIS");
                 if (this.Xreg === 1) {
+                    // _StdOut.putText("HITSTHIS2");
                     // _StdOut.advanceLine();
                     // _StdOut.putText("SYSTEMCAlL");
                     //  _KernelInputQueue.enqueue(chr)
@@ -202,7 +209,10 @@ var TSOS;
                 TSOS.Control.updatePCDDisplay();
                 this.PC++;
                 if (this.Zflag === 0) {
-                    var branchCheck = this.PC + _MemoryManagement.getMemory(this.PC);
+                    //var address = this.PC+_PIDArray[_RuningPIDs[0]].base;
+                    //   var memory = _MemoryManagement.getMemory(address);
+                    var address = _PIDArray[_RuningPIDs[0]].base + this.PC;
+                    var branchCheck = this.PC + _MemoryManagement.getMemory(address);
                     if (branchCheck > 255) {
                         //     _StdOut.putText(_MemoryManagement.getCommamd(this.PC));
                         //   _StdOut.putText("HEY");

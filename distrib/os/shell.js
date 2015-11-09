@@ -350,7 +350,7 @@ var TSOS;
                 }
                 else {
                     _MemoryManagement.loadInCommand(userInput, base);
-                    var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 256, "Memory");
+                    var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory");
                     _PIDArray.push(pcb);
                     _PCB = pcb;
                     _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
@@ -377,7 +377,7 @@ var TSOS;
                 _StdOut("PID number is not valid");
             }
             else {
-                _PIDArray[args].state = "running";
+                _PIDArray[args].state = "Running";
                 //_PCB.state = "running";
                 // _StdOut.putText(args.toString());
                 //  var temp = <number>args;

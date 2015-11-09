@@ -114,7 +114,7 @@ module TSOS {
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed. {
                 _CPU.cycle();
                 _Scheduler.cpuCycle++;
-                _Scheduler.performSwitch();
+                _Scheduler.readySwitch();
 
                // _Scheduler.roundRobin();
             } else {                      // If there are no interrupts and there is nothing being executed then just be idle. {
@@ -162,9 +162,7 @@ module TSOS {
 
                     break;
                 case PROGRAMSWITCH:
-                    var program =_RuningPIDs.shift();
-                    _RuningPIDs.push(program);
-                    _CPU.setPCB(_RuningPIDs[0]);
+                    _Scheduler.performSwitch(params);
                     break;
 
                 default:

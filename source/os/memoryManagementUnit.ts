@@ -28,14 +28,33 @@ module  TSOS {
         }
 
         public  getMemory(programCounter){
+            //_StdOut.putText("DASFASFD");
+            if(((_PIDArray[_RuningPIDs[0]].base + parseInt(programCounter,16)) < (_PIDArray[_RuningPIDs[0]].base + 255) )){
+                //var temp=parseInt(_Memory.memoryArray[programCounter], 16);
+                //var temp2 = _PIDArray[_RuningPIDs[0]].base + temp;
+                var temp = programCounter + _PIDArray[_RuningPIDs[0]].base;
+                //_StdOut.putText(JSON.stringify(_Memory.memoryArray[temp2]));
+                //return parseInt(_Memory.memoryArray[temp2], 16);
+                return parseInt(_Memory.memoryArray[temp], 16);
 
-        return parseInt(_Memory.memoryArray[programCounter],16);
+            }else{
+                //_StdOut.putText("HELOO");
+                return parseInt(_Memory.memoryArray[programCounter], 16);
+            }
 
         }
 
         public  getCommamd(programCounter){
+            if(_RuningPIDs.length >=1) {
+                var programCounter = _PIDArray[_RuningPIDs[0]].base + programCounter;
+                //_StdOut.putText(JSON.stringify(programCounter));
 
-            return _Memory.memoryArray[programCounter];
+                return _Memory.memoryArray[programCounter];
+            }else{
+                return _Memory.memoryArray[programCounter];
+
+            }
+
 
         }
 
@@ -44,7 +63,8 @@ module  TSOS {
            // if(value.length === 1) {
              //   value = "0".concat(value);
                // _Memory.memoryArray[address] = value.toString(16);
-          //  }else{
+            var address = address;
+            //  }else{
             if(address>_PIDArray[_RuningPIDs[0]].limit){
                 //change to only end this program
                 _CPU.isExecuting = false;
@@ -63,6 +83,7 @@ module  TSOS {
 
         public getAddress(programCounter){
             //ADD check for base and limit
+            var programCounter = programCounter +  _PIDArray[_RuningPIDs[0]].base;
             var firstHalfOfLocation = _Memory.memoryArray[programCounter];
             //captures the second half of the location to store the ACC
             var secondHalfofLocation = _Memory.memoryArray[programCounter++];

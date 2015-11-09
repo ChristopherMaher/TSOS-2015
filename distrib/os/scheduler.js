@@ -2,7 +2,7 @@
  * Created by Chris on 11/1/15.
  */
 /**
- * Created by Chris on 9/19/15.
+ * Created by Chris on 11/07/15.
  */
 ///<reference path="../globals.ts" />
 var TSOS;
@@ -16,11 +16,27 @@ var TSOS;
             this.quantumNumber = quantumNumber;
             this.cpuCycle = cpuCycle;
         }
-        Scheduler.prototype.performSwitch = function () {
+        Scheduler.prototype.readySwitch = function () {
             if (this.cpuCycle === this.quantumNumber) {
                 this.cpuCycle = 0;
                 _CPU.currentPCB(_RuningPIDs[0]);
-                _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, 0));
+                if (_PIDArray[_RuningPIDs[0]].state === "Running") {
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Running"));
+                }
+                else {
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Executed"));
+                }
+            }
+        };
+        Scheduler.prototype.performSwitch = function (args) {
+            if (args === "Running") {
+                var program = _RuningPIDs.shift();
+                _RuningPIDs.push(program);
+                _CPU.setPCB(_RuningPIDs[0]);
+            }
+            else {
+                _RuningPIDs.shift();
+                _CPU.setPCB(_RuningPIDs[0]);
             }
         };
         return Scheduler;

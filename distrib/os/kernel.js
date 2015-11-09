@@ -98,7 +98,7 @@ var TSOS;
             else if (_CPU.isExecuting) {
                 _CPU.cycle();
                 _Scheduler.cpuCycle++;
-                _Scheduler.performSwitch();
+                _Scheduler.readySwitch();
             }
             else {
                 this.krnTrace("Idle");
@@ -139,9 +139,7 @@ var TSOS;
                     _StdOut.putText(params);
                     break;
                 case PROGRAMSWITCH:
-                    var program = _RuningPIDs.shift();
-                    _RuningPIDs.push(program);
-                    _CPU.setPCB(_RuningPIDs[0]);
+                    _Scheduler.performSwitch(params);
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

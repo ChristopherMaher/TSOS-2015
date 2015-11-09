@@ -34,7 +34,7 @@ var TSOS;
             }
         };
         MemoryManagementUnit.prototype.getCommamd = function (programCounter) {
-            if (_RuningPIDs.length >= 1) {
+            if (_RuningPIDs.length > 0) {
                 var programCounter = _PIDArray[_RuningPIDs[0]].base + programCounter;
                 //_StdOut.putText(JSON.stringify(programCounter));
                 return _Memory.memoryArray[programCounter];

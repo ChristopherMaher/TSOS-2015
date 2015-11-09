@@ -285,6 +285,7 @@ module TSOS {
                    // var tempString = "";
                     stringToBeConverted = this.systemCall(this.Yreg);
                     //this.Yreg
+                  //  _StdOut.putText(stringToBeConverted);
                     _KernelInterruptQueue.enqueue(new Interrupt(SYSTEMCALL_IRQ,stringToBeConverted));
                    // _StdOut.putText(tempString);
 
@@ -337,8 +338,10 @@ module TSOS {
                 var temp = _MemoryManagement.getMemory(tempProgramCounter);
                 stringBeingConverted += String.fromCharCode(temp);
                 tempProgramCounter++;
+                //_StdOut.putText(String.fromCharCode(temp));
 
             }
+            //_StdOut.putText(stringBeingConverted);
             return stringBeingConverted;
 
         }

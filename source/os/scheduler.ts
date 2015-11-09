@@ -37,6 +37,7 @@ module  TSOS {
 
             }else{
                 _RuningPIDs.shift();
+                if(_RuningPIDs.length > 0)
                 _CPU.setPCB(_RuningPIDs[0]);
 
             }

@@ -200,6 +200,7 @@ var TSOS;
                     // var tempString = "";
                     stringToBeConverted = this.systemCall(this.Yreg);
                     //this.Yreg
+                    //  _StdOut.putText(stringToBeConverted);
                     _KernelInterruptQueue.enqueue(new TSOS.Interrupt(SYSTEMCALL_IRQ, stringToBeConverted));
                 }
                 this.PC++;
@@ -239,6 +240,7 @@ var TSOS;
                 stringBeingConverted += String.fromCharCode(temp);
                 tempProgramCounter++;
             }
+            //_StdOut.putText(stringBeingConverted);
             return stringBeingConverted;
         };
         return Cpu;

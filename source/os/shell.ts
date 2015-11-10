@@ -451,6 +451,7 @@ module TSOS {
                     _StdOut.putText("no more space");
 
                 }else {
+
                     _MemoryManagement.loadInCommand(userInput, base);
 
                     var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory");
@@ -511,8 +512,27 @@ module TSOS {
             }
         }
         public shellClearMem(){
-           // _MemoryManagement.resetMemory();
-            //_StdOut.putText("Cleared Memory");
+            var counter = 0;
+            while(_PIDArray.length>counter){
+                if(_PIDArray[counter].state !== "Executed") {
+
+                    _PIDArray[counter].state = "Executed";
+                }
+                if(_PIDArray[counter].state === "Running"){
+                    _CPU.isExecuting = false;
+                    _RuningPIDs.shift();
+
+                }
+                counter++;
+            }
+            _MemoryManagement.resetMemory(0,768);
+            _MemoryManagement.resetBaseAvailablity(0);
+            _MemoryManagement.resetBaseAvailablity(256);
+            _MemoryManagement.resetBaseAvailablity(512);
+            Control.loadTable();
+
+
+            _StdOut.putText("Cleared Memory");
         }
         public shellQuantum(quantumNumber){
             _QuantumNumber = quantumNumber;

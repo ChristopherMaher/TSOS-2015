@@ -13,15 +13,17 @@ module  TSOS {
 
             var counter = 0;
 
+            if(userProgramArray.length < 255) {
 
+                while (counter < userProgramArray.length) {
+                    _Memory.memoryArray[base + counter] = userProgramArray[counter];
 
+                    //_StdOut.putText(_Memory.memoryArray[counter]);
+                    counter++
 
-            while(counter<userProgramArray.length) {
-                _Memory.memoryArray[base+counter] = userProgramArray[counter];
-
-                //_StdOut.putText(_Memory.memoryArray[counter]);
-                counter++
-
+                }
+            }else{
+                _StdOut.putText("Memory overflow");
             }
             Control.loadTable();
 
@@ -84,6 +86,7 @@ module  TSOS {
 
         public getAddress(programCounter){
             //ADD check for base and limit
+
             var programCounter = programCounter +  _PIDArray[_RuningPIDs[0]].base;
             var firstHalfOfLocation = _Memory.memoryArray[programCounter];
             //captures the second half of the location to store the ACC

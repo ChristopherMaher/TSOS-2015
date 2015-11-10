@@ -6,7 +6,13 @@
    <link rel="stylesheet" href="tsos.css" type="text/css" media="screen" />
    <!-- <link rel="stylesheet" href="bootstrap.min.css">
     <!--<link rel="stylesheet" href="bootstrap-table.css"> -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+
+    </script>
 
 
 
@@ -57,8 +63,8 @@
 </head>
 
 <body onload="onDocumentLoad()">
-
-<div id="divMain" style="width:100%;">
+<div class="container">
+<!--<div id="divMain" style="width:100%;"> -->
 
    <div id="divButtonBar" style="margin:4px;">
       <input type="button"
@@ -119,7 +125,7 @@
          ></textarea>
       </label>
    </div>
-    <div id="divMemory" style="margin-left:20px; width:200px; height:200px; float:left; top: 0px;">
+    <div id="divMemory" style="margin-left:20px;  float:left; top: 0px;">
         <div id="memoryWrapper">
             <div id="memory"  >
                 <label>
@@ -167,14 +173,14 @@
         </div>
     </div>
 
-    <div id="divPCB" >
-        <div id="PCBWrapper">
-            <div id="PCB"  >
+    <div id="divPCB"  >
+        <div class="col-md-4" id="PCBWrapper">
+            <div id="PCB" >
                 <label>
                     PCB
                     <br>
-                <table id =  "PCBDisplayTable"  class="table table-bordered">
-                    <tbody style=" width:300px; height:100px;">
+                <table id =  "PCBDisplayTable"  class="table table-striped">
+                    <tbody>
                     <tr>
                         <th>PID</th>
                         <th>PC</th>
@@ -190,16 +196,16 @@
 
                     </tr>
                     <tr>
-                        <td id="PIDPCBDisplay">0</td>
-                        <td id="PCPCBDisplay">0</td>
-                        <td id="ACCPCBDisplay">0</td>
-                        <td id="XPCBDisplay">0</td>
-                        <td id="YPCBDisplay">0</td>
-                        <td id="ZPCBDisplay">0</td>
-                        <td id="Location">0</td>
-                        <td id="Base">0</td>
-                        <td id="Limit">0</td>
-                        <td id="Running">0</td>
+                        <td class ="col-md-1" id="PIDPCBDisplay">0</td>
+                        <td class ="col-md-1" id="PCPCBDisplay">0</td>
+                        <td class ="col-md-1" id="ACCPCBDisplay">0</td>
+                        <td class ="col-md-1" id="XPCBDisplay">0</td>
+                        <td class ="col-md-1" id="YPCBDisplay">0</td>
+                        <td class ="col-md-1" id="ZPCBDisplay">0</td>
+                        <td class ="col-md-1" id="Location">0</td>
+                        <td class ="col-md-1" id="Base">0</td>
+                        <td class ="col-md-1" id="Limit">0</td>
+                        <td class ="col-md-1" id="Running">0</td>
 
 
                     </tr>
@@ -210,6 +216,7 @@
             </div>
         </div>
     </div>
+    <
 
     <div id = "divGraphicTaskBar" style = "border-bottom-width:520px;">
         <label>

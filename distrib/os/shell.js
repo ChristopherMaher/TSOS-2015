@@ -398,8 +398,23 @@ var TSOS;
             }
         };
         Shell.prototype.shellClearMem = function () {
-            // _MemoryManagement.resetMemory();
-            //_StdOut.putText("Cleared Memory");
+            var counter = 0;
+            while (_PIDArray.length > counter) {
+                if (_PIDArray[counter].state !== "Executed") {
+                    _PIDArray[counter].state = "Executed";
+                }
+                if (_PIDArray[counter].state === "Running") {
+                    _CPU.isExecuting = false;
+                    _RuningPIDs.shift();
+                }
+                counter++;
+            }
+            _MemoryManagement.resetMemory(0, 768);
+            _MemoryManagement.resetBaseAvailablity(0);
+            _MemoryManagement.resetBaseAvailablity(256);
+            _MemoryManagement.resetBaseAvailablity(512);
+            TSOS.Control.loadTable();
+            _StdOut.putText("Cleared Memory");
         };
         Shell.prototype.shellQuantum = function (quantumNumber) {
             _QuantumNumber = quantumNumber;

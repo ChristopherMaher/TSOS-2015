@@ -11,10 +11,15 @@ var TSOS;
             userCommand = userCommand.replace(/\r?\n|\r/g, "");
             var userProgramArray = userCommand.split(" ");
             var counter = 0;
-            while (counter < userProgramArray.length) {
-                _Memory.memoryArray[base + counter] = userProgramArray[counter];
-                //_StdOut.putText(_Memory.memoryArray[counter]);
-                counter++;
+            if (userProgramArray.length < 255) {
+                while (counter < userProgramArray.length) {
+                    _Memory.memoryArray[base + counter] = userProgramArray[counter];
+                    //_StdOut.putText(_Memory.memoryArray[counter]);
+                    counter++;
+                }
+            }
+            else {
+                _StdOut.putText("Memory overflow");
             }
             TSOS.Control.loadTable();
         };

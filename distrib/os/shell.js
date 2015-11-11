@@ -78,6 +78,8 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellRunAll, "runall", "Runs all of the stored programs");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellKill, "kill", "<number>kills selected PID<number>");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -418,6 +420,30 @@ var TSOS;
         };
         Shell.prototype.shellQuantum = function (quantumNumber) {
             _QuantumNumber = quantumNumber;
+        };
+        Shell.prototype.shellKill = function (pid) {
+            var temp = _RuningPIDs[0];
+            if (temp == pid) {
+                _PIDArray[_RuningPIDs[0]].state = "Executed";
+                _MemoryManagement.resetMemory(_PIDArray[_RuningPIDs[0]].base, _PIDArray[_RuningPIDs[0]].limit);
+                _MemoryManagement.resetBaseAvailablity(_PIDArray[_RuningPIDs[0]].base);
+                _StdOut.putText("Selected Program has been killed");
+            }
+            else if (_RuningPIDs[1] == pid) {
+                _PIDArray[_RuningPIDs[1]].state = "Executed";
+                _MemoryManagement.resetMemory(_PIDArray[_RuningPIDs[1]].base, _PIDArray[_RuningPIDs[1]].limit);
+                _MemoryManagement.resetBaseAvailablity(_PIDArray[_RuningPIDs[1]].base);
+                _StdOut.putText("Selected Program has been killed");
+            }
+            else if (_RuningPIDs[2] == pid) {
+                _PIDArray[_RuningPIDs[2]].state = "Executed";
+                _MemoryManagement.resetMemory(_PIDArray[_RuningPIDs[2]].base, _PIDArray[_RuningPIDs[2]].limit);
+                _MemoryManagement.resetBaseAvailablity(_PIDArray[_RuningPIDs[2]].base);
+                _StdOut.putText("Selected Program has been killed");
+            }
+            else {
+                _StdOut.putText("Selected Program is not active");
+            }
         };
         return Shell;
     })();

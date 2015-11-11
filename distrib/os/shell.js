@@ -80,6 +80,8 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellKill, "kill", "<number>kills selected PID<number>");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellPs, "ps", "lists all of the running programs");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -420,6 +422,12 @@ var TSOS;
         };
         Shell.prototype.shellQuantum = function (quantumNumber) {
             _QuantumNumber = quantumNumber;
+        };
+        Shell.prototype.shellPs = function () {
+            _StdOut.putText("Running Programs:");
+            _StdOut.putText(JSON.stringify(_RuningPIDs[0]));
+            _StdOut.putText(JSON.stringify(_RuningPIDs[1]));
+            _StdOut.putText(JSON.stringify(_RuningPIDs[2]));
         };
         Shell.prototype.shellKill = function (pid) {
             var temp = _RuningPIDs[0];

@@ -119,7 +119,7 @@ var TSOS;
                 }
                 tableOutput += "<tr id=" + rowID + ">";
                 for (var i = 0; i < 8; i++) {
-                    tableOutput += "<td id=dataID" + counter + ">" + _MemoryManagement.getCommamd(counter) + "</td>";
+                    tableOutput += "<td id=dataID" + counter + ">" + "00" + "</td>";
                     // if(i % 8 === 0){
                     counter++;
                 }

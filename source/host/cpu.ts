@@ -332,9 +332,18 @@ module TSOS {
         }
         public systemCall(address){
             var stringBeingConverted = "";
-            var tempProgramCounter = address;
+            if((address+_PIDArray[_RuningPIDs[0]].base )< (_PIDArray[_RuningPIDs[0]].base + 256)) {
+                var tempProgramCounter = address + _PIDArray[_RuningPIDs[0]].base;
+            }else{
+                var tempProgramCounter = address;
+            }
            // _MemoryManagement.getCommamd(address);
-            while(_MemoryManagement.getCommamd(tempProgramCounter) !== "00") {
+          //  _StdOut.putText(_MemoryManagement.systemgetCommand(tempProgramCounter));
+            //var temporary = tempProgramCounter + _PIDArray[_RuningPIDs[0]].base;
+            //_StdOut.putText(JSON.stringify(temporary));
+
+
+            while(_MemoryManagement.systemgetCommand(tempProgramCounter) !== "00") {
                 var temp = _MemoryManagement.getMemory(tempProgramCounter);
                 stringBeingConverted += String.fromCharCode(temp);
                 tempProgramCounter++;

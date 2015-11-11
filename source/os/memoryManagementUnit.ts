@@ -48,16 +48,32 @@ module  TSOS {
 
         public  getCommamd(programCounter){
                 if(_RuningPIDs.length > 0) {
-                var programCounter = _PIDArray[_RuningPIDs[0]].base + programCounter;
-                //_StdOut.putText(JSON.stringify(programCounter));
+                        if(((_PIDArray[_RuningPIDs[0]].base + parseInt(programCounter,16)) < (_PIDArray[_RuningPIDs[0]].base + 255) )){
+                            var temp = programCounter + _PIDArray[_RuningPIDs[0]].base;
 
-                return _Memory.memoryArray[programCounter];
+                            return _Memory.memoryArray[temp];
+                        }else{
+
+                            return _Memory.memoryArray[programCounter];
+                        }//_StdOut.putText(JSON.stringify(programCounter));
+
             }else{
                 return _Memory.memoryArray[programCounter];
 
             }
 
 
+
+        }
+        public systemgetCommand(programCounter){
+            //if(((_PIDArray[_RuningPIDs[0]].base + parseInt(programCounter,16)) < (_PIDArray[_RuningPIDs[0]].base + 255) )){
+               // var temp = programCounter + _PIDArray[_RuningPIDs[0]].base;
+
+                return _Memory.memoryArray[programCounter];
+            //}else{
+              //  _StdOut.putText("hit");
+              //  return _Memory.memoryArray[programCounter];
+            //}//_StdOut.putText(JSON.stringify(programC
 
         }
 

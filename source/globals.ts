@@ -34,6 +34,8 @@ var rootNode : TSOS.CommandNode = null; //The global object for tab complete
 //var _PID : number = 0; //keeps track of PID's
 var _MemoryTable : HTMLTableElement;
 
+var _ReadyTable : HTMLTableElement;
+
 var _Memory : TSOS.Memory;
 
 var _PIDArray : Array<TSOS.PCB> = []; //An array to keep track of the pid for each program

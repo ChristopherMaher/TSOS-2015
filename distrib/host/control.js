@@ -81,6 +81,7 @@ var TSOS;
             _MemoryTable = document.getElementById("memDisplayBox");
             //create table display
             _CPUDisplayTable = document.getElementById("CPUDisplayTable");
+            _ReadyTable = document.getElementById("PCBDisplayTable");
             this.createMemoryTable();
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new TSOS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
@@ -209,16 +210,81 @@ var TSOS;
             document.getElementById("ZDisplay").innerHTML = JSON.stringify(_CPU.Zflag);
         };
         Control.updatePCDDisplay = function () {
-            document.getElementById("PIDPCBDisplay").innerHTML = JSON.stringify(_PCB.pid);
+            var counter = 0;
+            var tableOutput = "";
+            var rowID = "";
+            for (var t = 0; t <= _ReadyTable.rows.length; t++) {
+                _ReadyTable.deleteRow(0);
+            }
+            tableOutput += "<tr>";
+            tableOutput += "<th>PID</th>";
+            tableOutput += "<th>PC</th>";
+            tableOutput += "<th>ACC</th>";
+            tableOutput += "<th>X</th>";
+            tableOutput += "<th>Y</th>";
+            tableOutput += "<th>Z</th>";
+            tableOutput += "<th>Location</th>";
+            tableOutput += "<th>Base</th>";
+            tableOutput += "<th>Limit</th>";
+            tableOutput += "<th>Running</th> </tr>";
+            for (var f = 0; f < _RuningPIDs.length; f++) {
+                rowID = "rowID" + f;
+                tableOutput += "<tr>";
+                tableOutput += "<tr id=" + rowID + ">";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_RuningPIDs[f]) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[f]].pc) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[f]].acc) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[f]].x) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[f]].y) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[f]].z) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[f]].location) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[f]].base) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[f]].limit) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[f]].state) + "</td>";
+                tableOutput += "</tr>";
+                //   for(var i = 0; i<8; i++){
+                counter++;
+            }
+            _ReadyTable.innerHTML = tableOutput;
+            /*
+            document.getElementById("PIDPCBDisplay").innerHTML = JSON.stringify(_RuningPIDs[0]);
             document.getElementById("PCPCBDisplay").innerHTML = JSON.stringify(_CPU.PC);
             document.getElementById("ACCPCBDisplay").innerHTML = JSON.stringify(_CPU.Acc);
             document.getElementById("XPCBDisplay").innerHTML = JSON.stringify(_CPU.Xreg);
             document.getElementById("YPCBDisplay").innerHTML = JSON.stringify(_CPU.Yreg);
             document.getElementById("ZPCBDisplay").innerHTML = JSON.stringify(_CPU.Zflag);
             document.getElementById("Location").innerHTML = _PCB.location;
-            document.getElementById("Base").innerHTML = JSON.stringify(0);
-            document.getElementById("Limit").innerHTML = JSON.stringify(255);
+            document.getElementById("Base").innerHTML = JSON.stringify(_PIDArray[_RuningPIDs[0]].base);
+            document.getElementById("Limit").innerHTML = JSON.stringify(_PIDArray[_RuningPIDs[0]].limit);
             document.getElementById("Running").innerHTML = _PCB.state;
+            */
+        };
+        Control.updateReadyQueueDisplay = function () {
+            var counter = 0;
+            var tableOutput = "";
+            var rowID = "";
+            for (var t = 0; t <= _RuningPIDs.length; t++) {
+                _MemoryTable.deleteRow(0);
+            }
+            for (var f = 0; f < _RuningPIDs.length; f++) {
+                rowID = "rowID" + f;
+                tableOutput += "<tr>";
+                tableOutput += "<tr id=" + rowID + ">";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_RuningPIDs[0]) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].pc) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].acc) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].x) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].y) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].z) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].location) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].base) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].limit) + "</td>";
+                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].state) + "</td>";
+                tableOutput += "</tr>";
+                //   for(var i = 0; i<8; i++){
+                counter++;
+            }
+            _ReadyTable.innerHTML = tableOutput;
         };
         return Control;
     })();

@@ -95,6 +95,11 @@ module TSOS {
             }else if(currentCommand === "00"){ //BRK command
                 //_StdOut.putText(JSON.stringify(_PIDArray[_RuningPIDs[0]].limit));
                 //_StdOut.putText(JSON.stringify(_PIDArray[_RuningPIDs[0]].base));
+                //var temp = this.PC + _PIDArray[_RuningPIDs[0]].base;
+                //_StdOut.putText(JSON.stringify(temp));
+              //  _StdOut.putText("HELLO");
+
+
 
                 _MemoryManagement.resetMemory(_PIDArray[_RuningPIDs[0]].base,_PIDArray[_RuningPIDs[0]].limit);
                 _MemoryManagement.resetBaseAvailablity(_PIDArray[_RuningPIDs[0]].base);

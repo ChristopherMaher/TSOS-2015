@@ -74,7 +74,7 @@ var TSOS;
             // .. set focus on the OS console display ...
             document.getElementById("display").focus();
             //create Memory
-            _Scheduler = new TSOS.Scheduler(6, 0);
+            _Scheduler = new TSOS.Scheduler(_QuantumNumber, 0);
             _Memory = new TSOS.Memory();
             _Memory.init();
             _MemoryManagement = new TSOS.MemoryManagementUnit();

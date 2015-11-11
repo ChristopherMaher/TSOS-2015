@@ -31,7 +31,8 @@ module  TSOS {
 
         public  getMemory(programCounter){
             //_StdOut.putText("DASFASFD");
-            if(((_PIDArray[_RuningPIDs[0]].base + parseInt(programCounter,16)) < (_PIDArray[_RuningPIDs[0]].base + 255) )){
+            var possibleCounter = _PIDArray[_RuningPIDs[0]].base + programCounter;
+            if(possibleCounter < (_PIDArray[_RuningPIDs[0]].base + 255) ){
                 //var temp=parseInt(_Memory.memoryArray[programCounter], 16);
                 //var temp2 = _PIDArray[_RuningPIDs[0]].base + temp;
                 var temp = programCounter + _PIDArray[_RuningPIDs[0]].base;
@@ -48,7 +49,10 @@ module  TSOS {
 
         public  getCommamd(programCounter){
                 if(_RuningPIDs.length > 0) {
-                        if(((_PIDArray[_RuningPIDs[0]].base + parseInt(programCounter,16)) < (_PIDArray[_RuningPIDs[0]].base + 255) )){
+                    var possibleCounter = _PIDArray[_RuningPIDs[0]].base + programCounter;
+                    if(possibleCounter < (_PIDArray[_RuningPIDs[0]].base + 255) ){
+                    // if(((_PIDArray[_RuningPIDs[0]].base + parseInt(programCounter,16)) < (_PIDArray[_RuningPIDs[0]].base + 255) )){
+
                             var temp = programCounter + _PIDArray[_RuningPIDs[0]].base;
 
                             return _Memory.memoryArray[temp];

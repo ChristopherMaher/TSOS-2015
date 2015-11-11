@@ -92,7 +92,7 @@ module TSOS {
 
 
             //create Memory
-            _Scheduler = new Scheduler(6,0);
+            _Scheduler = new Scheduler(_QuantumNumber,0);
             _Memory = new Memory();
             _Memory.init();
             _MemoryManagement = new MemoryManagementUnit();

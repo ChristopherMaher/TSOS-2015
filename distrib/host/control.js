@@ -259,33 +259,6 @@ var TSOS;
             document.getElementById("Running").innerHTML = _PCB.state;
             */
         };
-        Control.updateReadyQueueDisplay = function () {
-            var counter = 0;
-            var tableOutput = "";
-            var rowID = "";
-            for (var t = 0; t <= _RuningPIDs.length; t++) {
-                _MemoryTable.deleteRow(0);
-            }
-            for (var f = 0; f < _RuningPIDs.length; f++) {
-                rowID = "rowID" + f;
-                tableOutput += "<tr>";
-                tableOutput += "<tr id=" + rowID + ">";
-                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_RuningPIDs[0]) + "</td>";
-                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].pc) + "</td>";
-                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].acc) + "</td>";
-                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].x) + "</td>";
-                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].y) + "</td>";
-                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].z) + "</td>";
-                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].location) + "</td>";
-                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].base) + "</td>";
-                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].limit) + "</td>";
-                tableOutput += "<td id=dataID" + counter + ">" + JSON.stringify(_PIDArray[_RuningPIDs[0]].state) + "</td>";
-                tableOutput += "</tr>";
-                //   for(var i = 0; i<8; i++){
-                counter++;
-            }
-            _ReadyTable.innerHTML = tableOutput;
-        };
         return Control;
     })();
     TSOS.Control = Control;

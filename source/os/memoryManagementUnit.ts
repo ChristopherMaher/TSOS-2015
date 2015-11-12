@@ -7,13 +7,13 @@ module  TSOS {
     export class MemoryManagementUnit {
 
         public loadInCommand(userCommand,base){
-            userCommand = userCommand.replace(/\r?\n|\r/g,"");
-            var userProgramArray=userCommand.split(" ");
+        //    userCommand = userCommand.replace(/\r?\n|\r/g,"");
+            var userProgramArray = userCommand;
 
 
             var counter = 0;
 
-            if(userProgramArray.length < 255) {
+
 
                 while (counter < userProgramArray.length) {
                     _Memory.memoryArray[base + counter] = userProgramArray[counter];
@@ -22,9 +22,7 @@ module  TSOS {
                     counter++
 
                 }
-            }else{
-                _StdOut.putText("Memory overflow");
-            }
+
             Control.loadTable();
 
         }
@@ -158,8 +156,6 @@ module  TSOS {
                 _AvailableBaseTracker[2] = true;
             }
         }
-
-
 
     }
 

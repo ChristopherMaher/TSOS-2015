@@ -252,6 +252,75 @@ module TSOS {
             }
             return retVal;
         }
+        public checkOPCode(usercommand){
+            var counter = 0;
+            var check = true;
+            while(check == true){
+                if(usercommand[counter]==="A9"){
+                    counter++;
+                    counter++;
+                }else if(usercommand[counter]=== "8D"){
+                    counter++;
+                    counter++;
+                    counter++;
+                }else if(usercommand[counter]=== "00"){
+                    check = false;
+                    return true;
+
+                }else if(usercommand[counter]=== "AD"){
+                    counter++;
+                    counter++;
+                    counter++;
+
+                }else if(usercommand[counter]=== "AC"){
+                    counter++;
+                    counter++;
+                    counter++;
+                }else if(usercommand[counter]=== "AE"){
+                    counter++;
+                    counter++;
+                    counter++;
+
+                }else if(usercommand[counter]=== "6D"){
+                    counter++;
+                    counter++;
+                    counter++;
+
+                }else if(usercommand[counter]=== "A2"){
+                    counter++;
+                    counter++;
+
+                }else if(usercommand[counter]=== "A0"){
+                    counter++;
+                    counter++;
+
+                }else if(usercommand[counter]=== "EC"){
+                    counter++;
+                    counter++;
+                    counter++;
+
+                }else if(usercommand[counter]=== "EE"){
+                    counter++;
+                    counter++;
+                    counter++;
+
+                }else if(usercommand[counter]=== "FF"){
+                    counter++;
+
+                }
+                else if(usercommand[counter]=== "D0"){
+                    counter++;
+                    counter++;
+
+                }else{
+                    check = false;
+                    return false;
+                }
+
+
+            }
+
+        }
 
         //
         // Shell Command Functions.  Kinda not part of Shell() class exactly, but
@@ -454,28 +523,48 @@ module TSOS {
         public  shellLoad(){
             var userInput = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
             var regexp = new RegExp('^[0-9A-Fa-f\\s]+$'); //matches only for hex digits
-            if(regexp.test(userInput)==true){
 
-                var base = _MemoryManagement.findAvailableBase();
+            if(regexp.test(userInput)==true) {
+                userInput = userInput.replace(/\r?\n|\r/g, "");
+                var userProgramArray = userInput.split(" ");
+                var checker =  _OsShell.checkOPCode(userProgramArray);
 
-                if(base === 2){  //temporary fix
-                    _StdOut.putText("no more space");
+                if (checker == true) {
 
-                }else {
+                    if (userProgramArray.length < 256) { //checks the length to prevent memory overflow
 
-                    _MemoryManagement.loadInCommand(userInput, base);
+                        var base = _MemoryManagement.findAvailableBase();
 
-                    var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory");
+                        if (base === 2) {  //temporary fix
+                            _StdOut.putText("no more space");
 
-                    _PIDArray.push(pcb);
+                        } else {
 
-                    _PCB = pcb;
 
-                    _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
+                            _MemoryManagement.loadInCommand(userProgramArray, base);
+
+
+                            var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory");
+
+                            _PIDArray.push(pcb);
+
+                            _PCB = pcb;
+
+                            _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
+                        }
+                    } else {
+                        _StdOut.putText("Memory Overflow");
+                    }
+
+                } else {
+                   // _StdOut.putText("Error:User code can only use Hex digits.");
+                    _StdOut.putText("Invalid OP Codes");
+
                 }
-
             }else{
                 _StdOut.putText("Error:User code can only use Hex digits.");
+               // _StdOut.putText("Invalid OP Codes");
+
             }
 
         }
@@ -496,16 +585,11 @@ module TSOS {
             }else{
                 _PIDArray[args].state = "Running";
 
-                //_PCB.state = "running";
-               // _StdOut.putText(args.toString());
-              //  var temp = <number>args;
+
                 _RuningPIDs.push(args);
                 _CPU.isExecuting = true;
 
 
-                //_CPU.cycle();
-               // (<HTMLInputElement>document.getElementById("taMemory")).value=JSON.stringify(_Memory.memoryArray[0][0]);
-                //add a _PIDArray[args].memoryArray
             }
 
         }
@@ -581,6 +665,8 @@ module TSOS {
             }
 
         }
+
+
 
 
     }

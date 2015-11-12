@@ -169,6 +169,74 @@ var TSOS;
             }
             return retVal;
         };
+        Shell.prototype.checkOPCode = function (usercommand) {
+            var counter = 0;
+            var check = true;
+            while (check == true) {
+                if (usercommand[counter] === "A9") {
+                    counter++;
+                    counter++;
+                }
+                else if (usercommand[counter] === "8D") {
+                    counter++;
+                    counter++;
+                    counter++;
+                }
+                else if (usercommand[counter] === "00") {
+                    check = false;
+                    return true;
+                }
+                else if (usercommand[counter] === "AD") {
+                    counter++;
+                    counter++;
+                    counter++;
+                }
+                else if (usercommand[counter] === "AC") {
+                    counter++;
+                    counter++;
+                    counter++;
+                }
+                else if (usercommand[counter] === "AE") {
+                    counter++;
+                    counter++;
+                    counter++;
+                }
+                else if (usercommand[counter] === "6D") {
+                    counter++;
+                    counter++;
+                    counter++;
+                }
+                else if (usercommand[counter] === "A2") {
+                    counter++;
+                    counter++;
+                }
+                else if (usercommand[counter] === "A0") {
+                    counter++;
+                    counter++;
+                }
+                else if (usercommand[counter] === "EC") {
+                    counter++;
+                    counter++;
+                    counter++;
+                }
+                else if (usercommand[counter] === "EE") {
+                    counter++;
+                    counter++;
+                    counter++;
+                }
+                else if (usercommand[counter] === "FF") {
+                    counter++;
+                }
+                else if (usercommand[counter] === "D0") {
+                    counter++;
+                    counter++;
+                }
+                else {
+                    check = false;
+                    return false;
+                }
+            }
+        };
         //
         // Shell Command Functions.  Kinda not part of Shell() class exactly, but
         // called from here, so kept here to avoid violating the law of least astonishment.
@@ -348,16 +416,30 @@ var TSOS;
             var userInput = document.getElementById("taProgramInput").value;
             var regexp = new RegExp('^[0-9A-Fa-f\\s]+$'); //matches only for hex digits
             if (regexp.test(userInput) == true) {
-                var base = _MemoryManagement.findAvailableBase();
-                if (base === 2) {
-                    _StdOut.putText("no more space");
+                userInput = userInput.replace(/\r?\n|\r/g, "");
+                var userProgramArray = userInput.split(" ");
+                var checker = _OsShell.checkOPCode(userProgramArray);
+                if (checker == true) {
+                    if (userProgramArray.length < 256) {
+                        var base = _MemoryManagement.findAvailableBase();
+                        if (base === 2) {
+                            _StdOut.putText("no more space");
+                        }
+                        else {
+                            _MemoryManagement.loadInCommand(userProgramArray, base);
+                            var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory");
+                            _PIDArray.push(pcb);
+                            _PCB = pcb;
+                            _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
+                        }
+                    }
+                    else {
+                        _StdOut.putText("Memory Overflow");
+                    }
                 }
                 else {
-                    _MemoryManagement.loadInCommand(userInput, base);
-                    var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory");
-                    _PIDArray.push(pcb);
-                    _PCB = pcb;
-                    _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
+                    // _StdOut.putText("Error:User code can only use Hex digits.");
+                    _StdOut.putText("Invalid OP Codes");
                 }
             }
             else {
@@ -382,9 +464,6 @@ var TSOS;
             }
             else {
                 _PIDArray[args].state = "Running";
-                //_PCB.state = "running";
-                // _StdOut.putText(args.toString());
-                //  var temp = <number>args;
                 _RuningPIDs.push(args);
                 _CPU.isExecuting = true;
             }

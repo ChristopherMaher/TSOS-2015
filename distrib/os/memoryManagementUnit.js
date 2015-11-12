@@ -8,18 +8,13 @@ var TSOS;
         function MemoryManagementUnit() {
         }
         MemoryManagementUnit.prototype.loadInCommand = function (userCommand, base) {
-            userCommand = userCommand.replace(/\r?\n|\r/g, "");
-            var userProgramArray = userCommand.split(" ");
+            //    userCommand = userCommand.replace(/\r?\n|\r/g,"");
+            var userProgramArray = userCommand;
             var counter = 0;
-            if (userProgramArray.length < 255) {
-                while (counter < userProgramArray.length) {
-                    _Memory.memoryArray[base + counter] = userProgramArray[counter];
-                    //_StdOut.putText(_Memory.memoryArray[counter]);
-                    counter++;
-                }
-            }
-            else {
-                _StdOut.putText("Memory overflow");
+            while (counter < userProgramArray.length) {
+                _Memory.memoryArray[base + counter] = userProgramArray[counter];
+                //_StdOut.putText(_Memory.memoryArray[counter]);
+                counter++;
             }
             TSOS.Control.loadTable();
         };

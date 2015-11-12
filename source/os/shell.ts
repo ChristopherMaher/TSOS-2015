@@ -584,9 +584,12 @@ module TSOS {
                 _StdOut("PID number is not valid");
             }else{
                 _PIDArray[args].state = "Running";
+                args=_PIDArray[args].pid -1;
+
 
 
                 _RuningPIDs.push(args);
+                //_StdOut.putText(JSON.stringify(args));
                 _CPU.isExecuting = true;
 
 

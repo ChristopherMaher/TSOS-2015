@@ -52,15 +52,28 @@ h3 {
   width: auto !important;
 }
 
-table{
-  height:300px;
-}
+
 tbody{
-  overflow-y: scroll;
   height: 200px;
-width: 100%;
-  position: absolute;
+
+  overflow-y: scroll;
+}
+
+#memoryWrapper{
+  max-height: 200px;
+  width: 300px;
+  overflow-y:scroll;
+}
+
+#memDisplay{
+  max-height:200px;
+  overflow-y:scroll;
+
 }
 
 
+#memDisplayBox{
+  max-height:200px;
+  overflow-y:scroll;
 
+}

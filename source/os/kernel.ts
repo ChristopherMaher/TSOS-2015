@@ -163,6 +163,7 @@ module TSOS {
                     break;
                 case PROGRAMSWITCH:
                     _Scheduler.performSwitch(params);
+                    Control.updatePCDDisplay();
                     break;
 
                 default:

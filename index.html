@@ -63,9 +63,9 @@
 </head>
 
 <body onload="onDocumentLoad()">
+<div class ="row">
 <div class="container">
 <!--<div id="divMain" style="width:100%;"> -->
-
    <div id="divButtonBar" style="margin:4px;">
       <input type="button"
              id = "btnStartOS"
@@ -94,7 +94,7 @@
              onclick="TSOS.Control.hostBtnReset_click(this);">
    </div>
 
-   <div id="divConsole" style="margin:4px; width:500px; height:500px; float:left;">
+   <div id="divConsole" style="margin:4px; width:500px; height:500px;float:left;">
       <canvas id="display"
               width="500px"
               height="500px"
@@ -102,121 +102,125 @@
       </canvas>
    </div>
 
-   <div id="divLog" style="margin-left:520px;">
+   <div id="divLog"style=" float:left;margin-left:6px;">
       <label>
          Host Log
          <br>
          <textarea name="taHostLog"
                    id  ="taHostLog"
-                   rows="26"
-                   cols="48"
-         ></textarea>
-      </label>
-   </div>
-
-   <div id="divUserProgramInput" style="margin-left:520px;">
-      <label>
-         User Program Input
-         <br>
-         <textarea name="taProgramInput"
-                   id  ="taProgramInput"
                    rows="8"
-                   cols="48"
+                   cols="30"
          ></textarea>
       </label>
    </div>
-    <div id="divMemory" style="margin-left:20px;  float:left; top: 0px;">
+    <div id="divMemory">
         <div id="memoryWrapper">
             <div id="memory"  >
+
                 <label>
                     Memory
                     <br>
 
-                    <table id =  "memDisplayBox"  class="table table-bordered">
-                    <tbody id ="memDisplay" >
+                    <table id =  "memDisplayBox"  class="table table-striped" style="max-height:300px;">
+                        <tbody id ="memDisplay">
 
 
-                    </tbody>
+                        </tbody>
 
-                </table>
-                    </label>
+                    </table>
+                </label>
             </div>
         </div>
     </div>
-    <div id="divCPU" style="margin-left:50%; top: 0px;">
-        <div id="CPUwrapper">
+    <div id="divUserProgramInput" style="float: left;margin-left:6px;">
+        <label>
+            User Program Input
+            <br>
+         <textarea name="taProgramInput"
+                   id  ="taProgramInput"
+                   rows="6"
+                   cols="30"
+                 ></textarea>
+        </label>
+    </div>
+    <div id="divCPU">
+        <div class ="col-md-3" id="CPUwrapper">
             <div id="cpu"  >
                 <label>
                     CPU
                     <br>
-                <table id =  "CPUDisplayTable" class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        <th>PC</th>
-                        <th>ACC</th>
-                        <th>X</th>
-                        <th>Y</th>
-                        <th>Z</th>
-                    </tr>
-                    <tr>
-                        <td id="PCDisplay">0</td>
-                        <td id="ACCDisplay">0</td>
-                        <td id="XDisplay">0</td>
-                        <td id="YDisplay">0</td>
-                        <td id="ZDisplay">0</td>
-                    </tr>
-                    </tbody>
-                </table>
+                    <table id =  "CPUDisplayTable" class="table table-striped">
+                        <tbody style="height:80px">
+                        <tr>
+                            <th>PC</th>
+                            <th>ACC</th>
+                            <th>X</th>
+                            <th>Y</th>
+                            <th>Z</th>
+                        </tr>
+                        <tr>
+                            <td id="PCDisplay">0</td>
+                            <td id="ACCDisplay">0</td>
+                            <td id="XDisplay">0</td>
+                            <td id="YDisplay">0</td>
+                            <td id="ZDisplay">0</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </label>
+
+            </div>
+        </div>
+    </div>
+    <div id="divPCB"  >
+        <div class="col-md-6" id="PCBWrapper">
+            <div id="PCB" >
+                <label>
+                    PCB
+                    <br>
+                    <table id =  "PCBDisplayTable"  class="table table-striped">
+                        <tbody style="height:100%;" >
+                        <tr>
+                            <th>PID</th>
+                            <th>PC</th>
+                            <th>ACC</th>
+                            <th>X</th>
+                            <th>Y</th>
+                            <th>Z</th>
+                            <th>Location</th>
+                            <th>Base</th>
+                            <th>Limit</th>
+                            <th>Running</th>
+
+
+                        </tr>
+                        <!--     <tr>
+                                 <td class ="col-md-1" id="PIDPCBDisplay">0</td>
+                                 <td class ="col-md-1" id="PCPCBDisplay">0</td>
+                                 <td class ="col-md-1" id="ACCPCBDisplay">0</td>
+                                 <td class ="col-md-1" id="XPCBDisplay">0</td>
+                                 <td class ="col-md-1" id="YPCBDisplay">0</td>
+                                 <td class ="col-md-1" id="ZPCBDisplay">0</td>
+                                 <td class ="col-md-1" id="Location">0</td>
+                                 <td class ="col-md-1" id="Base">0</td>
+                                 <td class ="col-md-1" id="Limit">0</td>
+                                 <td class ="col-md-1" id="Running">0</td>
+
+
+                             </tr>
+                             -->
+                        </tbody>
+                    </table>
                 </label>
 
             </div>
         </div>
     </div>
 
-    <div id="divPCB"  >
-        <div class="col-md-4" id="PCBWrapper">
-            <div id="PCB" >
-                <label>
-                    PCB
-                    <br>
-                <table id =  "PCBDisplayTable"  class="table table-striped">
-                    <tbody>
-                    <tr>
-                        <th>PID</th>
-                        <th>PC</th>
-                        <th>ACC</th>
-                        <th>X</th>
-                        <th>Y</th>
-                        <th>Z</th>
-                        <th>Location</th>
-                        <th>Base</th>
-                        <th>Limit</th>
-                        <th>Running</th>
 
 
-                    </tr>
-               <!--     <tr>
-                        <td class ="col-md-1" id="PIDPCBDisplay">0</td>
-                        <td class ="col-md-1" id="PCPCBDisplay">0</td>
-                        <td class ="col-md-1" id="ACCPCBDisplay">0</td>
-                        <td class ="col-md-1" id="XPCBDisplay">0</td>
-                        <td class ="col-md-1" id="YPCBDisplay">0</td>
-                        <td class ="col-md-1" id="ZPCBDisplay">0</td>
-                        <td class ="col-md-1" id="Location">0</td>
-                        <td class ="col-md-1" id="Base">0</td>
-                        <td class ="col-md-1" id="Limit">0</td>
-                        <td class ="col-md-1" id="Running">0</td>
 
 
-                    </tr>
-                    -->
-                    </tbody>
-                </table>
-                    </label>
-
-            </div>
-        </div>
-    </div>
 
 
 
@@ -253,7 +257,7 @@
         </table>
 
     </div>
--->
+--></div>
 </div>
 
 <p class="footerText" style="clear:both;">

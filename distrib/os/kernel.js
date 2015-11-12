@@ -140,6 +140,7 @@ var TSOS;
                     break;
                 case PROGRAMSWITCH:
                     _Scheduler.performSwitch(params);
+                    TSOS.Control.updatePCDDisplay();
                     break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");

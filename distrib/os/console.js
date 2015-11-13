@@ -105,6 +105,7 @@ var TSOS;
                 // Draw the text at the current X and Y coordinates.
                 _DrawingContext.drawText(this.currentFont, this.currentFontSize, this.currentXPosition, this.currentYPosition, text);
                 // Move the current X position.
+                this.wraparound();
                 var offset = _DrawingContext.measureText(this.currentFont, this.currentFontSize, text);
                 this.currentXPosition = this.currentXPosition + offset;
             }
@@ -143,6 +144,11 @@ var TSOS;
                     _DrawingContext.fontDescent(this.currentFont, this.currentFontSize) +
                     _FontHeightMargin); //find the approximate size of the text to set y position
                 _DrawingContext.fillRect(this.currentXPosition, yPosition + 5, _Canvas.width, _Canvas.height);
+            }
+        };
+        Console.prototype.wraparound = function () {
+            if (this.currentXPosition + 2 > _Canvas.width) {
+                this.advanceLine();
             }
         };
         return Console;

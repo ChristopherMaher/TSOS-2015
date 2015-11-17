@@ -583,12 +583,13 @@ module TSOS {
             }else if(_PIDArray[args] == null){
                 _StdOut("PID number is not valid");
             }else{
-                _PIDArray[args].state = "Running";
+                _PIDArray[args].state = "Ready";
                 args=_PIDArray[args].pid -1;
 
 
 
                 _RuningPIDs.push(args);
+                _PIDArray[_RuningPIDs[0]].state = "Running";
                 //_StdOut.putText(JSON.stringify(args));
                 _CPU.isExecuting = true;
 
@@ -598,16 +599,22 @@ module TSOS {
         }
         public shellRunAll(){
             var counter = 0;
-            while(_PIDArray.length > counter){
-             //   _StdOut.putText("RUNNING");
-                if(_PIDArray[counter].state !== "Executed") {
-                    _PIDArray[counter].state = "Running";
-                    _RuningPIDs.push(counter);
-                    _CPU.isExecuting = true;
+            while(_PIDArray.length > counter) {
+                //   _StdOut.putText("RUNNING");
+                if (_PIDArray[counter].state !== "Executed") {
+                    if (_PIDArray[counter].state !== "Ready") {
+                        if (_PIDArray[counter].state !== "Running") {
+                            _PIDArray[counter].state = "Ready";
+                            _RuningPIDs.push(counter);
+                            _CPU.isExecuting = true;
+
+                        }
+                    }
+
                 }
                 counter++;
-
             }
+            _PIDArray[_RuningPIDs[0]].state = "Running";
         }
         public shellClearMem(){
             var counter = 0;
@@ -617,6 +624,11 @@ module TSOS {
                     _PIDArray[counter].state = "Executed";
                 }
                 if(_PIDArray[counter].state === "Running"){
+                    _CPU.isExecuting = false;
+                    _RuningPIDs.shift();
+
+                }
+                if(_PIDArray[counter].state === "Ready"){
                     _CPU.isExecuting = false;
                     _RuningPIDs.shift();
 

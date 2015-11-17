@@ -19,7 +19,7 @@ module  TSOS {
            if(this.cpuCycle === this.quantumNumber){
                this.cpuCycle = 0;
                _CPU.currentPCB(_RuningPIDs[0]);
-               if(_PIDArray[_RuningPIDs[0]].state === "Running") {
+               if(_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
                    _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Running"));
                  //  _StdOut.putText("SADFASDFADSF");
                }else{
@@ -31,14 +31,19 @@ module  TSOS {
         public performSwitch(args){
 
             if(args === "Running") {
+                _PIDArray[_RuningPIDs[0]].state = "Ready";
                 var program = _RuningPIDs.shift();
                 _RuningPIDs.push(program);
-                _CPU.setPCB(_RuningPIDs[0]);
+                _PIDArray[_RuningPIDs[0]].state = "Running";
+
+                    _CPU.setPCB(_RuningPIDs[0]);
 
             }else{
                 _RuningPIDs.shift();
-                if(_RuningPIDs.length > 0)
-                _CPU.setPCB(_RuningPIDs[0]);
+                if(_RuningPIDs.length > 0) {
+                   // _PIDArray[_RuningPIDs[0]].state = "Running";
+                    _CPU.setPCB(_RuningPIDs[0]);
+                }
 
             }
 

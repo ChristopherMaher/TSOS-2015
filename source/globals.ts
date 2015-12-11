@@ -42,6 +42,10 @@ var _PIDArray : Array<TSOS.PCB> = []; //An array to keep track of the pid for ea
 
 var _RuningPIDs : Array<number> = [];
 
+var _FileSystem : TSOS.DeviceDriverFileSystem;
+
+var _FileSystemTable : HTMLTableElement;
+
 var _Scheduler : TSOS.Scheduler;
 
 var _AvailableBaseTracker : Array<Boolean> = [];

@@ -21,7 +21,6 @@ module  TSOS {
                _CPU.currentPCB(_RuningPIDs[0]);
                if(_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
                    _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Running"));
-                 //  _StdOut.putText("SADFASDFADSF");
                }else{
                    _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Executed"));
                }
@@ -41,7 +40,6 @@ module  TSOS {
             }else{
                 _RuningPIDs.shift();
                 if(_RuningPIDs.length > 0) {
-                   // _PIDArray[_RuningPIDs[0]].state = "Running";
                     _CPU.setPCB(_RuningPIDs[0]);
                 }
 

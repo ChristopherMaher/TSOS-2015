@@ -5,6 +5,8 @@
 ///<reference path="processControlBlock.ts" />
 
 ///<reference path="console.ts" />
+///<reference path="deviceDriverFileSystem.ts" />
+
 
 
 /* ------------
@@ -536,7 +538,18 @@ module TSOS {
                         var base = _MemoryManagement.findAvailableBase();
 
                         if (base === 2) {  //temporary fix
-                            _StdOut.putText("no more space");
+                            var tsb = _FileSystem.findNextAvailableDataTSB();
+                            var commands = userInput.replace(/ /g,"");
+                            _FileSystem.setTSB(tsb,commands);
+                            //alert(commands);
+                            var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 0, 0, "Storage",tsb);
+
+                            _PIDArray.push(pcb);
+
+                            _PCB = pcb;
+
+                            _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
+
 
                         } else {
 
@@ -544,7 +557,7 @@ module TSOS {
                             _MemoryManagement.loadInCommand(userProgramArray, base);
 
 
-                            var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory");
+                            var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory","mem");
 
                             _PIDArray.push(pcb);
 

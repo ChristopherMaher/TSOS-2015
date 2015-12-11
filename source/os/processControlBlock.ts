@@ -15,7 +15,8 @@ module  TSOS {
                    public z:number,
                    public base:number,
                    public limit:number,
-                   public location:string){
+                   public location:string,
+                    public swapTSB:string){
            pid=this.pid;
            pc=this.pc;
            state = this.state;
@@ -26,6 +27,7 @@ module  TSOS {
            base = this.base;
            limit = this.limit;
            location = this.location;
+           swapTSB = this.swapTSB;
 
 
        }

@@ -31,6 +31,8 @@ var _ReadyTable;
 var _Memory;
 var _PIDArray = []; //An array to keep track of the pid for each program
 var _RuningPIDs = [];
+var _FileSystem;
+var _FileSystemTable;
 var _Scheduler;
 var _AvailableBaseTracker = [];
 var _MemoryManagement; //Memory management

@@ -304,8 +304,7 @@ module TSOS {
 
                 this.PC++;
                 if(this.Zflag === 0){
-                    //var address = this.PC+_PIDArray[_RuningPIDs[0]].base;
-                 //   var memory = _MemoryManagement.getMemory(address);
+
                     var address = _PIDArray[_RuningPIDs[0]].base +this.PC;
                     var branchCheck =this.PC + _MemoryManagement.getMemory(address);
 
@@ -342,20 +341,14 @@ module TSOS {
             }else{
                 var tempProgramCounter = address;
             }
-           // _MemoryManagement.getCommamd(address);
-          //  _StdOut.putText(_MemoryManagement.systemgetCommand(tempProgramCounter));
-            //var temporary = tempProgramCounter + _PIDArray[_RuningPIDs[0]].base;
-            //_StdOut.putText(JSON.stringify(temporary));
 
 
             while(_MemoryManagement.systemgetCommand(tempProgramCounter) !== "00") {
                 var temp = _MemoryManagement.getMemory(tempProgramCounter);
                 stringBeingConverted += String.fromCharCode(temp);
                 tempProgramCounter++;
-                //_StdOut.putText(String.fromCharCode(temp));
 
             }
-            //_StdOut.putText(stringBeingConverted);
             return stringBeingConverted;
 
         }

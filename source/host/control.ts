@@ -96,15 +96,21 @@ module TSOS {
             _Memory = new Memory();
             _Memory.init();
             _MemoryManagement = new MemoryManagementUnit();
+            _FileSystem = new DeviceDriverFileSystem();
+            _FileSystem.initTSB();
 
 
             _MemoryTable =<HTMLTableElement> document.getElementById("memDisplayBox");
+            _FileSystemTable =<HTMLTableElement> document.getElementById("fileSystemDisplayBox");
+
             //create table display
             _CPUDisplayTable =<HTMLTableElement> document.getElementById("CPUDisplayTable");
             _ReadyTable =<HTMLTableElement> document.getElementById("PCBDisplayTable");
 
 
             this.createMemoryTable();
+            this.createFileSystemTable();
+
 
 
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
@@ -161,6 +167,31 @@ module TSOS {
             }
 
         }
+
+        public static createFileSystemTable() {
+            var tableOutput = "<tr>";
+            var counter =0;
+            var rowID = "";
+            for (var x = 0; x <= 3; x++) {
+                for (var i = 0; i <= 7; i++) {
+                    for (var z = 0; z <= 7; z++) {
+                        var t = x.toString();
+                        var s = i.toString();
+                        var b = z.toString();
+                        var tsb = t + s + b;
+                        rowID = "rowID"+tsb;
+                        tableOutput += "<td>"+"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" + "</td>";
+                        tableOutput += "</tr>";
+
+                    }
+                }
+            }
+
+                _FileSystemTable.innerHTML = tableOutput;
+
+        }
+
+
             /*
 
             var counter = 0;
@@ -219,6 +250,34 @@ module TSOS {
 
         }
         */
+        public static loadFileSystemTable() {
+            var tableOutput = "<tr>";
+            var rowID = "";
+            for (var x = 0; x <= 255; x++) {
+                _FileSystemTable.deleteRow(0);
+            }
+
+            for (var x = 0; x <= 3; x++) {
+                for (var i = 0; i <= 7; i++) {
+                    for (var z = 0; z <= 7; z++) {
+                        var t = x.toString();
+                        var s = i.toString();
+                        var b = z.toString();
+                        var tsb = t + s + b;
+                        rowID = "rowID"+tsb;
+                        tableOutput += "<td>"+ localStorage.getItem(tsb)+ "</td>";
+                        tableOutput += "</tr>";
+
+                    }
+                }
+            }
+
+            _FileSystemTable.innerHTML = tableOutput;
+
+        }
+
+
+
         public static loadTable() {
             var tableOutput = "<tr>";
             var counter =0;

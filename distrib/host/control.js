@@ -78,11 +78,15 @@ var TSOS;
             _Memory = new TSOS.Memory();
             _Memory.init();
             _MemoryManagement = new TSOS.MemoryManagementUnit();
+            _FileSystem = new TSOS.DeviceDriverFileSystem();
+            _FileSystem.initTSB();
             _MemoryTable = document.getElementById("memDisplayBox");
+            _FileSystemTable = document.getElementById("fileSystemDisplayBox");
             //create table display
             _CPUDisplayTable = document.getElementById("CPUDisplayTable");
             _ReadyTable = document.getElementById("PCBDisplayTable");
             this.createMemoryTable();
+            this.createFileSystemTable();
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new TSOS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.
@@ -127,6 +131,25 @@ var TSOS;
                 tableOutput += "</tr>";
                 _MemoryTable.innerHTML = tableOutput;
             }
+        };
+        Control.createFileSystemTable = function () {
+            var tableOutput = "<tr>";
+            var counter = 0;
+            var rowID = "";
+            for (var x = 0; x <= 3; x++) {
+                for (var i = 0; i <= 7; i++) {
+                    for (var z = 0; z <= 7; z++) {
+                        var t = x.toString();
+                        var s = i.toString();
+                        var b = z.toString();
+                        var tsb = t + s + b;
+                        rowID = "rowID" + tsb;
+                        tableOutput += "<td>" + "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" + "</td>";
+                        tableOutput += "</tr>";
+                    }
+                }
+            }
+            _FileSystemTable.innerHTML = tableOutput;
         };
         /*
 
@@ -181,6 +204,27 @@ var TSOS;
 
         }
         */
+        Control.loadFileSystemTable = function () {
+            var tableOutput = "<tr>";
+            var rowID = "";
+            for (var x = 0; x <= 255; x++) {
+                _FileSystemTable.deleteRow(0);
+            }
+            for (var x = 0; x <= 3; x++) {
+                for (var i = 0; i <= 7; i++) {
+                    for (var z = 0; z <= 7; z++) {
+                        var t = x.toString();
+                        var s = i.toString();
+                        var b = z.toString();
+                        var tsb = t + s + b;
+                        rowID = "rowID" + tsb;
+                        tableOutput += "<td>" + localStorage.getItem(tsb) + "</td>";
+                        tableOutput += "</tr>";
+                    }
+                }
+            }
+            _FileSystemTable.innerHTML = tableOutput;
+        };
         Control.loadTable = function () {
             var tableOutput = "<tr>";
             var counter = 0;

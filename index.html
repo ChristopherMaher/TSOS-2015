@@ -43,7 +43,8 @@
    <script type="text/javascript" src="distrib/os/console.js"></script>
    <script type="text/javascript" src="distrib/os/deviceDriver.js"></script>
    <script type="text/javascript" src="distrib/os/deviceDriverKeyboard.js"></script>
-   <script type="text/javascript" src="distrib/os/queue.js"></script>
+    <script type="text/javascript" src="distrib/os/queue.js"></script>
+    <script type="text/javascript" src="distrib/os/deviceDriverFileSystem.js"></script>
     <script type="text/javascript" src="distrib/os/shell.js"></script>
    <script type="text/javascript" src="distrib/os/shellCommand.js"></script>
    <script type="text/javascript" src="distrib/os/userCommand.js"></script>
@@ -54,7 +55,7 @@
     <!-- Other Routines -->
    <script type="text/javascript" src="distrib/utils.js"></script>
    <!-- Uncomment this line below to enable GLaDOS testing -->
-  <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
+ <!-- <script type="text/javascript" src="http://www.labouseur.com/courses/os/projects/glados.js"></script>
     <!-- Bootstrap scripts -->
     <!--<script src="jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
@@ -214,6 +215,23 @@
                 </label>
 
             </div>
+        </div>
+    </div>
+    <div id="divFileSystem">
+        <div id="systemWrapper">
+
+                <label>
+                    File System
+                    <br>
+
+                    <table id =  "fileSystemDisplayBox"  class="table table-striped" style="max-height:300px;">
+                        <tbody id ="fileSystemmemDisplay">
+
+
+                        </tbody>
+
+                    </table>
+                </label>
         </div>
     </div>
 

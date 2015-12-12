@@ -96,12 +96,12 @@ module TSOS {
             _Memory = new Memory();
             _Memory.init();
             _MemoryManagement = new MemoryManagementUnit();
+            _FileSystemTable =<HTMLTableElement> document.getElementById("fileSystemDisplayBox");
             _FileSystem = new DeviceDriverFileSystem();
             _FileSystem.initTSB();
 
 
             _MemoryTable =<HTMLTableElement> document.getElementById("memDisplayBox");
-            _FileSystemTable =<HTMLTableElement> document.getElementById("fileSystemDisplayBox");
 
             //create table display
             _CPUDisplayTable =<HTMLTableElement> document.getElementById("CPUDisplayTable");
@@ -109,7 +109,6 @@ module TSOS {
 
 
             this.createMemoryTable();
-            this.createFileSystemTable();
 
 
 

@@ -78,15 +78,14 @@ var TSOS;
             _Memory = new TSOS.Memory();
             _Memory.init();
             _MemoryManagement = new TSOS.MemoryManagementUnit();
+            _FileSystemTable = document.getElementById("fileSystemDisplayBox");
             _FileSystem = new TSOS.DeviceDriverFileSystem();
             _FileSystem.initTSB();
             _MemoryTable = document.getElementById("memDisplayBox");
-            _FileSystemTable = document.getElementById("fileSystemDisplayBox");
             //create table display
             _CPUDisplayTable = document.getElementById("CPUDisplayTable");
             _ReadyTable = document.getElementById("PCBDisplayTable");
             this.createMemoryTable();
-            this.createFileSystemTable();
             // ... Create and initialize the CPU (because it's part of the hardware)  ...
             _CPU = new TSOS.Cpu(); // Note: We could simulate multi-core systems by instantiating more than one instance of the CPU here.
             _CPU.init(); //       There's more to do, like dealing with scheduling and such, but this would be a start. Pretty cool.

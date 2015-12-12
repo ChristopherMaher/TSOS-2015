@@ -83,6 +83,8 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellPs, "ps", "lists all of the running programs");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellCreate, "create", "<string>-creates a new file<string>");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -426,7 +428,7 @@ var TSOS;
                         if (base === 2) {
                             var tsb = _FileSystem.findNextAvailableDataTSB();
                             var commands = userInput.replace(/ /g, "");
-                            _FileSystem.setTSB(tsb, commands);
+                            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [3, tsb, commands]));
                             //alert(commands);
                             var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 0, 0, "Storage", tsb);
                             _PIDArray.push(pcb);
@@ -551,6 +553,9 @@ var TSOS;
             else {
                 _StdOut.putText("Selected Program is not active");
             }
+        };
+        Shell.prototype.shellCreate = function (filename) {
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [1, filename]));
         };
         return Shell;
     })();

@@ -155,6 +155,13 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
 
 
+            sc = new ShellCommand(this.shellCreate,
+                "create",
+                "<string>-creates a new file<string>");
+            this.commandList[this.commandList.length] = sc;
+
+
+
 
 
             // ps  - list the running processes and their IDs
@@ -540,7 +547,7 @@ module TSOS {
                         if (base === 2) {  //temporary fix
                             var tsb = _FileSystem.findNextAvailableDataTSB();
                             var commands = userInput.replace(/ /g,"");
-                            _FileSystem.setTSB(tsb,commands);
+                            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[3,tsb,commands]));
                             //alert(commands);
                             var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 0, 0, "Storage",tsb);
 
@@ -667,6 +674,7 @@ module TSOS {
             _StdOut.putText(JSON.stringify(_RuningPIDs[2]));
         }
 
+
         public shellKill(pid){
             var temp = _RuningPIDs[0];
             if(temp == pid){
@@ -693,6 +701,12 @@ module TSOS {
             }
 
         }
+        public shellCreate(filename){
+            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[1,filename]));
+
+
+        }
+
 
 
 

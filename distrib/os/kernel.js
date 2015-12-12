@@ -142,6 +142,9 @@ var TSOS;
                     _Scheduler.performSwitch(params);
                     TSOS.Control.updatePCDDisplay();
                     break;
+                case FILESYSTEM_IRQ:
+                    _FileSystem.isr(params);
+                    break;
                 default:
                     this.krnTrapError("Invalid Interrupt Request. irq=" + irq + " params=[" + params + "]");
             }

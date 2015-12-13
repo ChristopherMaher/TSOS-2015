@@ -160,6 +160,19 @@ module TSOS {
                 "<string>-creates a new file<string>");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellRead,
+                "read",
+                "<string>-reads a file<string>");
+            this.commandList[this.commandList.length] = sc;
+
+            sc = new ShellCommand(this.shellWrite,
+                "write",
+                "<string> \"data\" -writes to a specified file");
+            this.commandList[this.commandList.length] = sc;
+
+
+
+
 
 
 
@@ -547,7 +560,7 @@ module TSOS {
                         if (base === 2) {  //temporary fix
                             var tsb = _FileSystem.findNextAvailableDataTSB();
                             var commands = userInput.replace(/ /g,"");
-                            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[3,tsb,commands]));
+                            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[1,_PIDArray.length+1,commands]));
                             //alert(commands);
                             var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 0, 0, "Storage",tsb);
 
@@ -706,6 +719,38 @@ module TSOS {
 
 
         }
+        public shellRead(filename){
+            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[2,filename]));
+
+        }
+        public shellWrite(args){
+            if(args.length >= 2) {
+                var filename = args[0];
+                var data = args[1];
+                    if(data.substr(0,1) === "\""){
+                        data=data.slice(1,data.length);
+                        if(data.substr(data.length-1,data.length)==="\""){
+                            data=data.slice(0,data.length-1);
+                            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [3, filename, data]));
+                        }else{
+                            _StdOut.putText("Data needs to be in string format");
+
+                        }
+
+
+                    }else{
+                            _StdOut.putText("Data needs to be in string format");
+                        }
+
+
+
+
+            }else{
+                _StdOut.putText("Error");
+            }
+        }
+
+
 
 
 

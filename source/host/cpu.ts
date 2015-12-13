@@ -60,9 +60,6 @@ module TSOS {
 
 
             // TODO: Accumulate CPU usage and profiling statistics here.
-           /// =_PIDArray[_RuningPIDs[0]].base +this.PC;
-         //   var address = _PIDArray[_RuningPIDs[0]].base +this.PC;
-           //_StdOut.putText(JSON.stringify(address));
             var currentCommand = _MemoryManagement.getCommamd(this.PC);
 
             if(currentCommand === "A9") { //LDA Command
@@ -269,9 +266,6 @@ module TSOS {
 
             }else if(currentCommand === "FF"){ //SystemCall
                 //turns the hex value into a decimal value
-                //(do this through an interrupt)
-               // _StdOut.putText("IAS this called");
-//                _StdOut.putText("HITSTHIS");
 
                 if(this.Xreg === 1) {
                    // _StdOut.putText("HITSTHIS2");

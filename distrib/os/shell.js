@@ -85,6 +85,10 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellCreate, "create", "<string>-creates a new file<string>");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellRead, "read", "<string>-reads a file<string>");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellWrite, "write", "<string> \"data\" -writes to a specified file");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -428,7 +432,7 @@ var TSOS;
                         if (base === 2) {
                             var tsb = _FileSystem.findNextAvailableDataTSB();
                             var commands = userInput.replace(/ /g, "");
-                            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [3, tsb, commands]));
+                            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [1, _PIDArray.length + 1, commands]));
                             //alert(commands);
                             var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 0, 0, "Storage", tsb);
                             _PIDArray.push(pcb);
@@ -556,6 +560,31 @@ var TSOS;
         };
         Shell.prototype.shellCreate = function (filename) {
             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [1, filename]));
+        };
+        Shell.prototype.shellRead = function (filename) {
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [2, filename]));
+        };
+        Shell.prototype.shellWrite = function (args) {
+            if (args.length >= 2) {
+                var filename = args[0];
+                var data = args[1];
+                if (data.substr(0, 1) === "\"") {
+                    data = data.slice(1, data.length);
+                    if (data.substr(data.length - 1, data.length) === "\"") {
+                        data = data.slice(0, data.length - 1);
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [3, filename, data]));
+                    }
+                    else {
+                        _StdOut.putText("Data needs to be in string format");
+                    }
+                }
+                else {
+                    _StdOut.putText("Data needs to be in string format");
+                }
+            }
+            else {
+                _StdOut.putText("Error");
+            }
         };
         return Shell;
     })();

@@ -28,19 +28,23 @@ module TSOS{
 
 
             }else if(params[0]===read){
-               var datatsb=this.FindFile(params[1]);
+               var datatsb=this.findFile(params[1]);
                 this.readData(datatsb);
 
 
             }else if(params[0]===write){
-                var datatsb =this.FindFile(params[1]);
+                var datatsb =this.findFile(params[1]);
                 this.writeData(datatsb,params[2]);
 
                 //this.setTSB(params);
             }else if(params[0]=== remove){
-
+                var tsb=this.findFileRemove(params[1]);
+                this.removeData(tsb);
+                Control.loadFileSystemTable();
 
             }else if(params[0]=== format){
+                this.initTSB();
+                Control.loadFileSystemTable();
 
             }
 
@@ -61,8 +65,8 @@ module TSOS{
                 }
             }
             localStorage.setItem("000","100011000000");
-            Control.createFileSystemTable();
-            Control.loadFileSystemTable();
+           // Control.createFileSystemTable();
+        //    Control.loadFileSystemTable();
         }
 
         public initsetTSB(tsb, data) {
@@ -201,7 +205,7 @@ module TSOS{
             _StdOut.putText(readableString);
 
         }
-        public FindFile(fileName){
+        public findFile(fileName){
             var fileName= fileName.toString();
             //var length = filename.length;
             var nameHex = "";
@@ -232,6 +236,43 @@ module TSOS{
 
             }
         }
+        public findFileRemove(fileName){
+            var fileName= fileName.toString();
+            //var length = filename.length;
+            var nameHex = "";
+            var counter = 0;
+            //  alert(fileName.charCodeAt(0));
+
+            while(counter < fileName.length){
+
+                nameHex= nameHex + (fileName.charCodeAt(counter)).toString(16);
+                //alert(nameHex);
+
+                counter++;
+            }
+
+            if(nameHex.length < 120) {
+                while (nameHex.length < 120) {
+                    nameHex = nameHex + "0";
+                }
+            }
+            for (var i = 0; i <= 7; i++) {
+                for (var z = 0; z <= 7; z++) {
+                    var tsb = "0".concat(i.toString()).concat(z.toString());
+                    var data = localStorage.getItem(tsb);
+                    if (data.substr(4,120) === nameHex) {
+                        var replacementString = "";
+                        while(replacementString.length<124){
+                            replacementString= replacementString+"0";
+
+                        }
+                        localStorage.setItem(tsb,replacementString);
+                        return data.substr(1,3);
+                    }
+                }
+
+            }
+        }
         public writeData(tsb,data) {
             var data = data.toString();
             var dataHex = "";
@@ -246,6 +287,14 @@ module TSOS{
                 counter++;
             }
             this.setTSB(tsb,dataHex);
+        }
+        public removeData(tsb){
+            var replacementString = "";
+            while(replacementString.length<124){
+                replacementString= replacementString+"0";
+
+            }
+            localStorage.setItem(tsb,replacementString);
         }
 
     }

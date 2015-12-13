@@ -98,8 +98,9 @@ module TSOS {
             _MemoryManagement = new MemoryManagementUnit();
             _FileSystemTable =<HTMLTableElement> document.getElementById("fileSystemDisplayBox");
             _FileSystem = new DeviceDriverFileSystem();
-            _FileSystem.initTSB();
 
+            _FileSystem.initTSB();
+            this.createFileSystemTable();
 
             _MemoryTable =<HTMLTableElement> document.getElementById("memDisplayBox");
 

@@ -81,6 +81,7 @@ var TSOS;
             _FileSystemTable = document.getElementById("fileSystemDisplayBox");
             _FileSystem = new TSOS.DeviceDriverFileSystem();
             _FileSystem.initTSB();
+            this.createFileSystemTable();
             _MemoryTable = document.getElementById("memDisplayBox");
             //create table display
             _CPUDisplayTable = document.getElementById("CPUDisplayTable");

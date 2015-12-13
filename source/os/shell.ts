@@ -170,8 +170,15 @@ module TSOS {
                 "<string> \"data\" -writes to a specified file");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellRemove,
+                "remove",
+                "<string> -Removes a specified file");
+            this.commandList[this.commandList.length] = sc;
 
-
+            sc = new ShellCommand(this.shellFormat,
+                "format",
+                "-formats the harddrive");
+            this.commandList[this.commandList.length] = sc;
 
 
 
@@ -748,6 +755,14 @@ module TSOS {
             }else{
                 _StdOut.putText("Error");
             }
+        }
+        public shellRemove(filename){
+            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[4,filename]));
+
+        }
+        public shellFormat(){
+            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[5]));
+
         }
 
 

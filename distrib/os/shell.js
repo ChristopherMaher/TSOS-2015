@@ -89,6 +89,10 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellWrite, "write", "<string> \"data\" -writes to a specified file");
             this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellRemove, "remove", "<string> -Removes a specified file");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellFormat, "format", "-formats the harddrive");
+            this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
             //
@@ -585,6 +589,12 @@ var TSOS;
             else {
                 _StdOut.putText("Error");
             }
+        };
+        Shell.prototype.shellRemove = function (filename) {
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [4, filename]));
+        };
+        Shell.prototype.shellFormat = function () {
+            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [5]));
         };
         return Shell;
     })();

@@ -27,6 +27,7 @@ module TSOS{
                     var tSB = this.setDirFile(params[1]);
                     if (params.length > 2) {
                         this.setTSB(tSB, params[2]);
+                       // alert(params[2]);
                     }
                 }
 
@@ -38,7 +39,7 @@ module TSOS{
                     var datatsb = this.findFile(params[1]);
                     var readableString = this.readData(datatsb);
                     _StdOut.putText(readableString);
-                    alert("first" + params[1].toString());
+                   // alert("first" + params[1].toString());
                 }
 
 
@@ -66,13 +67,13 @@ module TSOS{
 
             }else if(params[0]===swap){
                 var datatsb=this.findFile(params[1]);
-                alert("Hit");
+            //    alert("Hit");
                 var readableArray=this.readUserData(datatsb);
-                alert("Hit2");
+              //  alert("Hit2");
                 this.findFileRemove(params[1]);
-                alert("Hit2.5");
+                //alert("Hit2.5");
                 this.swapPrograms(readableArray,params[1]);
-                alert("Hit3");
+                //alert("Hit3");
 
 
 
@@ -95,7 +96,7 @@ module TSOS{
                     }
                 }
             }
-            localStorage.setItem("000","100011000000");
+            sessionStorage.setItem("000","100011000000");
            // Control.createFileSystemTable();
         //    Control.loadFileSystemTable();
         }
@@ -106,7 +107,7 @@ module TSOS{
             for (var x = data.length; x <= 124; x++) {
                 data = data + "0";
             }
-            localStorage.setItem(tsb, data);
+            sessionStorage.setItem(tsb, data);
         }
 
         public findNextAvailableDataTSB() {
@@ -114,9 +115,10 @@ module TSOS{
                 for (var i = 0; i <= 7; i++) {
                     for (var z = 0; z <= 7; z++) {
                         var tsb = (x.toString()).concat(i.toString()).concat(z.toString());
-                        var data = localStorage.getItem(tsb);
+                        var data = sessionStorage.getItem(tsb);
                         if (data.substr(0, 1) === "0") {
                             //alert(data.substr(0, 1));
+                           // alert("dafuck"+tsb +":"+data.substr(0,100));
 
                             return tsb;
                         }
@@ -133,23 +135,39 @@ module TSOS{
             var datatwo = "";
             var counter = 0;
             var nextTSB = "";
+           // alert(command);
             while (dataone.length >= 120) {
 
-
-               // localStorage.setItem(tsb,"1");
                 nextTSB = this.findNextAvailableDataTSB();
                 datatwo = "1" + nextTSB + dataone.substr(0, 120);
-                localStorage.setItem(tsb, datatwo);
+              //  alert(nextTSB);
+                sessionStorage.setItem(nextTSB,datatwo);
+                //alert(nextTSB);
+                //    alert (dataone.substr(0,120)+tsb);
+            //    alert(datatwo);
+               // alert(datatwo);
+                sessionStorage.setItem(tsb, datatwo);
+                //alert(sessionStorage.getItem(tsb));
+                //alert(sessionStorage.getItem(tsb));
+
+                //alert("HITHERE");
                 tsb = nextTSB;
-                dataone = dataone.slice(120, dataone.length);
+              //  alert(tsb);
+
+                dataone = dataone.substr(120, dataone.length);
+                //alert(dataone);
 
                 counter++;
             }
+           // alert(sessionStorage.getItem(tsb));
             for (var x = dataone.length; x <= 119; x++) {
                 dataone = dataone + "0";
             }
             datatwo = "1" +"0"+"0"+"0"+ dataone;
-            localStorage.setItem(tsb, datatwo);
+            //alert(tsb);
+            //tsb = this.findNextAvailableDataTSB();
+            sessionStorage.setItem(tsb, datatwo);
+         //   alert(sessionStorage.getItem(tsb));
             Control.loadFileSystemTable();
 
         }
@@ -157,7 +175,7 @@ module TSOS{
                 for (var i = 0; i <= 7; i++) {
                     for (var z = 0; z <= 7; z++) {
                         var tsb = "0".concat(i.toString()).concat(z.toString());
-                        var data = localStorage.getItem(tsb);
+                        var data = sessionStorage.getItem(tsb);
                         if (data.substr(0, 1) === "0") {
                             //alert(data.substr(0, 1));
                             //
@@ -199,8 +217,8 @@ module TSOS{
                     tempString=tempString+"0";
                 }
 
-                localStorage.setItem(dataTSB,tempString);
-                localStorage.setItem(tsb,nameHex);
+                sessionStorage.setItem(dataTSB,tempString);
+                sessionStorage.setItem(tsb,nameHex);
                 Control.loadFileSystemTable();
                 return dataTSB;
 
@@ -213,7 +231,7 @@ module TSOS{
 
         }
         public readData(tsb){
-            var data=localStorage.getItem(tsb);
+            var data=sessionStorage.getItem(tsb);
             var readableData = "";
             var readableString ="";
             var checkForEnd = false;
@@ -222,10 +240,10 @@ module TSOS{
                     checkForEnd = true;
                 }
                 readableData=readableData+data.substr(4,120);
-                data=localStorage.getItem(data.substr(1,3));
+                data=sessionStorage.getItem(data.substr(1,3));
             }
             for(var x = 0; x<=readableData.length; x+=2){
-                alert(readableData);
+              //  alert(readableData);
                 readableString=readableString+String.fromCharCode(parseInt(readableData.substr(x,2),16));
                 if(readableData.substr(x,2)==="00"){
                    // _StdOut.putText(readableString);
@@ -260,7 +278,7 @@ module TSOS{
             for (var i = 0; i <= 7; i++) {
                 for (var z = 0; z <= 7; z++) {
                     var tsb = "0".concat(i.toString()).concat(z.toString());
-                    var data = localStorage.getItem(tsb);
+                    var data = sessionStorage.getItem(tsb);
                     if (data.substr(4,120) === nameHex) {
                         return data.substr(1,3);
                     }
@@ -292,14 +310,14 @@ module TSOS{
             for (var i = 0; i <= 7; i++) {
                 for (var z = 0; z <= 7; z++) {
                     var tsb = "0".concat(i.toString()).concat(z.toString());
-                    var data = localStorage.getItem(tsb);
+                    var data = sessionStorage.getItem(tsb);
                     if (data.substr(4,120) === nameHex) {
                         var replacementString = "";
                         while(replacementString.length<124){
                             replacementString= replacementString+"0";
 
                         }
-                        localStorage.setItem(tsb,replacementString);
+                        sessionStorage.setItem(tsb,replacementString);
                         return data.substr(1,3);
                     }
                 }
@@ -327,11 +345,11 @@ module TSOS{
                 replacementString= replacementString+"0";
 
             }
-            localStorage.setItem(tsb,replacementString);
+            sessionStorage.setItem(tsb,replacementString);
         }
         public readUserData(tsb){
             //var filetsb =this.findFile(filename);
-            var data=localStorage.getItem(tsb);
+            var data=sessionStorage.getItem(tsb);
             var readableData = "";
             var readableArray =[];
             var checkForEnd = false;
@@ -341,7 +359,8 @@ module TSOS{
                     checkForEnd = true;
                 }
                 readableData=readableData+data.substr(4,120);
-                data=localStorage.getItem(data.substr(1,3));
+                data=sessionStorage.getItem(data.substr(1,3));
+                alert(data.substr(1,3));
             }
             for(var x = 0; x<=readableData.length; x+=2){
 
@@ -361,6 +380,8 @@ module TSOS{
         }
         public swapPrograms(command,pid){
             var base=_MemoryManagement.findAvailableBase();
+            var currentProgramtoSwap =100000;
+            var currentPriority = 100000;
             var fileData="";
             //var oldbase =0;
             var limit =0;
@@ -375,15 +396,17 @@ module TSOS{
 
             }else{
                // var inMem = [];
-                var currentProgramtoSwap =100000;
                 var counter =0;
                 //var counter2= 0;
                 while(counter<_PIDArray.length) {
                     if (_PIDArray[counter].location === "Memory") {
                         //add running later
-                        if (_PIDArray[counter].state === "Ready" || _PIDArray[counter].state === "New"){
-                            if(_PIDArray[counter].priority<currentProgramtoSwap) {
+                        if (_PIDArray[counter].state === "New"){ //|| _PIDArray[counter].state === "New"){
+                            if(_PIDArray[counter].priority<currentPriority) {
                                 currentProgramtoSwap = counter;
+                                var currentPriority=_PIDArray[counter].priority;
+
+
                             }
 
                         }
@@ -392,6 +415,7 @@ module TSOS{
 
                 }
                 base = _PIDArray[currentProgramtoSwap].base;
+                alert(_PIDArray[currentProgramtoSwap].base+"HEY");
                 limit = _PIDArray[currentProgramtoSwap].limit;
                  fileData=_MemoryManagement.loadBlock(base,limit);
 
@@ -401,21 +425,20 @@ module TSOS{
                 _PIDArray[currentProgramtoSwap].location = "Storage";
               //  this.setDirFile();
                 var tSB = this.setDirFile(currentProgramtoSwap);
-
+                alert(fileData);
                  this.setTSB(tSB, fileData);
 
-
+              //  var base=_MemoryManagement.findAvailableBase();
                 _PIDArray[pid].base = base;
                 _PIDArray[pid].limit = limit;
                 _PIDArray[pid].location = "Memory";
-                alert(_PIDArray);
+           //     alert(_PIDArray[pid]);
                 _MemoryManagement.loadInCommand(command, base);
 
 
 
                 // _MemoryManagement.findAvailableBase();
                 //this.findNextAvailableDir();
-               // localStorage.setItem(this.findNextAvailableDataTSB(),_PIDArray[currentProgramtoSwap].pid);
              //   this.setDirFile(_P)
 
 

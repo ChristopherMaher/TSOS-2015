@@ -11,6 +11,7 @@ var TSOS;
             //    userCommand = userCommand.replace(/\r?\n|\r/g,"");
             var userProgramArray = userCommand;
             var counter = 0;
+            alert(userProgramArray);
             while (counter < userProgramArray.length) {
                 _Memory.memoryArray[base + counter] = userProgramArray[counter];
                 //_StdOut.putText(_Memory.memoryArray[counter]);
@@ -131,11 +132,13 @@ var TSOS;
         MemoryManagementUnit.prototype.loadBlock = function (base, limit) {
             var counter = base;
             var commandBeingLoaded = "";
+            alert(limit + "THISLIMT");
             while (counter < limit) {
-                commandBeingLoaded = commandBeingLoaded + _Memory[counter];
+                commandBeingLoaded = commandBeingLoaded + _Memory.memoryArray[counter];
                 _Memory[counter] = "00";
                 counter++;
             }
+            alert(commandBeingLoaded);
             return commandBeingLoaded;
         };
         return MemoryManagementUnit;

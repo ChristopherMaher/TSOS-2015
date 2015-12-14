@@ -265,7 +265,7 @@ module TSOS {
                         var b = z.toString();
                         var tsb = t + s + b;
                         rowID = "rowID"+tsb;
-                        tableOutput += "<td>"+ localStorage.getItem(tsb)+ "</td>";
+                        tableOutput += "<td>"+ sessionStorage.getItem(tsb)+ "</td>";
                         tableOutput += "</tr>";
 
                     }

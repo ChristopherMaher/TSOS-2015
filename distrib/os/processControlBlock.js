@@ -5,7 +5,7 @@
 var TSOS;
 (function (TSOS) {
     var PCB = (function () {
-        function PCB(pid, pc, state, acc, x, y, z, base, limit, location, swapTSB) {
+        function PCB(pid, pc, state, acc, x, y, z, base, limit, location, swapTSB, priority) {
             this.pid = pid;
             this.pc = pc;
             this.state = state;
@@ -17,6 +17,7 @@ var TSOS;
             this.limit = limit;
             this.location = location;
             this.swapTSB = swapTSB;
+            this.priority = priority;
             pid = this.pid;
             pc = this.pc;
             state = this.state;
@@ -28,6 +29,7 @@ var TSOS;
             limit = this.limit;
             location = this.location;
             swapTSB = this.swapTSB;
+            priority = this.priority;
         }
         PCB.prototype.init = function () {
             this.pc = 0;

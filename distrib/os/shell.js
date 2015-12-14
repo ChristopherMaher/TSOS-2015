@@ -434,18 +434,22 @@ var TSOS;
                     if (userProgramArray.length < 256) {
                         var base = _MemoryManagement.findAvailableBase();
                         if (base === 2) {
-                            var tsb = _FileSystem.findNextAvailableDataTSB();
+                            //     var tsb = _FileSystem.findNextAvailableDataTSB();
+                            var tsb = _FileSystem.findNextAvailableDir();
                             var commands = userInput.replace(/ /g, "");
-                            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [1, _PIDArray.length + 1, commands]));
+                            //may need to add one, for continuity sake
+                            _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [1, _PIDArray.length, commands]));
                             //alert(commands);
-                            var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 0, 0, "Storage", tsb);
+                            var priority = 0;
+                            var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 2, 0, "Storage", tsb, priority);
                             _PIDArray.push(pcb);
                             _PCB = pcb;
                             _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
                         }
                         else {
                             _MemoryManagement.loadInCommand(userProgramArray, base);
-                            var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory", "mem");
+                            var priority = 0;
+                            var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory", "mem", priority);
                             _PIDArray.push(pcb);
                             _PCB = pcb;
                             _StdOut.putText("Valid Code, PID==" + JSON.stringify(_PIDArray.length - 1));
@@ -482,12 +486,38 @@ var TSOS;
             }
             else {
                 _PIDArray[args].state = "Ready";
+                if (_PIDArray[args].location === "Storage") {
+                    var pid = args;
+                    //look out for number/string conflicts
+                    //   setTimout(_KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid])),1000);
+                    //  setTimeout( () => {
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, pid]));
+                }
                 args = _PIDArray[args].pid - 1;
-                _RuningPIDs.push(args);
-                _PIDArray[_RuningPIDs[0]].state = "Running";
-                //_StdOut.putText(JSON.stringify(args));
-                _CPU.isExecuting = true;
+                alert("Fuck this");
+                setTimeout(function () {
+                    alert("Fuck");
+                    _RuningPIDs.push(args);
+                    _PIDArray[_RuningPIDs[0]].state = "Running";
+                    alert("HEY");
+                    //this.test(args);
+                    _CPU.isExecuting = true;
+                    ///  _RuningPIDs.push(args);
+                    // _PIDArray[_RuningPIDs[0]].state = "Running";
+                    //_StdOut.putText(JSON.stringify(args));
+                    //   _CPU.isExecuting = true;
+                }, 2000);
             }
+        };
+        Shell.prototype.test = function (args) {
+            // args=_PIDArray[args].pid -1;
+            //     alert("HEY still fucked");
+            alert("hey this made it" + args);
+            //   _RuningPIDs.push(args);
+            alert(_PIDArray[_RuningPIDs[0]].pid);
+            alert(_PIDArray[_RuningPIDs[0]].base);
+            //_StdOut.putText(JSON.stringify(args));
+            _CPU.isExecuting = true;
         };
         Shell.prototype.shellRunAll = function () {
             var counter = 0;

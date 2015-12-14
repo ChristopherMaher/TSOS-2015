@@ -24,29 +24,61 @@ var TSOS;
             var write = 3;
             var remove = 4;
             var format = 5;
-            //  var write2 = 6;
+            var swap = 6;
             if (params[0] === create) {
-                var tSB = this.setDirFile(params[1]);
-                if (params.length > 2) {
-                    this.setTSB(tSB, params[2]);
+                if (this.findFile(params[1]) !== false) {
+                    _StdOut.putText("File already exists");
+                }
+                else {
+                    var tSB = this.setDirFile(params[1]);
+                    if (params.length > 2) {
+                        this.setTSB(tSB, params[2]);
+                    }
                 }
             }
             else if (params[0] === read) {
-                var datatsb = this.findFile(params[1]);
-                this.readData(datatsb);
+                if (this.findFile(params[1]) === false) {
+                    _StdOut.putText("File doesn't exist");
+                }
+                else {
+                    var datatsb = this.findFile(params[1]);
+                    var readableString = this.readData(datatsb);
+                    _StdOut.putText(readableString);
+                    alert("first" + params[1].toString());
+                }
             }
             else if (params[0] === write) {
-                var datatsb = this.findFile(params[1]);
-                this.writeData(datatsb, params[2]);
+                if (this.findFile(params[1]) === false) {
+                    _StdOut.putText("File doesn't exist");
+                }
+                else {
+                    var datatsb = this.findFile(params[1]);
+                    this.writeData(datatsb, params[2]);
+                }
             }
             else if (params[0] === remove) {
-                var tsb = this.findFileRemove(params[1]);
-                this.removeData(tsb);
-                TSOS.Control.loadFileSystemTable();
+                if (this.findFile(params[1]) === false) {
+                    _StdOut.putText("File doesn't exist");
+                }
+                else {
+                    var tsb = this.findFileRemove(params[1]);
+                    this.removeData(tsb);
+                    TSOS.Control.loadFileSystemTable();
+                }
             }
             else if (params[0] === format) {
                 this.initTSB();
                 TSOS.Control.loadFileSystemTable();
+            }
+            else if (params[0] === swap) {
+                var datatsb = this.findFile(params[1]);
+                alert("Hit");
+                var readableArray = this.readUserData(datatsb);
+                alert("Hit2");
+                this.findFileRemove(params[1]);
+                alert("Hit2.5");
+                this.swapPrograms(readableArray, params[1]);
+                alert("Hit3");
             }
         };
         DeviceDriverFileSystem.prototype.initTSB = function () {
@@ -127,6 +159,7 @@ var TSOS;
             }
         };
         DeviceDriverFileSystem.prototype.setDirFile = function (fileName) {
+            // alert(fileName);
             var fileName = fileName.toString();
             var nameHex = "";
             var counter = 0;
@@ -170,7 +203,7 @@ var TSOS;
                 data = localStorage.getItem(data.substr(1, 3));
             }
             for (var x = 0; x <= readableData.length; x += 2) {
-                // alert(readableString);
+                alert(readableData);
                 readableString = readableString + String.fromCharCode(parseInt(readableData.substr(x, 2), 16));
                 if (readableData.substr(x, 2) === "00") {
                     // _StdOut.putText(readableString);
@@ -178,7 +211,7 @@ var TSOS;
                 }
             }
             // readableData.toString()
-            _StdOut.putText(readableString);
+            return readableString;
         };
         DeviceDriverFileSystem.prototype.findFile = function (fileName) {
             var fileName = fileName.toString();
@@ -205,6 +238,7 @@ var TSOS;
                     }
                 }
             }
+            return false;
         };
         DeviceDriverFileSystem.prototype.findFileRemove = function (fileName) {
             var fileName = fileName.toString();
@@ -255,6 +289,78 @@ var TSOS;
                 replacementString = replacementString + "0";
             }
             localStorage.setItem(tsb, replacementString);
+        };
+        DeviceDriverFileSystem.prototype.readUserData = function (tsb) {
+            //var filetsb =this.findFile(filename);
+            var data = localStorage.getItem(tsb);
+            var readableData = "";
+            var readableArray = [];
+            var checkForEnd = false;
+            var counter = 0;
+            while (checkForEnd === false) {
+                if (data.substr(1, 3) === "000") {
+                    checkForEnd = true;
+                }
+                readableData = readableData + data.substr(4, 120);
+                data = localStorage.getItem(data.substr(1, 3));
+            }
+            for (var x = 0; x <= readableData.length; x += 2) {
+                readableArray[counter] = readableData.substr(x, 2);
+                counter++;
+                if (readableData.substr(x, 8) === "00000000") {
+                    // _StdOut.putText(readableString);
+                    break;
+                }
+            }
+            return readableArray;
+            // readableData.toString()
+            //return readableString;
+            //return data;
+        };
+        DeviceDriverFileSystem.prototype.swapPrograms = function (command, pid) {
+            var base = _MemoryManagement.findAvailableBase();
+            var fileData = "";
+            //var oldbase =0;
+            var limit = 0;
+            alert(_PIDArray);
+            if (base !== 2) {
+                _PIDArray[pid].base = base;
+                _PIDArray[pid].limit = base + 255;
+                _PIDArray[pid].location = "Memory";
+                _MemoryManagement.loadInCommand(command, base);
+            }
+            else {
+                // var inMem = [];
+                var currentProgramtoSwap = 100000;
+                var counter = 0;
+                //var counter2= 0;
+                while (counter < _PIDArray.length) {
+                    if (_PIDArray[counter].location === "Memory") {
+                        //add running later
+                        if (_PIDArray[counter].state === "Ready" || _PIDArray[counter].state === "New") {
+                            if (_PIDArray[counter].priority < currentProgramtoSwap) {
+                                currentProgramtoSwap = counter;
+                            }
+                        }
+                    }
+                    counter++;
+                }
+                base = _PIDArray[currentProgramtoSwap].base;
+                limit = _PIDArray[currentProgramtoSwap].limit;
+                fileData = _MemoryManagement.loadBlock(base, limit);
+                _MemoryManagement.resetBaseAvailablity(_PIDArray[currentProgramtoSwap]);
+                _PIDArray[currentProgramtoSwap].base = 0;
+                _PIDArray[currentProgramtoSwap].limit = 800;
+                _PIDArray[currentProgramtoSwap].location = "Storage";
+                //  this.setDirFile();
+                var tSB = this.setDirFile(currentProgramtoSwap);
+                this.setTSB(tSB, fileData);
+                _PIDArray[pid].base = base;
+                _PIDArray[pid].limit = limit;
+                _PIDArray[pid].location = "Memory";
+                alert(_PIDArray);
+                _MemoryManagement.loadInCommand(command, base);
+            }
         };
         return DeviceDriverFileSystem;
     })(TSOS.DeviceDriver);

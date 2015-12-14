@@ -128,6 +128,16 @@ var TSOS;
                 _AvailableBaseTracker[2] = true;
             }
         };
+        MemoryManagementUnit.prototype.loadBlock = function (base, limit) {
+            var counter = base;
+            var commandBeingLoaded = "";
+            while (counter < limit) {
+                commandBeingLoaded = commandBeingLoaded + _Memory[counter];
+                _Memory[counter] = "00";
+                counter++;
+            }
+            return commandBeingLoaded;
+        };
         return MemoryManagementUnit;
     })();
     TSOS.MemoryManagementUnit = MemoryManagementUnit;

@@ -15,6 +15,7 @@ module  TSOS {
 
 
 
+
                 while (counter < userProgramArray.length) {
                     _Memory.memoryArray[base + counter] = userProgramArray[counter];
 
@@ -156,6 +157,17 @@ module  TSOS {
                 _AvailableBaseTracker[2] = true;
             }
         }
+        public loadBlock(base,limit){
+            var counter = base;
+            var commandBeingLoaded = "";
+            while(counter<limit){
+                commandBeingLoaded=commandBeingLoaded+_Memory[counter];
+                _Memory[counter] = "00";
+                counter++;
+            }
+            return commandBeingLoaded;
+        }
+
 
     }
 

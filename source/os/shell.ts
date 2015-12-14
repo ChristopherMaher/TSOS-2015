@@ -565,11 +565,14 @@ module TSOS {
                         var base = _MemoryManagement.findAvailableBase();
 
                         if (base === 2) {  //temporary fix
-                            var tsb = _FileSystem.findNextAvailableDataTSB();
+                       //     var tsb = _FileSystem.findNextAvailableDataTSB();
+                            var tsb = _FileSystem.findNextAvailableDir();
                             var commands = userInput.replace(/ /g,"");
-                            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[1,_PIDArray.length+1,commands]));
+                            //may need to add one, for continuity sake
+                            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[1,_PIDArray.length,commands]));
                             //alert(commands);
-                            var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 0, 0, "Storage",tsb);
+                            var priority = 0;
+                            var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 2, 0, "Storage",tsb,priority);
 
                             _PIDArray.push(pcb);
 
@@ -583,8 +586,8 @@ module TSOS {
 
                             _MemoryManagement.loadInCommand(userProgramArray, base);
 
-
-                            var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory","mem");
+                            var priority = 0;
+                            var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory","mem",priority);
 
                             _PIDArray.push(pcb);
 
@@ -624,18 +627,59 @@ module TSOS {
                 _StdOut("PID number is not valid");
             }else{
                 _PIDArray[args].state = "Ready";
+                if(_PIDArray[args].location === "Storage"){
+                    var pid=args;
+                    //look out for number/string conflicts
+                 //   setTimout(_KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid])),1000);
+                  //  setTimeout( () => {
+                        _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid]));
+                  //  }, 3000);
+
+
+
+//                        _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid]));
+
+                    //var command
+                }
                 args=_PIDArray[args].pid -1;
+                alert("Fuck this");
+
+                setTimeout( () => {
+                    alert("Fuck");
+                    _RuningPIDs.push(args);
+                    _PIDArray[_RuningPIDs[0]].state = "Running";
+                    alert("HEY");
+                    //this.test(args);
+                    _CPU.isExecuting = true;
 
 
+                    ///  _RuningPIDs.push(args);
+               // _PIDArray[_RuningPIDs[0]].state = "Running";
 
-                _RuningPIDs.push(args);
-                _PIDArray[_RuningPIDs[0]].state = "Running";
                 //_StdOut.putText(JSON.stringify(args));
-                _CPU.isExecuting = true;
+
+             //   _CPU.isExecuting = true;
+                }, 2000);
+
 
 
             }
 
+        }
+        public test(args){
+           // args=_PIDArray[args].pid -1;
+       //     alert("HEY still fucked");
+            alert("hey this made it"+args);
+
+
+
+         //   _RuningPIDs.push(args);
+            alert(_PIDArray[_RuningPIDs[0]].pid);
+            alert(_PIDArray[_RuningPIDs[0]].base);
+
+            //_StdOut.putText(JSON.stringify(args));
+
+            _CPU.isExecuting = true;
         }
         public shellRunAll(){
             var counter = 0;

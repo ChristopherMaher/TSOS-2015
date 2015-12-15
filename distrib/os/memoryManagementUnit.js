@@ -11,7 +11,7 @@ var TSOS;
             //    userCommand = userCommand.replace(/\r?\n|\r/g,"");
             var userProgramArray = userCommand;
             var counter = 0;
-            alert(userProgramArray);
+            //alert(userProgramArray);
             while (counter < userProgramArray.length) {
                 _Memory.memoryArray[base + counter] = userProgramArray[counter];
                 //_StdOut.putText(_Memory.memoryArray[counter]);
@@ -73,7 +73,11 @@ var TSOS;
                 _StdOut.putText("Memory Overflow");
             }
             else {
-                _Memory.memoryArray[address] = value.toString(16);
+                var number = value.toString(16);
+                if (number.length < 2) {
+                    number = "0" + number;
+                }
+                _Memory.memoryArray[address] = number;
             }
             //  _StdOut.putText(value.toString(16));
             //_StdOut.putText(value);
@@ -132,13 +136,11 @@ var TSOS;
         MemoryManagementUnit.prototype.loadBlock = function (base, limit) {
             var counter = base;
             var commandBeingLoaded = "";
-            alert(limit + "THISLIMT");
             while (counter < limit) {
                 commandBeingLoaded = commandBeingLoaded + _Memory.memoryArray[counter];
                 _Memory[counter] = "00";
                 counter++;
             }
-            alert(commandBeingLoaded);
             return commandBeingLoaded;
         };
         return MemoryManagementUnit;

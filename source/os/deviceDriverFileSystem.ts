@@ -66,14 +66,17 @@ module TSOS{
                 Control.loadFileSystemTable();
 
             }else if(params[0]===swap){
+                alert("this is the first thigs");
                 var datatsb=this.findFile(params[1]);
-            //    alert("Hit");
+                alert("Hit");
                 var readableArray=this.readUserData(datatsb);
               //  alert("Hit2");
-                this.findFileRemove(params[1]);
+               var tsb= this.findFileRemove(params[1]);
+                this.removeData(tsb);
                 //alert("Hit2.5");
                 this.swapPrograms(readableArray,params[1]);
                 //alert("Hit3");
+                Control.loadFileSystemTable();
 
 
 
@@ -345,7 +348,11 @@ module TSOS{
                 replacementString= replacementString+"0";
 
             }
+            var data= sessionStorage.getItem(tsb);
             sessionStorage.setItem(tsb,replacementString);
+            if(data.substr(1,3)!== "000"){
+                this.removeData(data.substr(1,3));
+            }
         }
         public readUserData(tsb){
             //var filetsb =this.findFile(filename);
@@ -366,7 +373,7 @@ module TSOS{
 
                 readableArray[counter]=readableData.substr(x,2);
                 counter++;
-                if(readableData.substr(x,8)==="00000000"){
+                if(readableData.substr(x,10)==="0000000000"){
                     // _StdOut.putText(readableString);
                     break;
 
@@ -379,6 +386,7 @@ module TSOS{
             //return data;
         }
         public swapPrograms(command,pid){
+            alert("MADE it to swap");
             var base=_MemoryManagement.findAvailableBase();
             var currentProgramtoSwap =100000;
             var currentPriority = 100000;
@@ -401,10 +409,10 @@ module TSOS{
                 while(counter<_PIDArray.length) {
                     if (_PIDArray[counter].location === "Memory") {
                         //add running later
-                        if (_PIDArray[counter].state === "New"){ //|| _PIDArray[counter].state === "New"){
+                        if (_PIDArray[counter].state === "New" || _PIDArray[counter].state === "Ready" || _PIDArray[counter].state === "Running" ){ //|| _PIDArray[counter].state === "New"){
                             if(_PIDArray[counter].priority<currentPriority) {
                                 currentProgramtoSwap = counter;
-                                var currentPriority=_PIDArray[counter].priority;
+                                 currentPriority=_PIDArray[counter].priority;
 
 
                             }
@@ -415,17 +423,17 @@ module TSOS{
 
                 }
                 base = _PIDArray[currentProgramtoSwap].base;
-                alert(_PIDArray[currentProgramtoSwap].base+"HEY");
+           //     alert(_PIDArray[currentProgramtoSwap].base+"HEY");
                 limit = _PIDArray[currentProgramtoSwap].limit;
                  fileData=_MemoryManagement.loadBlock(base,limit);
 
                  _MemoryManagement.resetBaseAvailablity(_PIDArray[currentProgramtoSwap]);
-                 _PIDArray[currentProgramtoSwap].base = 0;
-                 _PIDArray[currentProgramtoSwap].limit = 800;
+                 _PIDArray[currentProgramtoSwap].base = 2;
+                 _PIDArray[currentProgramtoSwap].limit = 0;
                 _PIDArray[currentProgramtoSwap].location = "Storage";
               //  this.setDirFile();
                 var tSB = this.setDirFile(currentProgramtoSwap);
-                alert(fileData);
+              //  alert(fileData);
                  this.setTSB(tSB, fileData);
 
               //  var base=_MemoryManagement.findAvailableBase();
@@ -433,7 +441,17 @@ module TSOS{
                 _PIDArray[pid].limit = limit;
                 _PIDArray[pid].location = "Memory";
            //     alert(_PIDArray[pid]);
+               // alert("before memoryloadin");
+
                 _MemoryManagement.loadInCommand(command, base);
+               // alert("HIS is tre"+_PIDArray[_RuningPIDs[0]].base);
+                _PIDArray[_RuningPIDs[0]].state = "Running";
+                alert("setPCB"+_PIDArray[_RuningPIDs[0]].pc+_PIDArray[_RuningPIDs[0]].x+_PIDArray[_RuningPIDs[0]].z);
+                alert("lastPCB"+_PIDArray[_RuningPIDs[_RuningPIDs.length-1]].pc+_PIDArray[_RuningPIDs[_RuningPIDs.length-1]].x+_PIDArray[_RuningPIDs[_RuningPIDs.length-1]].z);
+
+                _CPU.setPCB(_RuningPIDs[0]);
+
+                _CPU.isExecuting=true;
 
 
 

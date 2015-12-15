@@ -494,19 +494,18 @@ var TSOS;
                     _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, pid]));
                 }
                 args = _PIDArray[args].pid - 1;
-                alert("Fuck this");
+                _RuningPIDs.push(args);
+                _PIDArray[_RuningPIDs[0]].state = "Running";
                 setTimeout(function () {
-                    alert("Fuck");
-                    _RuningPIDs.push(args);
-                    _PIDArray[_RuningPIDs[0]].state = "Running";
-                    alert("HEY");
+                    //_RuningPIDs.push(args);
+                    // _PIDArray[_RuningPIDs[0]].state = "Running";
                     //this.test(args);
                     _CPU.isExecuting = true;
                     ///  _RuningPIDs.push(args);
                     // _PIDArray[_RuningPIDs[0]].state = "Running";
                     //_StdOut.putText(JSON.stringify(args));
                     //   _CPU.isExecuting = true;
-                }, 2000);
+                }, 1000);
             }
         };
         Shell.prototype.test = function (args) {
@@ -529,6 +528,7 @@ var TSOS;
                             _PIDArray[counter].state = "Ready";
                             _RuningPIDs.push(counter);
                             _CPU.isExecuting = true;
+                            ;
                         }
                     }
                 }
@@ -537,16 +537,17 @@ var TSOS;
             _PIDArray[_RuningPIDs[0]].state = "Running";
         };
         Shell.prototype.shellClearMem = function () {
+            //need to fix
             var counter = 0;
             while (_PIDArray.length > counter) {
-                if (_PIDArray[counter].state !== "Executed") {
+                if (_PIDArray[counter].state !== "Executed" && _PIDArray[counter].location !== "Storage") {
                     _PIDArray[counter].state = "Executed";
                 }
-                if (_PIDArray[counter].state === "Running") {
+                if (_PIDArray[counter].state === "Running" && _PIDArray[counter].location !== "Storage") {
                     _CPU.isExecuting = false;
                     _RuningPIDs.shift();
                 }
-                if (_PIDArray[counter].state === "Ready") {
+                if (_PIDArray[counter].state === "Ready" && _PIDArray[counter].location !== "Storage") {
                     _CPU.isExecuting = false;
                     _RuningPIDs.shift();
                 }

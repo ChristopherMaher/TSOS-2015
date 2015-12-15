@@ -59,7 +59,6 @@ var TSOS;
                 _RuningPIDs.push(program);
                 //  _PIDArray[_RuningPIDs[0]].state = "Running";
                 if (_PIDArray[_RuningPIDs[0]].location === "Storage") {
-                    //alert("HIT");
                     _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
                 }
                 else {

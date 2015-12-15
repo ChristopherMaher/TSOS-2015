@@ -120,8 +120,6 @@ module TSOS{
                         var tsb = (x.toString()).concat(i.toString()).concat(z.toString());
                         var data = sessionStorage.getItem(tsb);
                         if (data.substr(0, 1) === "0") {
-                            //alert(data.substr(0, 1));
-                           // alert("dafuck"+tsb +":"+data.substr(0,100));
 
                             return tsb;
                         }
@@ -138,12 +136,10 @@ module TSOS{
             var datatwo = "";
             var counter = 0;
             var nextTSB = "";
-           // alert(command);
             while (dataone.length >= 120) {
 
                 nextTSB = this.findNextAvailableDataTSB();
                 datatwo = "1" + nextTSB + dataone.substr(0, 120);
-              //  alert(nextTSB);
                 sessionStorage.setItem(nextTSB,datatwo);
                 //alert(nextTSB);
                 //    alert (dataone.substr(0,120)+tsb);
@@ -453,15 +449,6 @@ module TSOS{
 
                 _CPU.isExecuting=true;
 
-
-
-                // _MemoryManagement.findAvailableBase();
-                //this.findNextAvailableDir();
-             //   this.setDirFile(_P)
-
-
-
-                //_PIDArray[args].pid -1
 
 
 

@@ -59,7 +59,6 @@ module  TSOS {
 
               //  _PIDArray[_RuningPIDs[0]].state = "Running";
                 if(_PIDArray[_RuningPIDs[0]].location === "Storage"){
-                    //alert("HIT");
                     _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6,_RuningPIDs[0]]));
                   //  alert("Hit");
                   //  setTimeout( () => {
@@ -69,8 +68,6 @@ module  TSOS {
 
 
 
-                      //  alert("NMber2");
-                    //alert(_PIDArray[_RuningPIDs[0]].pid);
                     //_CPU.isExecuting = false;
                    // setTimeout( () => {
                      //   alert("hit this");

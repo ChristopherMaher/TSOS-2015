@@ -673,13 +673,6 @@ module TSOS {
         }
         public test(args){
            // args=_PIDArray[args].pid -1;
-       //     alert("HEY still fucked");
-            //alert("hey this made it"+args);
-
-
-
-         //   _RuningPIDs.push(args);
-           // alert(_PIDArray[_RuningPIDs[0]].pid);
  //           alert(_PIDArray[_RuningPIDs[0]].base);
 //
             //_StdOut.putText(JSON.stringify(args));

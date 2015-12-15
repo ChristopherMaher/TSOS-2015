@@ -17,7 +17,7 @@ var TSOS;
             this.cpuCycle = cpuCycle;
         }
         Scheduler.prototype.readySwitch = function () {
-            if (this.cpuCycle === this.quantumNumber) {
+            if (this.cpuCycle === _QuantumNumber) {
                 this.cpuCycle = 0;
                 _CPU.currentPCB(_RuningPIDs[0]);
                 if (_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
@@ -38,7 +38,6 @@ var TSOS;
                 if (_PIDArray[_RuningPIDs[0]].location === "Storage") {
                     //alert("HIT");
                     _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
-                    alert("Hit");
                 }
                 else {
                     _PIDArray[_RuningPIDs[0]].state = "Running";

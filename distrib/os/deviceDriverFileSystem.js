@@ -70,9 +70,9 @@ var TSOS;
                 TSOS.Control.loadFileSystemTable();
             }
             else if (params[0] === swap) {
-                alert("this is the first thigs");
+                //alert("this is the first thigs");
                 var datatsb = this.findFile(params[1]);
-                alert("Hit");
+                //alert("Hit");
                 var readableArray = this.readUserData(datatsb);
                 //  alert("Hit2");
                 var tsb = this.findFileRemove(params[1]);
@@ -325,7 +325,6 @@ var TSOS;
                 }
                 readableData = readableData + data.substr(4, 120);
                 data = sessionStorage.getItem(data.substr(1, 3));
-                alert(data.substr(1, 3));
             }
             for (var x = 0; x <= readableData.length; x += 2) {
                 readableArray[counter] = readableData.substr(x, 2);
@@ -341,14 +340,14 @@ var TSOS;
             //return data;
         };
         DeviceDriverFileSystem.prototype.swapPrograms = function (command, pid) {
-            alert("MADE it to swap");
+            // alert("MADE it to swap");
             var base = _MemoryManagement.findAvailableBase();
             var currentProgramtoSwap = 100000;
             var currentPriority = 100000;
             var fileData = "";
             //var oldbase =0;
             var limit = 0;
-            alert(_PIDArray);
+            //alert(_PIDArray);
             if (base !== 2) {
                 _PIDArray[pid].base = base;
                 _PIDArray[pid].limit = base + 255;
@@ -392,8 +391,8 @@ var TSOS;
                 _MemoryManagement.loadInCommand(command, base);
                 // alert("HIS is tre"+_PIDArray[_RuningPIDs[0]].base);
                 _PIDArray[_RuningPIDs[0]].state = "Running";
-                alert("setPCB" + _PIDArray[_RuningPIDs[0]].pc + _PIDArray[_RuningPIDs[0]].x + _PIDArray[_RuningPIDs[0]].z);
-                alert("lastPCB" + _PIDArray[_RuningPIDs[_RuningPIDs.length - 1]].pc + _PIDArray[_RuningPIDs[_RuningPIDs.length - 1]].x + _PIDArray[_RuningPIDs[_RuningPIDs.length - 1]].z);
+                //  alert("setPCB"+_PIDArray[_RuningPIDs[0]].pc+_PIDArray[_RuningPIDs[0]].x+_PIDArray[_RuningPIDs[0]].z);
+                //alert("lastPCB"+_PIDArray[_RuningPIDs[_RuningPIDs.length-1]].pc+_PIDArray[_RuningPIDs[_RuningPIDs.length-1]].x+_PIDArray[_RuningPIDs[_RuningPIDs.length-1]].z);
                 _CPU.setPCB(_RuningPIDs[0]);
                 _CPU.isExecuting = true;
             }

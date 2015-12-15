@@ -16,7 +16,7 @@ module  TSOS {
 
         }
         public readySwitch(){
-           if(this.cpuCycle === this.quantumNumber){
+           if(this.cpuCycle === _QuantumNumber){
                this.cpuCycle = 0;
                _CPU.currentPCB(_RuningPIDs[0]);
                if(_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
@@ -40,7 +40,7 @@ module  TSOS {
                 if(_PIDArray[_RuningPIDs[0]].location === "Storage"){
                     //alert("HIT");
                     _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6,_RuningPIDs[0]]));
-                    alert("Hit");
+                  //  alert("Hit");
                   //  setTimeout( () => {
                      //   alert("HIT2");
                     //    _CPU.isExecuting = true;

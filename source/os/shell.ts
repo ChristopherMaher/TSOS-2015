@@ -180,6 +180,11 @@ module TSOS {
                 "-formats the harddrive");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellSelectschedule,
+                "selectschedule",
+                "<string>-changes the scheduler");
+            this.commandList[this.commandList.length] = sc;
+
 
 
 
@@ -669,14 +674,14 @@ module TSOS {
         public test(args){
            // args=_PIDArray[args].pid -1;
        //     alert("HEY still fucked");
-            alert("hey this made it"+args);
+            //alert("hey this made it"+args);
 
 
 
          //   _RuningPIDs.push(args);
-            alert(_PIDArray[_RuningPIDs[0]].pid);
-            alert(_PIDArray[_RuningPIDs[0]].base);
-
+           // alert(_PIDArray[_RuningPIDs[0]].pid);
+ //           alert(_PIDArray[_RuningPIDs[0]].base);
+//
             //_StdOut.putText(JSON.stringify(args));
 
             _CPU.isExecuting = true;
@@ -807,6 +812,10 @@ module TSOS {
         }
         public shellFormat(){
             _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[5]));
+
+        }
+        public shellSelectschedule(){
+          //  _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[5]));
 
         }
 

@@ -29,6 +29,7 @@ var rootNode = null; //The global object for tab complete
 //var _PID : number = 0; //keeps track of PID's
 var _MemoryTable;
 var _ReadyTable;
+var _ScheduleType = "RR";
 var _Memory;
 var _PIDArray = []; //An array to keep track of the pid for each program
 var _RuningPIDs = [];

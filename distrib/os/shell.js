@@ -630,8 +630,19 @@ var TSOS;
         Shell.prototype.shellFormat = function () {
             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [5]));
         };
-        Shell.prototype.shellSelectschedule = function () {
+        Shell.prototype.shellSelectschedule = function (schedule) {
             //  _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[5]));
+            alert(schedule);
+            if (schedule == "firstcomefirstserve") {
+                _ScheduleType = "FCFS";
+            }
+            if (schedule == "fcfs") {
+                _ScheduleType = "FCFS";
+            }
+            if (schedule == "FCFS") {
+                _ScheduleType = "FCFS";
+            }
+            alert(_ScheduleType);
         };
         return Shell;
     })();

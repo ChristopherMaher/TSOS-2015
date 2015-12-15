@@ -15,17 +15,29 @@ module  TSOS {
             this.cpuCycle = cpuCycle;
 
         }
-        public readySwitch(){
-           if(this.cpuCycle === _QuantumNumber){
-               this.cpuCycle = 0;
-               _CPU.currentPCB(_RuningPIDs[0]);
-               if(_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
-                   _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Running"));
-                  // _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid]));
-               }else{
-                   _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Executed"));
-               }
+        public readySwitch(scheduleType){
+           if(scheduleType === "RR") {
+               if (this.cpuCycle === _QuantumNumber) {
+                   this.cpuCycle = 0;
+                   _CPU.currentPCB(_RuningPIDs[0]);
+                   if (_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
+                       _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Running"));
+                       // _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid]));
+                   } else {
+                       _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Executed"));
+                   }
 
+               }
+           }else if(scheduleType === "FCFS"){
+               _CPU.currentPCB(_RuningPIDs[0]);
+               if(_PIDArray[_RuningPIDs[0]].state ===  "Executed") {
+                   if (_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
+                       _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Running"));
+                       // _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid]));
+                   } else {
+                       _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Executed"));
+                   }
+               }
            }
         }
         public performSwitch(args){

@@ -16,15 +16,28 @@ var TSOS;
             this.quantumNumber = quantumNumber;
             this.cpuCycle = cpuCycle;
         }
-        Scheduler.prototype.readySwitch = function () {
-            if (this.cpuCycle === _QuantumNumber) {
-                this.cpuCycle = 0;
-                _CPU.currentPCB(_RuningPIDs[0]);
-                if (_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
-                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Running"));
+        Scheduler.prototype.readySwitch = function (scheduleType) {
+            if (scheduleType === "RR") {
+                if (this.cpuCycle === _QuantumNumber) {
+                    this.cpuCycle = 0;
+                    _CPU.currentPCB(_RuningPIDs[0]);
+                    if (_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Running"));
+                    }
+                    else {
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Executed"));
+                    }
                 }
-                else {
-                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Executed"));
+            }
+            else if (scheduleType === "FCFS") {
+                _CPU.currentPCB(_RuningPIDs[0]);
+                if (_PIDArray[_RuningPIDs[0]].state === "Executed") {
+                    if (_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Running"));
+                    }
+                    else {
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Executed"));
+                    }
                 }
             }
         };

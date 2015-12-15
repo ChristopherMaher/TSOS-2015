@@ -98,7 +98,7 @@ var TSOS;
             else if (_CPU.isExecuting) {
                 _CPU.cycle();
                 _Scheduler.cpuCycle++;
-                _Scheduler.readySwitch();
+                _Scheduler.readySwitch(_ScheduleType);
             }
             else {
                 this.krnTrace("Idle");

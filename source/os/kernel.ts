@@ -112,6 +112,9 @@ module TSOS {
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             } else if (_CPU.isExecuting) { // If there are no interrupts then run one CPU cycle if there is anything being processed. {
+                if(_ScheduleType === "priority"){
+                    _Scheduler.setUpPriority();
+                }
                 _CPU.cycle();
                 _Scheduler.cpuCycle++;
                 _Scheduler.readySwitch(_ScheduleType);

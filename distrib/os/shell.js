@@ -93,7 +93,7 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellFormat, "format", "-formats the harddrive");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellSelectschedule, "selectschedule", "<string>-changes the scheduler");
+            sc = new TSOS.ShellCommand(this.shellSetschedule, "setschedule", "<string>-changes the scheduler");
             this.commandList[this.commandList.length] = sc;
             // ps  - list the running processes and their IDs
             // kill <id> - kills the specified process id.
@@ -630,19 +630,23 @@ var TSOS;
         Shell.prototype.shellFormat = function () {
             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [5]));
         };
-        Shell.prototype.shellSelectschedule = function (schedule) {
+        Shell.prototype.shellSetschedule = function (schedule) {
             //  _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[5]));
-            alert(schedule);
-            if (schedule == "firstcomefirstserve") {
-                _ScheduleType = "FCFS";
-            }
             if (schedule == "fcfs") {
                 _ScheduleType = "FCFS";
             }
-            if (schedule == "FCFS") {
+            else if (schedule == "FCFS") {
                 _ScheduleType = "FCFS";
             }
-            alert(_ScheduleType);
+            else if (schedule == "rr") {
+                _ScheduleType = "RR";
+            }
+            else if (schedule == "priority") {
+                _ScheduleType = "priority";
+            }
+            else {
+                _StdOut.putText("schedule doesn't exitst");
+            }
         };
         return Shell;
     })();

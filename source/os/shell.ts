@@ -180,8 +180,8 @@ module TSOS {
                 "-formats the harddrive");
             this.commandList[this.commandList.length] = sc;
 
-            sc = new ShellCommand(this.shellSelectschedule,
-                "selectschedule",
+            sc = new ShellCommand(this.shellSetschedule,
+                "setschedule",
                 "<string>-changes the scheduler");
             this.commandList[this.commandList.length] = sc;
 
@@ -814,20 +814,22 @@ module TSOS {
             _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[5]));
 
         }
-        public shellSelectschedule(schedule){
+        public shellSetschedule(schedule){
           //  _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[5]));
-            alert(schedule);
-            if(schedule == "firstcomefirstserve"){
-                _ScheduleType = "FCFS";
-            }
+
             if(schedule == "fcfs"){
                 _ScheduleType = "FCFS";
-            }
-            if(schedule == "FCFS"){
+            }else if(schedule == "FCFS"){
                 _ScheduleType = "FCFS";
 
+            }else if(schedule == "rr"){
+                _ScheduleType ="RR";
+            }else if(schedule == "priority"){
+                _ScheduleType="priority";
+            }else{
+                _StdOut.putText("schedule doesn't exitst");
             }
-            alert(_ScheduleType);
+
 
         }
 

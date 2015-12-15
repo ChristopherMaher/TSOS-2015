@@ -40,6 +40,16 @@ var TSOS;
                     }
                 }
             }
+            else {
+                if (_PIDArray[_RuningPIDs[0]].state === "Executed") {
+                    if (_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Running"));
+                    }
+                    else {
+                        _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Executed"));
+                    }
+                }
+            }
         };
         Scheduler.prototype.performSwitch = function (args) {
             if (args === "Running") {
@@ -74,6 +84,27 @@ var TSOS;
                     }
                     _CPU.setPCB(_RuningPIDs[0]);
                 }
+            }
+        };
+        Scheduler.prototype.setUpPriority = function () {
+            var counter = 0;
+            var topPriority = 100000;
+            var pidTracker = 0;
+            var tracker2 = 0;
+            var counter2 = 0;
+            //_RuningPIDs[];
+            while (counter < _RuningPIDs.length) {
+                if (topPriority > _PIDArray[_RuningPIDs[counter]].priority) {
+                    topPriority = _PIDArray[_RuningPIDs[counter]].priority;
+                    pidTracker = _RuningPIDs[counter];
+                    tracker2 = counter;
+                }
+                counter++;
+            }
+            while (counter2 !== tracker2) {
+                var temp = _RuningPIDs.shift();
+                _RuningPIDs.push(temp);
+                counter2++;
             }
         };
         return Scheduler;

@@ -96,6 +96,9 @@ var TSOS;
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             }
             else if (_CPU.isExecuting) {
+                if (_ScheduleType === "priority") {
+                    _Scheduler.setUpPriority();
+                }
                 _CPU.cycle();
                 _Scheduler.cpuCycle++;
                 _Scheduler.readySwitch(_ScheduleType);

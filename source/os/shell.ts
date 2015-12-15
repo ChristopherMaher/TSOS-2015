@@ -637,6 +637,7 @@ module TSOS {
                     //look out for number/string conflicts
                  //   setTimout(_KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid])),1000);
                   //  setTimeout( () => {
+
                         _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid]));
                   //  }, 3000);
 

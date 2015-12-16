@@ -384,7 +384,7 @@ module TSOS{
         public swapPrograms(command,pid){
             var base=_MemoryManagement.findAvailableBase();
             var currentProgramtoSwap =100000;
-            var currentPriority = 100000;
+            var currentPriority = 0;
             var fileData="";
             //var oldbase =0;
             var limit =0;
@@ -405,7 +405,7 @@ module TSOS{
                     if (_PIDArray[counter].location === "Memory") {
                         //add running later
                         if (_PIDArray[counter].state === "New" || _PIDArray[counter].state === "Ready" || _PIDArray[counter].state === "Running" ){ //|| _PIDArray[counter].state === "New"){
-                            if(_PIDArray[counter].priority<currentPriority) {
+                            if(_PIDArray[counter].priority>currentPriority) {
                                 currentProgramtoSwap = counter;
                                  currentPriority=_PIDArray[counter].priority;
 
@@ -441,7 +441,7 @@ module TSOS{
                 _PIDArray[_RuningPIDs[0]].state = "Running";
 
                 _CPU.setPCB(_RuningPIDs[0]);
-                alert(_RuningPIDs[0]);
+               // alert(_RuningPIDs[0]);
                // alert("HIT swappimg");
                 _CPU.isExecuting=true;
 

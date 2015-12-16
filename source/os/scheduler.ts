@@ -42,7 +42,7 @@ module  TSOS {
               // alert("Hitdashit");
               // _CPU.currentPCB(_RuningPIDs[0]);
               // _CPU.currentPCB(_RuningPIDs[0]);
-              // _CPU.currentPCB(_RuningPIDs[0]);
+               _CPU.currentPCB(_RuningPIDs[0]);
 
                if(_PIDArray[_RuningPIDs[0]].state ===  "Executed") {
                //    _CPU.currentPCB(_RuningPIDs[0]);
@@ -123,7 +123,7 @@ module  TSOS {
             }
 
         }
-        public setUpPriority(){
+        public setUpPriority() {
             var counter = 0;
             var topPriority = 100000;
             var pidTracker = 0;
@@ -131,23 +131,27 @@ module  TSOS {
             var counter2 = 0;
             //_RuningPIDs[];
 
-            while(counter<_RuningPIDs.length){
-               if(topPriority>_PIDArray[_RuningPIDs[counter]].priority){
-                   topPriority = _PIDArray[_RuningPIDs[counter]].priority;
-                   pidTracker = _RuningPIDs[counter];
-               //    alert(_PIDArray[_RuningPIDs[counter]].priority +"PRIORITY NUMBER");
-                   tracker2 = counter;
-               }
-                counter++;
+            if (_RuningPIDs.length > 0) {
+                while (counter < _RuningPIDs.length) {
+                    if (topPriority > _PIDArray[_RuningPIDs[counter]].priority) {
+                        topPriority = _PIDArray[_RuningPIDs[counter]].priority;
+                        pidTracker = _RuningPIDs[counter];
+                        //    alert(_PIDArray[_RuningPIDs[counter]].priority +"PRIORITY NUMBER");
+                        tracker2 = counter;
+                    }
+                    counter++;
+                }
+                while (counter2 !== tracker2) {
+                    var temp = _RuningPIDs.shift();
+                    _PIDArray[temp].state = "Ready";
+                    _RuningPIDs.push(temp);
+                    counter2++;
+                    //alert()
+                }
+                _PIDArray[_RuningPIDs[0]].state = "Running";
+                //_PrioritySetup = false;
+
             }
-            while(counter2 !== tracker2){
-                var temp = _RuningPIDs.shift();
-                _PIDArray[temp].state = "Ready";
-                _RuningPIDs.push(temp);
-                counter2++;
-                //alert()
-            }
-            _PIDArray[_RuningPIDs[0]].state = "Running";
             _PrioritySetup = false;
 
         }

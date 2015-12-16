@@ -28,7 +28,6 @@ module TSOS{
                     var tSB = this.setDirFile(params[1]);
                     if (params.length > 2) {
                         this.setTSB(tSB, params[2]);
-                       // alert(params[2]);
                     }
                 }
 
@@ -40,7 +39,6 @@ module TSOS{
                     var datatsb = this.findFile(params[1]);
                     var readableString = this.readData(datatsb);
                     _StdOut.putText(readableString);
-                   // alert("first" + params[1].toString());
                 }
 
 
@@ -52,7 +50,6 @@ module TSOS{
                     this.writeData(datatsb, params[2]);
                 }
 
-                //this.setTSB(params);
             }else if(params[0]=== remove){
                 if(this.findFile(params[1]) === false){
                     _StdOut.putText("File doesn't exist");
@@ -67,21 +64,15 @@ module TSOS{
                 Control.loadFileSystemTable();
 
             }else if(params[0]===swap){
-                //alert("this is the first thigs");
                 var datatsb=this.findFile(params[1]);
-                //alert("Hit");
                 var readableArray=this.readUserData(datatsb);
-              //  alert("Hit2");
-               var tsb= this.findFileRemove(params[1]);
+                var tsb= this.findFileRemove(params[1]);
                 this.removeData(tsb);
-                //alert("Hit2.5");
                 this.swapPrograms(readableArray,params[1]);
-                //alert("Hit3");
                 Control.loadFileSystemTable();
 
 
 
-                //return readableArray;
             }else if(params[0]=== readAll){
                     var temp=this.readAllFiles();
 
@@ -146,24 +137,14 @@ module TSOS{
                 nextTSB = this.findNextAvailableDataTSB();
                 datatwo = "1" + nextTSB + dataone.substr(0, 120);
                 sessionStorage.setItem(nextTSB,datatwo);
-                //alert(nextTSB);
-                //    alert (dataone.substr(0,120)+tsb);
-            //    alert(datatwo);
-               // alert(datatwo);
-                sessionStorage.setItem(tsb, datatwo);
-                //alert(sessionStorage.getItem(tsb));
-                //alert(sessionStorage.getItem(tsb));
 
-                //alert("HITHERE");
+                sessionStorage.setItem(tsb, datatwo);
                 tsb = nextTSB;
-              //  alert(tsb);
 
                 dataone = dataone.substr(120, dataone.length);
-                //alert(dataone);
 
                 counter++;
             }
-           // alert(sessionStorage.getItem(tsb));
             for (var x = dataone.length; x <= 119; x++) {
                 dataone = dataone + "0";
             }
@@ -237,15 +218,12 @@ module TSOS{
                 data=sessionStorage.getItem(data.substr(1,3));
             }
             for(var x = 0; x<=readableData.length; x+=2){
-              //  alert(readableData);
                 readableString=readableString+String.fromCharCode(parseInt(readableData.substr(x,2),16));
                 if(readableData.substr(x,2)==="00"){
-                   // _StdOut.putText(readableString);
                     break;
 
                 }
             }
-           // readableData.toString()
             return readableString;
 
         }
@@ -304,15 +282,12 @@ module TSOS{
         }
         public findFileRemove(fileName){
             var fileName= fileName.toString();
-            //var length = filename.length;
             var nameHex = "";
             var counter = 0;
-            //  alert(fileName.charCodeAt(0));
 
             while(counter < fileName.length){
 
                 nameHex= nameHex + (fileName.charCodeAt(counter)).toString(16);
-                //alert(nameHex);
 
                 counter++;
             }
@@ -343,12 +318,10 @@ module TSOS{
             var data = data.toString();
             var dataHex = "";
             var counter = 0;
-            //  alert(fileName.charCodeAt(0));
 
             while (counter < data.length) {
 
                 dataHex = dataHex + (data.charCodeAt(counter)).toString(16);
-                //alert(nameHex);
 
                 counter++;
             }
@@ -382,7 +355,6 @@ module TSOS{
             return allFileNames;
         }
         public readUserData(tsb){
-            //var filetsb =this.findFile(filename);
             var data=sessionStorage.getItem(tsb);
             var readableData = "";
             var readableArray =[];
@@ -394,47 +366,39 @@ module TSOS{
                 }
                 readableData=readableData+data.substr(4,120);
                 data=sessionStorage.getItem(data.substr(1,3));
-               // alert(data.substr(1,3));
             }
             for(var x = 0; x<=readableData.length; x+=2){
 
                 readableArray[counter]=readableData.substr(x,2);
                 counter++;
                 if(readableData.substr(x,20)==="00000000000000000000"){
-                    // _StdOut.putText(readableString);
                     break;
 
                 }
             }
 
             return readableArray;
-            // readableData.toString()
-            //return readableString;
-            //return data;
+
         }
         public swapPrograms(command,pid){
             var base=_MemoryManagement.findAvailableBase();
             var currentProgramtoSwap =100000;
             var currentPriority = 0;
             var fileData="";
-            //var oldbase =0;
             var limit =0;
-            //alert(_PIDArray);
             if(base !== 2){
                 _PIDArray[pid].base = base;
                 _PIDArray[pid].limit = base+255;
                 _PIDArray[pid].location = "Memory";
                 _MemoryManagement.loadInCommand(command,base);
+                alert(pid);
 
 
 
             }else{
-               // var inMem = [];
                 var counter =0;
-                //var counter2= 0;
                 while(counter<_PIDArray.length) {
                     if (_PIDArray[counter].location === "Memory") {
-                        //add running later
                         if (_PIDArray[counter].state === "New" || _PIDArray[counter].state === "Ready" || _PIDArray[counter].state === "Running" ){ //|| _PIDArray[counter].state === "New"){
                             if(_PIDArray[counter].priority>currentPriority) {
                                 currentProgramtoSwap = counter;
@@ -449,22 +413,19 @@ module TSOS{
 
                 }
                 base = _PIDArray[currentProgramtoSwap].base;
-           //     alert(_PIDArray[currentProgramtoSwap].base+"HEY");
                 limit = _PIDArray[currentProgramtoSwap].limit;
                  fileData=_MemoryManagement.loadBlock(base,limit);
 
                  _MemoryManagement.resetBaseAvailablity(_PIDArray[currentProgramtoSwap]);
                  _PIDArray[currentProgramtoSwap].base = 2;
                  _PIDArray[currentProgramtoSwap].limit = 0;
-                _PIDArray[currentProgramtoSwap].location = "Storage";
-              //  this.setDirFile();
-                var tSB = this.setDirFile(currentProgramtoSwap);
-              //  alert(fileData);
+                 _PIDArray[currentProgramtoSwap].location = "Storage";
+                 var tSB = this.setDirFile(currentProgramtoSwap);
                  this.setTSB(tSB, fileData);
 
-                _PIDArray[pid].base = base;
-                _PIDArray[pid].limit = limit;
-                _PIDArray[pid].location = "Memory";
+                 _PIDArray[pid].base = base;
+                 _PIDArray[pid].limit = limit;
+                 _PIDArray[pid].location = "Memory";
 
                 _MemoryManagement.loadInCommand(command, base);
                 _PIDArray[_RuningPIDs[0]].state = "Running";

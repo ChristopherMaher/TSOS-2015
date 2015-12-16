@@ -501,6 +501,11 @@ var TSOS;
             else {
                 _PIDArray[args].state = "Ready";
                 if (_PIDArray[args].location === "Storage") {
+                    //   var pid=args;
+                    //look out for number/string conflicts
+                    //   setTimout(_KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid])),1000);
+                    //  setTimeout( () => {
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, args]));
                 }
                 args = _PIDArray[args].pid - 1;
                 _RuningPIDs.push(args);
@@ -518,17 +523,9 @@ var TSOS;
                 }, 1000);
             }
         };
-        Shell.prototype.test = function (args) {
-            // args=_PIDArray[args].pid -1;
-            //           alert(_PIDArray[_RuningPIDs[0]].base);
-            //
-            //_StdOut.putText(JSON.stringify(args));
-            _CPU.isExecuting = true;
-        };
         Shell.prototype.shellRunAll = function () {
             var counter = 0;
             while (_PIDArray.length > counter) {
-                //   _StdOut.putText("RUNNING");
                 if (_PIDArray[counter].state !== "Executed") {
                     if (_PIDArray[counter].state !== "Ready") {
                         if (_PIDArray[counter].state !== "Running") {
@@ -551,14 +548,17 @@ var TSOS;
             while (_PIDArray.length > counter) {
                 if (_PIDArray[counter].state !== "Executed" && _PIDArray[counter].location !== "Storage") {
                     _PIDArray[counter].state = "Executed";
+                    alert(counter);
                 }
                 if (_PIDArray[counter].state === "Running" && _PIDArray[counter].location !== "Storage") {
                     _CPU.isExecuting = false;
                     _RuningPIDs.shift();
+                    alert(counter + "Runn");
                 }
                 if (_PIDArray[counter].state === "Ready" && _PIDArray[counter].location !== "Storage") {
                     _CPU.isExecuting = false;
                     _RuningPIDs.shift();
+                    alert(counter + "READY");
                 }
                 counter++;
             }

@@ -65,6 +65,13 @@ tbody{
   overflow-y:scroll;
 }
 
+#systemWrapper{
+  max-height: 200px;
+  width: 600px;
+  overflow-y:scroll;
+
+}
+
 #memDisplay{
   max-height:200px;
   overflow-y:scroll;

@@ -190,6 +190,16 @@ module TSOS {
                 "<string>-changes the scheduler");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellGetschedule,
+                "getschedule",
+                "-gets the currently running schedule");
+            this.commandList[this.commandList.length] = sc;
+
+            sc = new ShellCommand(this.shellLs,
+                "ls",
+                "-retrieves what is currently in the hard drive");
+            this.commandList[this.commandList.length] = sc;
+
 
 
 
@@ -834,19 +844,31 @@ module TSOS {
 
             if(schedule == "fcfs"){
                 _ScheduleType = "FCFS";
+                _PrioritySetup = false;
             }else if(schedule == "FCFS"){
                 _ScheduleType = "FCFS";
+                _PrioritySetup = false;
 
             }else if(schedule == "rr"){
                 _ScheduleType ="RR";
+                _PrioritySetup = false;
             }else if(schedule == "priority"){
                 _ScheduleType="priority";
+                //_PrioritySetup = true;
             }else{
                 _StdOut.putText("schedule doesn't exitst");
             }
 
 
         }
+        public shellGetschedule(){
+            _StdOut.putText(_ScheduleType);
+        }
+        public shellLs(){
+            _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[7]));
+            //_StdOut.putText(_ScheduleType);
+        }
+
 
 
 

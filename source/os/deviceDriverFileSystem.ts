@@ -19,6 +19,7 @@ module TSOS{
             var remove =4;
             var format = 5;
             var swap = 6;
+            var readAll = 7;
 
             if(params[0]=== create){
                 if(this.findFile(params[1]) !== false){
@@ -81,6 +82,12 @@ module TSOS{
 
 
                 //return readableArray;
+            }else if(params[0]=== readAll){
+                    var temp=this.readAllFiles();
+
+                _StdOut.advanceLine();
+                    _StdOut.putText(temp.substr(4,temp.length));
+
             }
 
         }
@@ -100,8 +107,6 @@ module TSOS{
                 }
             }
             sessionStorage.setItem("000","100011000000");
-           // Control.createFileSystemTable();
-        //    Control.loadFileSystemTable();
         }
 
         public initsetTSB(tsb, data) {
@@ -163,10 +168,7 @@ module TSOS{
                 dataone = dataone + "0";
             }
             datatwo = "1" +"0"+"0"+"0"+ dataone;
-            //alert(tsb);
-            //tsb = this.findNextAvailableDataTSB();
             sessionStorage.setItem(tsb, datatwo);
-         //   alert(sessionStorage.getItem(tsb));
             Control.loadFileSystemTable();
 
         }
@@ -176,11 +178,7 @@ module TSOS{
                         var tsb = "0".concat(i.toString()).concat(z.toString());
                         var data = sessionStorage.getItem(tsb);
                         if (data.substr(0, 1) === "0") {
-                            //alert(data.substr(0, 1));
-                            //
-                            //
-                            //
-                            // alert(tsb);
+
                             return tsb;
                         }
                     }
@@ -189,17 +187,14 @@ module TSOS{
 
         }
         public  setDirFile(fileName){
-           // alert(fileName);
 
             var fileName = fileName.toString();
             var nameHex = "";
             var counter = 0;
-          //  alert(fileName.charCodeAt(0));
 
             while(counter < fileName.length){
 
                 nameHex= nameHex + (fileName.charCodeAt(counter)).toString(16);
-                //alert(nameHex);
 
                 counter++;
             }
@@ -254,6 +249,27 @@ module TSOS{
             return readableString;
 
         }
+        public readDIR(tsb){
+            var data=sessionStorage.getItem(tsb);
+            var readableData = "";
+            var readableString ="";
+
+            readableData=readableData+data.substr(4,120);
+
+            for(var x = 0; x<=readableData.length; x+=2){
+                //  alert(readableData);
+                readableString=readableString+String.fromCharCode(parseInt(readableData.substr(x,2),16));
+                if(readableData.substr(x,2)==="00"){
+                    // _StdOut.putText(readableString);
+                    break;
+
+                }
+            }
+            // readableData.toString()
+            return readableString;
+
+        }
+
         public findFile(fileName){
             var fileName= fileName.toString();
             //var length = filename.length;
@@ -350,6 +366,21 @@ module TSOS{
                 this.removeData(data.substr(1,3));
             }
         }
+        public readAllFiles(){
+            var allFileNames = "";
+            for (var i = 0; i <= 7; i++) {
+                for (var z = 0; z <= 7; z++) {
+                    var tsb = ("0".concat(i.toString()).concat(z.toString()));
+                    var data = sessionStorage.getItem(tsb);
+                    if (data.substr(0, 1) === "1") {
+                        var readableString =this.readDIR(tsb);
+
+                        allFileNames = allFileNames+ ","+readableString;
+                    }
+                }
+            }
+            return allFileNames;
+        }
         public readUserData(tsb){
             //var filetsb =this.findFile(filename);
             var data=sessionStorage.getItem(tsb);
@@ -431,18 +462,14 @@ module TSOS{
               //  alert(fileData);
                  this.setTSB(tSB, fileData);
 
-              //  var base=_MemoryManagement.findAvailableBase();
                 _PIDArray[pid].base = base;
                 _PIDArray[pid].limit = limit;
                 _PIDArray[pid].location = "Memory";
 
                 _MemoryManagement.loadInCommand(command, base);
-               // alert("HIS is tre"+_PIDArray[_RuningPIDs[0]].base);
                 _PIDArray[_RuningPIDs[0]].state = "Running";
 
                 _CPU.setPCB(_RuningPIDs[0]);
-               // alert(_RuningPIDs[0]);
-               // alert("HIT swappimg");
                 _CPU.isExecuting=true;
 
 

@@ -144,7 +144,7 @@ var TSOS;
                         var b = z.toString();
                         var tsb = t + s + b;
                         rowID = "rowID" + tsb;
-                        tableOutput += "<td>" + "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" + "</td>";
+                        tableOutput += "<td>" + tsb + "</td>" + "<td>" + "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" + "</td>";
                         tableOutput += "</tr>";
                     }
                 }
@@ -218,7 +218,7 @@ var TSOS;
                         var b = z.toString();
                         var tsb = t + s + b;
                         rowID = "rowID" + tsb;
-                        tableOutput += "<td>" + sessionStorage.getItem(tsb) + "</td>";
+                        tableOutput += "<td>" + tsb + "</td>" + "<td>" + sessionStorage.getItem(tsb) + "</td>";
                         tableOutput += "</tr>";
                     }
                 }

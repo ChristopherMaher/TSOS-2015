@@ -39,13 +39,16 @@ module  TSOS {
                    }
                }
            }else{
+              // alert("Hitdashit");
+              // _CPU.currentPCB(_RuningPIDs[0]);
+              // _CPU.currentPCB(_RuningPIDs[0]);
+              // _CPU.currentPCB(_RuningPIDs[0]);
+
                if(_PIDArray[_RuningPIDs[0]].state ===  "Executed") {
-                   if (_PIDArray[_RuningPIDs[0]].state === "Running" || _PIDArray[_RuningPIDs[0]].state === "Ready") {
-                       _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Running"));
-                       // _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid]));
-                   } else {
-                       _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Executed"));
-                   }
+               //    _CPU.currentPCB(_RuningPIDs[0]);
+
+                   _KernelInterruptQueue.enqueue(new Interrupt(PROGRAMSWITCH, "Executed"));
+
                }
            }
         }
@@ -86,11 +89,15 @@ module  TSOS {
 
             }else{
                 _RuningPIDs.shift();
+                if(_ScheduleType === "priority"){
+                    _Scheduler.setUpPriority();
+                    //    alert(_RuningPIDs[0]);
+                }
                 if(_RuningPIDs.length > 0) {
                     if(_PIDArray[_RuningPIDs[0]].location === "Storage"){
                         _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
-                        _CPU.isExecuting = false;
-                        setTimeout( () => {
+                      //  _CPU.isExecuting = false;
+                        //setTimeout( () => {
                             //this.test(args);
 
 
@@ -99,10 +106,17 @@ module  TSOS {
 
                             //_StdOut.putText(JSON.stringify(args));
 
-                               _CPU.isExecuting = true;
-                        }, 1000);
+                               //_CPU.isExecuting = true;
+                        //}, 1000);
 
-                    }
+                    }//else{
+                 //       _PIDArray[_RuningPIDs[0]].state = "Running";
+                       // _CPU.setPCB(_RuningPIDs[0]);
+                       // alert(_)
+                       // _CPU.isExecuting = true;
+
+//                    }
+
                     _CPU.setPCB(_RuningPIDs[0]);
                 }
 
@@ -121,15 +135,20 @@ module  TSOS {
                if(topPriority>_PIDArray[_RuningPIDs[counter]].priority){
                    topPriority = _PIDArray[_RuningPIDs[counter]].priority;
                    pidTracker = _RuningPIDs[counter];
+               //    alert(_PIDArray[_RuningPIDs[counter]].priority +"PRIORITY NUMBER");
                    tracker2 = counter;
                }
                 counter++;
             }
             while(counter2 !== tracker2){
                 var temp = _RuningPIDs.shift();
+                _PIDArray[temp].state = "Ready";
                 _RuningPIDs.push(temp);
                 counter2++;
+                //alert()
             }
+            _PIDArray[_RuningPIDs[0]].state = "Running";
+            _PrioritySetup = false;
 
         }
 

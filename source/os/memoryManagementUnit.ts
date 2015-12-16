@@ -90,6 +90,7 @@ module  TSOS {
             if(address>_PIDArray[_RuningPIDs[0]].limit){
                 //change to only end this program
                 _CPU.isExecuting = false;
+                if(_PIDArray[_RuningPIDs[0]].location !== "Storage")
                 _StdOut.putText("Memory Overflow");
             }else {
                 var number = value.toString(16);

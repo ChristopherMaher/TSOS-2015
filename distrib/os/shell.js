@@ -66,7 +66,7 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellFontColor, "fontcolor", "<color>-Changes the font color<color>");
             this.commandList[this.commandList.length] = sc;
             //load
-            sc = new TSOS.ShellCommand(this.shellLoad, "load", "-Validates the user code");
+            sc = new TSOS.ShellCommand(this.shellLoad, "load", "<string>-Validates the user code");
             this.commandList[this.commandList.length] = sc;
             //status
             sc = new TSOS.ShellCommand(this.shellStatus, "status", "<string>-echos the command to the graphic task bar<string>");
@@ -92,6 +92,8 @@ var TSOS;
             sc = new TSOS.ShellCommand(this.shellRemove, "remove", "<string> -Removes a specified file");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellFormat, "format", "-formats the harddrive");
+            this.commandList[this.commandList.length] = sc;
+            sc = new TSOS.ShellCommand(this.shellSetschedule, "setschedule", "<string>-changes the scheduler");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellSetschedule, "setschedule", "<string>-changes the scheduler");
             this.commandList[this.commandList.length] = sc;
@@ -425,9 +427,15 @@ var TSOS;
         Shell.prototype.shellFontColor = function (color) {
             _FontColor = color;
         };
-        Shell.prototype.shellLoad = function () {
+        Shell.prototype.shellLoad = function (priority) {
             var userInput = document.getElementById("taProgramInput").value;
             var regexp = new RegExp('^[0-9A-Fa-f\\s]+$'); //matches only for hex digits
+            var priority = priority;
+            if (priority.length === 0) {
+                priority = "4";
+            }
+            //add check later
+            priority = Number(priority);
             if (regexp.test(userInput) == true) {
                 userInput = userInput.replace(/\r?\n|\r/g, "");
                 var userProgramArray = userInput.split(" ");
@@ -442,7 +450,7 @@ var TSOS;
                             //may need to add one, for continuity sake
                             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [1, _PIDArray.length, commands]));
                             //alert(commands);
-                            var priority = 0;
+                            //var priority = 0;
                             var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 2, 0, "Storage", tsb, priority);
                             _PIDArray.push(pcb);
                             _PCB = pcb;
@@ -450,7 +458,7 @@ var TSOS;
                         }
                         else {
                             _MemoryManagement.loadInCommand(userProgramArray, base);
-                            var priority = 0;
+                            //var priority = 0;
                             var pcb = new TSOS.PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory", "mem", priority);
                             _PIDArray.push(pcb);
                             _PCB = pcb;
@@ -489,15 +497,11 @@ var TSOS;
             else {
                 _PIDArray[args].state = "Ready";
                 if (_PIDArray[args].location === "Storage") {
-                    var pid = args;
-                    //look out for number/string conflicts
-                    //   setTimout(_KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid])),1000);
-                    //  setTimeout( () => {
-                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, pid]));
                 }
                 args = _PIDArray[args].pid - 1;
                 _RuningPIDs.push(args);
                 _PIDArray[_RuningPIDs[0]].state = "Running";
+                // _CPU.isExecuting=true;
                 setTimeout(function () {
                     //_RuningPIDs.push(args);
                     // _PIDArray[_RuningPIDs[0]].state = "Running";
@@ -526,14 +530,16 @@ var TSOS;
                         if (_PIDArray[counter].state !== "Running") {
                             _PIDArray[counter].state = "Ready";
                             _RuningPIDs.push(counter);
-                            _CPU.isExecuting = true;
-                            ;
                         }
                     }
                 }
                 counter++;
             }
+            if (_ScheduleType === "priority") {
+                _PrioritySetup = true;
+            }
             _PIDArray[_RuningPIDs[0]].state = "Running";
+            _CPU.isExecuting = true;
         };
         Shell.prototype.shellClearMem = function () {
             //need to fix

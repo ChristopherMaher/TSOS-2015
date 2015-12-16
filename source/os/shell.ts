@@ -112,7 +112,7 @@ module TSOS {
             //load
             sc = new ShellCommand(this.shellLoad,
                                   "load",
-                                  "-Validates the user code");
+                                  "<string>-Validates the user code");
             this.commandList[this.commandList.length] = sc;
 
             //status
@@ -185,6 +185,10 @@ module TSOS {
                 "<string>-changes the scheduler");
             this.commandList[this.commandList.length] = sc;
 
+            sc = new ShellCommand(this.shellSetschedule,
+                "setschedule",
+                "<string>-changes the scheduler");
+            this.commandList[this.commandList.length] = sc;
 
 
 
@@ -554,10 +558,17 @@ module TSOS {
             _FontColor = color;
 
         }
-        public  shellLoad(){
+        public  shellLoad(priority){
             var userInput = (<HTMLInputElement>document.getElementById("taProgramInput")).value;
             var regexp = new RegExp('^[0-9A-Fa-f\\s]+$'); //matches only for hex digits
+            var priority = priority;
+             if( priority.length === 0) {
 
+                 priority = "4";
+             }
+            //add check later
+
+             priority = Number(priority);
             if(regexp.test(userInput)==true) {
                 userInput = userInput.replace(/\r?\n|\r/g, "");
                 var userProgramArray = userInput.split(" ");
@@ -576,7 +587,7 @@ module TSOS {
                             //may need to add one, for continuity sake
                             _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[1,_PIDArray.length,commands]));
                             //alert(commands);
-                            var priority = 0;
+                            //var priority = 0;
                             var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 2, 0, "Storage",tsb,priority);
 
                             _PIDArray.push(pcb);
@@ -591,7 +602,7 @@ module TSOS {
 
                             _MemoryManagement.loadInCommand(userProgramArray, base);
 
-                            var priority = 0;
+                            //var priority = 0;
                             var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, base, base + 255, "Memory","mem",priority);
 
                             _PIDArray.push(pcb);
@@ -633,12 +644,13 @@ module TSOS {
             }else{
                 _PIDArray[args].state = "Ready";
                 if(_PIDArray[args].location === "Storage"){
-                    var pid=args;
+
+                 //   var pid=args;
                     //look out for number/string conflicts
                  //   setTimout(_KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid])),1000);
                   //  setTimeout( () => {
 
-                        _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid]));
+               //         _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid]));
                   //  }, 3000);
 
 
@@ -652,11 +664,13 @@ module TSOS {
                 _RuningPIDs.push(args);
                 _PIDArray[_RuningPIDs[0]].state = "Running";
 
+               // _CPU.isExecuting=true;
+
                 setTimeout( () => {
                     //_RuningPIDs.push(args);
                    // _PIDArray[_RuningPIDs[0]].state = "Running";
                     //this.test(args);
-                    _CPU.isExecuting = true;
+                   _CPU.isExecuting = true;
 
 
                     ///  _RuningPIDs.push(args);
@@ -688,8 +702,8 @@ module TSOS {
                     if (_PIDArray[counter].state !== "Ready") {
                         if (_PIDArray[counter].state !== "Running") {
                             _PIDArray[counter].state = "Ready";
-                            _RuningPIDs.push(counter)
-                            _CPU.isExecuting = true;;
+                            _RuningPIDs.push(counter);
+                            //_CPU.isExecuting = true;;
 
                         }
                     }
@@ -697,7 +711,14 @@ module TSOS {
                 }
                 counter++;
             }
-            _PIDArray[_RuningPIDs[0]].state = "Running";
+            if(_ScheduleType === "priority"){
+                _PrioritySetup= true;
+                //    alert(_RuningPIDs[0]);
+            }
+
+                _PIDArray[_RuningPIDs[0]].state = "Running";
+                _CPU.isExecuting = true;
+
         }
         public shellClearMem(){
             //need to fix

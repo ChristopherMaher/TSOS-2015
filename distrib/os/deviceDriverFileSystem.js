@@ -325,7 +325,7 @@ var TSOS;
             for (var x = 0; x <= readableData.length; x += 2) {
                 readableArray[counter] = readableData.substr(x, 2);
                 counter++;
-                if (readableData.substr(x, 10) === "0000000000") {
+                if (readableData.substr(x, 20) === "00000000000000000000") {
                     // _StdOut.putText(readableString);
                     break;
                 }
@@ -336,7 +336,6 @@ var TSOS;
             //return data;
         };
         DeviceDriverFileSystem.prototype.swapPrograms = function (command, pid) {
-            // alert("MADE it to swap");
             var base = _MemoryManagement.findAvailableBase();
             var currentProgramtoSwap = 100000;
             var currentPriority = 100000;
@@ -382,14 +381,12 @@ var TSOS;
                 _PIDArray[pid].base = base;
                 _PIDArray[pid].limit = limit;
                 _PIDArray[pid].location = "Memory";
-                //     alert(_PIDArray[pid]);
-                // alert("before memoryloadin");
                 _MemoryManagement.loadInCommand(command, base);
                 // alert("HIS is tre"+_PIDArray[_RuningPIDs[0]].base);
                 _PIDArray[_RuningPIDs[0]].state = "Running";
-                //  alert("setPCB"+_PIDArray[_RuningPIDs[0]].pc+_PIDArray[_RuningPIDs[0]].x+_PIDArray[_RuningPIDs[0]].z);
-                //alert("lastPCB"+_PIDArray[_RuningPIDs[_RuningPIDs.length-1]].pc+_PIDArray[_RuningPIDs[_RuningPIDs.length-1]].x+_PIDArray[_RuningPIDs[_RuningPIDs.length-1]].z);
                 _CPU.setPCB(_RuningPIDs[0]);
+                alert(_RuningPIDs[0]);
+                // alert("HIT swappimg");
                 _CPU.isExecuting = true;
             }
         };

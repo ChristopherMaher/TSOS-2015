@@ -95,9 +95,26 @@ var TSOS;
                 var interrupt = _KernelInterruptQueue.dequeue();
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             }
+            else if (_PrioritySetup == true) {
+                // if(_ScheduleType === "priority") {
+                //   _Scheduler.setUpPriority();
+                //)
+                //}
+                //  alert("HITTHIST+SETUP");
+                _Scheduler.setUpPriority();
+                if (_PIDArray[_RuningPIDs[0]].location === "Storage") {
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
+                }
+                _PrioritySetup = false;
+            }
             else if (_CPU.isExecuting) {
-                if (_ScheduleType === "priority") {
-                    _Scheduler.setUpPriority();
+                //  alert(_ScheduleType);
+                // if(_ScheduleType === "priority"){
+                //   _Scheduler.setUpPriority();
+                //    alert(_RuningPIDs[0]);
+                //}
+                if (_PIDArray[_RuningPIDs[0]].location === "Storage") {
+                    _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
                 }
                 _CPU.cycle();
                 _Scheduler.cpuCycle++;

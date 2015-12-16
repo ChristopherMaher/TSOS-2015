@@ -66,6 +66,12 @@ var TSOS;
             rootNode.addCommand("clearmem");
             rootNode.addCommand("quantum");
             rootNode.addCommand("runall");
+            rootNode.addCommand("create");
+            rootNode.addCommand("delete");
+            rootNode.addCommand("write");
+            rootNode.addCommand("ls");
+            rootNode.addCommand("setschedule");
+            rootNode.addCommand("getschedule");
             // Finally, initiate student testing protocol.
             if (_GLaDOS) {
                 _GLaDOS.afterStartup();
@@ -96,11 +102,6 @@ var TSOS;
                 this.krnInterruptHandler(interrupt.irq, interrupt.params);
             }
             else if (_PrioritySetup == true) {
-                // if(_ScheduleType === "priority") {
-                //   _Scheduler.setUpPriority();
-                //)
-                //}
-                //  alert("HITTHIST+SETUP");
                 _Scheduler.setUpPriority();
                 if (_PIDArray[_RuningPIDs[0]].location === "Storage") {
                     _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
@@ -108,17 +109,14 @@ var TSOS;
                 _PrioritySetup = false;
             }
             else if (_CPU.isExecuting) {
-                //  alert(_ScheduleType);
-                // if(_ScheduleType === "priority"){
-                //   _Scheduler.setUpPriority();
-                //    alert(_RuningPIDs[0]);
-                //}
                 if (_PIDArray[_RuningPIDs[0]].location === "Storage") {
                     _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
                 }
-                alert("Hits this");
                 _CPU.cycle();
                 _Scheduler.cpuCycle++;
+                if (_PIDArray[_RuningPIDs[0]].state === "Executed") {
+                    _Scheduler.cpuCycle = _QuantumNumber;
+                }
                 _Scheduler.readySwitch(_ScheduleType);
             }
             else {

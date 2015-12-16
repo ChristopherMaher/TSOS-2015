@@ -235,30 +235,24 @@ module TSOS{
             readableData=readableData+data.substr(4,120);
 
             for(var x = 0; x<=readableData.length; x+=2){
-                //  alert(readableData);
                 readableString=readableString+String.fromCharCode(parseInt(readableData.substr(x,2),16));
                 if(readableData.substr(x,2)==="00"){
-                    // _StdOut.putText(readableString);
                     break;
 
                 }
             }
-            // readableData.toString()
             return readableString;
 
         }
 
         public findFile(fileName){
             var fileName= fileName.toString();
-            //var length = filename.length;
             var nameHex = "";
             var counter = 0;
-            //  alert(fileName.charCodeAt(0));
 
             while(counter < fileName.length){
 
                 nameHex= nameHex + (fileName.charCodeAt(counter)).toString(16);
-                //alert(nameHex);
 
                 counter++;
             }
@@ -319,7 +313,7 @@ module TSOS{
             var dataHex = "";
             var counter = 0;
 
-            while (counter < data.length) {
+            while (counter < data.length) { //turns data into hex
 
                 dataHex = dataHex + (data.charCodeAt(counter)).toString(16);
 
@@ -367,7 +361,7 @@ module TSOS{
                 readableData=readableData+data.substr(4,120);
                 data=sessionStorage.getItem(data.substr(1,3));
             }
-            for(var x = 0; x<=readableData.length; x+=2){
+            for(var x = 0; x<=readableData.length; x+=2){ //retrieves a user command from HD
 
                 readableArray[counter]=readableData.substr(x,2);
                 counter++;
@@ -386,20 +380,18 @@ module TSOS{
             var currentPriority = 0;
             var fileData="";
             var limit =0;
-            if(base !== 2){
+            if(base !== 2){ //checks if memory space is available
                 _PIDArray[pid].base = base;
                 _PIDArray[pid].limit = base+255;
                 _PIDArray[pid].location = "Memory";
                 _MemoryManagement.loadInCommand(command,base);
-                alert(pid);
-                alert(_PIDArray[pid].location);
 
 
 
 
             }else{
                 var counter =0;
-                while(counter<_PIDArray.length) {
+                while(counter<_PIDArray.length) { //looks for low priority program to switch out with
                     if (_PIDArray[counter].location === "Memory") {
                         if (_PIDArray[counter].state === "New" || _PIDArray[counter].state === "Ready" || _PIDArray[counter].state === "Running" ){ //|| _PIDArray[counter].state === "New"){
                             if(_PIDArray[counter].priority>currentPriority) {

@@ -41,23 +41,17 @@ var TSOS;
                 }
             }
             else {
-                // alert("Hitdashit");
-                // _CPU.currentPCB(_RuningPIDs[0]);
-                // _CPU.currentPCB(_RuningPIDs[0]);
                 _CPU.currentPCB(_RuningPIDs[0]);
                 if (_PIDArray[_RuningPIDs[0]].state === "Executed") {
-                    //    _CPU.currentPCB(_RuningPIDs[0]);
                     _KernelInterruptQueue.enqueue(new TSOS.Interrupt(PROGRAMSWITCH, "Executed"));
                 }
             }
         };
         Scheduler.prototype.performSwitch = function (args) {
             if (args === "Running") {
-                //_CPU.isExecuting = false;
                 _PIDArray[_RuningPIDs[0]].state = "Ready";
                 var program = _RuningPIDs.shift();
                 _RuningPIDs.push(program);
-                //  _PIDArray[_RuningPIDs[0]].state = "Running";
                 if (_PIDArray[_RuningPIDs[0]].location === "Storage") {
                     _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
                 }
@@ -75,12 +69,7 @@ var TSOS;
                 if (_RuningPIDs.length > 0) {
                     if (_PIDArray[_RuningPIDs[0]].location === "Storage") {
                         _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
-                    } //else{
-                    //       _PIDArray[_RuningPIDs[0]].state = "Running";
-                    // _CPU.setPCB(_RuningPIDs[0]);
-                    // alert(_)
-                    // _CPU.isExecuting = true;
-                    //                    }
+                    }
                     _CPU.setPCB(_RuningPIDs[0]);
                 }
             }
@@ -91,13 +80,12 @@ var TSOS;
             var pidTracker = 0;
             var tracker2 = 0;
             var counter2 = 0;
-            //_RuningPIDs[];
+            //looks for lowest priority in running queue and sets it first
             if (_RuningPIDs.length > 0) {
                 while (counter < _RuningPIDs.length) {
                     if (topPriority > _PIDArray[_RuningPIDs[counter]].priority) {
                         topPriority = _PIDArray[_RuningPIDs[counter]].priority;
                         pidTracker = _RuningPIDs[counter];
-                        //    alert(_PIDArray[_RuningPIDs[counter]].priority +"PRIORITY NUMBER");
                         tracker2 = counter;
                     }
                     counter++;

@@ -192,64 +192,7 @@ module TSOS {
         }
 
 
-            /*
 
-            var counter = 0;
-            var tr,td,tn;
-
-            var body = document.getElementsByTagName('body')[0];
-
-
-            for (var row = 0; row < 32; row++){
-                tr = document.createElement('tr');
-                for (var col = 0; col < 8; col++){
-                    td = document.createElement('td');
-                    tn = document.createTextNode(_Memory.memoryArray[counter]);
-                    td.appendChild(tn);
-                    tr.appendChild(td);
-                    counter++;
-                }
-                _MemoryTable.appendChild(tr);
-            }
-            body.appendChild(_MemoryTable);
-
-*/
-
-
-
-
-
-        /*
-        public static loadTable(memoryArray) {
-
-
-
-            for (var x = 0; x <= 32; x++) {
-                _MemoryTable.deleteRow(0);
-            }
-            var counter = 0;
-            var tr,td,tn;
-
-            var body = document.getElementsByTagName('body')[0];
-
-
-            for (var row = 0; row < 32; row++){
-                tr = document.createElement('tr');
-                for (var col = 0; col < 8; col++){
-                    td = document.createElement('td');
-                    tn = document.createTextNode(memoryArray[counter]);
-                    td.appendChild(tn);
-                    tr.appendChild(td);
-                    counter++;
-                }
-                _MemoryTable.appendChild(tr);
-            }
-            body.appendChild(_MemoryTable);
-
-
-
-        }
-        */
         public static loadFileSystemTable() {
             var tableOutput = "<tr>";
             var rowID = "";
@@ -348,60 +291,15 @@ module TSOS {
                 tableOutput += "</tr>";
 
 
-                //   for(var i = 0; i<8; i++){
                 counter++;
 
             }
             _ReadyTable.innerHTML = tableOutput;
 
-            /*
-            document.getElementById("PIDPCBDisplay").innerHTML = JSON.stringify(_RuningPIDs[0]);
-            document.getElementById("PCPCBDisplay").innerHTML = JSON.stringify(_CPU.PC);
-            document.getElementById("ACCPCBDisplay").innerHTML = JSON.stringify(_CPU.Acc);
-            document.getElementById("XPCBDisplay").innerHTML = JSON.stringify(_CPU.Xreg);
-            document.getElementById("YPCBDisplay").innerHTML = JSON.stringify(_CPU.Yreg);
-            document.getElementById("ZPCBDisplay").innerHTML = JSON.stringify(_CPU.Zflag);
-            document.getElementById("Location").innerHTML = _PCB.location;
-            document.getElementById("Base").innerHTML = JSON.stringify(_PIDArray[_RuningPIDs[0]].base);
-            document.getElementById("Limit").innerHTML = JSON.stringify(_PIDArray[_RuningPIDs[0]].limit);
-            document.getElementById("Running").innerHTML = _PCB.state;
-            */
-
-        }
-        /*
-        public static updateReadyQueueDisplay(){
-            var counter =0;
-            var tableOutput = "";
-            var rowID = "";
-            for (var t = 0; t <= _RuningPIDs.length; t++) {
-                _MemoryTable.deleteRow(0);
-            }
-            for(var f =0; f <_RuningPIDs.length; f++){
-                rowID = "rowID"+f;
-                tableOutput += "<tr>";
-                tableOutput += "<tr id="+ rowID + ">";
-                tableOutput += "<td id=dataID" + counter +">"+JSON.stringify(_RuningPIDs[0]) + "</td>";
-                tableOutput += "<td id=dataID" + counter +">"+JSON.stringify(_PIDArray[_RuningPIDs[0]].pc) + "</td>";
-                tableOutput += "<td id=dataID" + counter +">"+JSON.stringify(_PIDArray[_RuningPIDs[0]].acc) + "</td>";
-                tableOutput += "<td id=dataID" + counter +">"+JSON.stringify(_PIDArray[_RuningPIDs[0]].x) + "</td>";
-                tableOutput += "<td id=dataID" + counter +">"+JSON.stringify(_PIDArray[_RuningPIDs[0]].y) + "</td>";
-                tableOutput += "<td id=dataID" + counter +">"+JSON.stringify(_PIDArray[_RuningPIDs[0]].z) + "</td>";
-                tableOutput += "<td id=dataID" + counter +">"+JSON.stringify(_PIDArray[_RuningPIDs[0]].location) + "</td>";
-                tableOutput += "<td id=dataID" + counter +">"+JSON.stringify(_PIDArray[_RuningPIDs[0]].base) + "</td>";
-                tableOutput += "<td id=dataID" + counter +">"+JSON.stringify(_PIDArray[_RuningPIDs[0]].limit) + "</td>";
-                tableOutput += "<td id=dataID" + counter +">"+JSON.stringify(_PIDArray[_RuningPIDs[0]].state) + "</td>";
-                tableOutput += "</tr>";
-
-
-                //   for(var i = 0; i<8; i++){
-                    counter++;
-
-                }
-            _ReadyTable.innerHTML = tableOutput;
 
 
         }
-        */
+
 
 
     }

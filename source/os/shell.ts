@@ -590,14 +590,10 @@ module TSOS {
 
                         var base = _MemoryManagement.findAvailableBase();
 
-                        if (base === 2) {  //temporary fix
-                       //     var tsb = _FileSystem.findNextAvailableDataTSB();
+                        if (base === 2) {
                             var tsb = _FileSystem.findNextAvailableDir();
                             var commands = userInput.replace(/ /g,"");
-                            //may need to add one, for continuity sake
                             _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[1,_PIDArray.length,commands]));
-                            //alert(commands);
-                            //var priority = 0;
                             var pcb = new PCB(_PIDArray.length + 1, 0, "New", 0, 0, 0, 0, 2, 0, "Storage",tsb,priority);
 
                             _PIDArray.push(pcb);
@@ -626,13 +622,11 @@ module TSOS {
                     }
 
                 } else {
-                   // _StdOut.putText("Error:User code can only use Hex digits.");
                     _StdOut.putText("Invalid OP Codes");
 
                 }
             }else{
                 _StdOut.putText("Error:User code can only use Hex digits.");
-               // _StdOut.putText("Invalid OP Codes");
 
             }
 
@@ -655,40 +649,24 @@ module TSOS {
                 _PIDArray[args].state = "Ready";
                 if(_PIDArray[args].location === "Storage"){
 
-                 //   var pid=args;
-                    //look out for number/string conflicts
-                 //   setTimout(_KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid])),1000);
-                  //  setTimeout( () => {
+
 
                        _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, args]));
-                  //  }, 3000);
 
 
 
-//                        _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, pid]));
 
-                    //var command
                 }
                 args=_PIDArray[args].pid -1;
 
                 _RuningPIDs.push(args);
                 _PIDArray[_RuningPIDs[0]].state = "Running";
 
-               // _CPU.isExecuting=true;
 
-                setTimeout( () => {
-                    //_RuningPIDs.push(args);
-                   // _PIDArray[_RuningPIDs[0]].state = "Running";
-                    //this.test(args);
+                setTimeout( () => { //needed timeout to allow for the interrupt to process
                    _CPU.isExecuting = true;
 
 
-                    ///  _RuningPIDs.push(args);
-               // _PIDArray[_RuningPIDs[0]].state = "Running";
-
-                //_StdOut.putText(JSON.stringify(args));
-
-             //   _CPU.isExecuting = true;
                 }, 1000);
 
 
@@ -725,25 +703,21 @@ module TSOS {
 
         }
         public shellClearMem(){
-            //need to fix
             var counter = 0;
             while(_PIDArray.length>counter){
                 if(_PIDArray[counter].state !== "Executed" && _PIDArray[counter].location!=="Storage") {
 
                     _PIDArray[counter].state = "Executed";
-                    alert(counter);
                 }
                 if(_PIDArray[counter].state === "Running"&& _PIDArray[counter].location!=="Storage"){
                     _CPU.isExecuting = false;
                     _RuningPIDs.shift();
-                    alert(counter+"Runn");
 
 
                 }
                 if(_PIDArray[counter].state === "Ready" && _PIDArray[counter].location!=="Storage"){
                     _CPU.isExecuting = false;
                     _RuningPIDs.shift();
-                    alert(counter+"READY");
 
 
                 }
@@ -839,7 +813,6 @@ module TSOS {
 
         }
         public shellSetschedule(schedule){
-          //  _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[5]));
 
             if(schedule == "fcfs"){
                 _ScheduleType = "FCFS";
@@ -853,7 +826,6 @@ module TSOS {
                 _PrioritySetup = false;
             }else if(schedule == "priority"){
                 _ScheduleType="priority";
-                //_PrioritySetup = true;
             }else{
                 _StdOut.putText("schedule doesn't exitst");
             }

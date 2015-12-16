@@ -342,6 +342,7 @@ var TSOS;
                 _PIDArray[pid].location = "Memory";
                 _MemoryManagement.loadInCommand(command, base);
                 alert(pid);
+                alert(_PIDArray[pid].location);
             }
             else {
                 var counter = 0;

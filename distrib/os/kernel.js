@@ -116,6 +116,7 @@ var TSOS;
                 if (_PIDArray[_RuningPIDs[0]].location === "Storage") {
                     _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
                 }
+                alert("Hits this");
                 _CPU.cycle();
                 _Scheduler.cpuCycle++;
                 _Scheduler.readySwitch(_ScheduleType);

@@ -135,6 +135,7 @@ module TSOS {
                   _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
 
                 }
+                alert("Hits this");
 
                 _CPU.cycle();
                 _Scheduler.cpuCycle++;

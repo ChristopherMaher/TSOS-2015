@@ -714,8 +714,13 @@ module TSOS {
             if(_ScheduleType === "priority"){
                 _PrioritySetup= true;
             }
+            if(_PIDArray[_RuningPIDs[0]].location === "Storage"){
 
-                _PIDArray[_RuningPIDs[0]].state = "Running";
+                _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ, [6, _RuningPIDs[0]]));
+
+            }
+
+            _PIDArray[_RuningPIDs[0]].state = "Running";
                 _CPU.isExecuting = true;
 
         }

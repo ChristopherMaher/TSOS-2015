@@ -89,7 +89,7 @@ var TSOS;
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellWrite, "write", "<string> \"data\" -writes to a specified file");
             this.commandList[this.commandList.length] = sc;
-            sc = new TSOS.ShellCommand(this.shellRemove, "remove", "<string> -Removes a specified file");
+            sc = new TSOS.ShellCommand(this.shellRemove, "delete", "<string> -Removes a specified file");
             this.commandList[this.commandList.length] = sc;
             sc = new TSOS.ShellCommand(this.shellFormat, "format", "-formats the harddrive");
             this.commandList[this.commandList.length] = sc;
@@ -662,7 +662,6 @@ var TSOS;
         };
         Shell.prototype.shellLs = function () {
             _KernelInterruptQueue.enqueue(new TSOS.Interrupt(FILESYSTEM_IRQ, [7]));
-            //_StdOut.putText(_ScheduleType);
         };
         return Shell;
     })();

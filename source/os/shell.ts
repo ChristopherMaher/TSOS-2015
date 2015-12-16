@@ -171,7 +171,7 @@ module TSOS {
             this.commandList[this.commandList.length] = sc;
 
             sc = new ShellCommand(this.shellRemove,
-                "remove",
+                "delete",
                 "<string> -Removes a specified file");
             this.commandList[this.commandList.length] = sc;
 
@@ -866,7 +866,6 @@ module TSOS {
         }
         public shellLs(){
             _KernelInterruptQueue.enqueue(new Interrupt(FILESYSTEM_IRQ,[7]));
-            //_StdOut.putText(_ScheduleType);
         }
 
 
